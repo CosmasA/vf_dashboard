@@ -1,0 +1,74 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  height: 97vh;
+  width: 15%;
+}
+
+.logo {
+  text-align: center;
+  padding: 10px;
+  color: #526d82;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.logo-icon {
+  align-self: center;
+}
+.icon {
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 15px;
+}
+.menu-list .item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+  transition: 0.3s ease-in-out;
+  color: #526d82;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.menu-list .item:hover {
+  background: rgba(82, 109, 130, 0.8);
+  color: #f0f0f0;
+}
+/* Remove underline for the logo link */
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-link h2 {
+  margin-left: 10px; /* Optional: add some spacing between the logo and brand name */
+}
+
+/* You can also make sure the color doesn't change on hover */
+.logo-link:hover {
+  text-decoration: none;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #526d82;
+  font-size: 1rem;
+  padding-top: 16px;
+}

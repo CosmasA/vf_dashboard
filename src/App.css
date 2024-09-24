@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #f0f0f0;
+  padding: 5px;
+  color: #000;
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent the entire page from scrolling */
+}
+
+.dashboard {
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  height: 97vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dashboard-content {
+  background: #fff;
+  flex: 1;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  /* padding-right: 6px; */
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  gap: 2rem;
+}
+/* Table styling */
+.table-container {
+  width: 100%;
+  display: flex;
+  /* padding: 0 20px; */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  background: #526d82;
+  color: #f0f0f0;
+  padding: 16px;
+  opacity: 0.8;
+}
+
+.actions,
+.theme-code {
+  justify-content: center;
+  width: 200px;
+  max-width: 200px;
+}
+.action {
+  justify-content: center;
+  width: 240px;
+  min-width: 240px;
+}
+
+.team-container {
+  padding: 10px;
+  width: 100%;
+}
+.team-header {
+  padding-top: 10px;
+  font-size: large;
+}
+.content-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 20px 10px;
+  height: 4rem;
+  position: relative;
+}
+.content-header h2 {
+  color: #526d82;
+}
+.breadcrumb {
+  float: right;
+  margin-right: 25px;
+  margin-top: 16px;
+  text-align: right;
+  font-size: 1rem;
+}
+
+.breadcrumb ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.breadcrumb ol li {
+  display: inline;
+}
+.breadcrumb a {
+  text-decoration: none;
+  color: #526d82;
+}
+.breadcrumb a:hover {
+  color: #777;
+}
+.breadcrumb .breadcrumb-icon {
+  margin: 3px 5px -5px 5px;
+  vertical-align: top;
+}
+.breadcrumb ol li:not(:last-child):after {
+  content: "/";
+  margin: 3px 2px -3px 2px;
+}
+.breadcrumb ol li:last-child {
+  top: 100%;
+  left: 0;
+  color: #777;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.card {
+  flex: 1;
+  background: #f0f0f0;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 4px;
+  transition: 0.5s ease-in-out;
+}
+.card:hover {
+  transform: scale(1.04);
+  cursor: pointer;
+}
+.card-cover {
+  background: #fff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  color: #969393;
+  align-items: center;
+  border-radius: 25px;
+}
+.card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  padding-top: 10px;
+  color: #526d82;
+  gap: 1rem;
+}
+/* In your CSS file */
+.card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card a:hover {
+  color: #526d82; /* Change to the desired hover color */
+  text-decoration: underline; /* Optional: Add underline on hover */
+}
+
+.user-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.list-header,
+.list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-header {
+  font-weight: bold;
+  background-color: #f4f4f4;
+}
+
+.list-item {
+  flex: 1;
+  text-align: left;
+  padding: 10px;
+  font-size: 18px;
+  color: #526d82;
+}
+.list-item.id {
+  flex: 0 0 70px; /* Fixed width for ID column */
+  text-align: center;
+}
+.list-item.avatar {
+  flex: 0 0 150px; /* Fixed width for Avatar column */
+  display: flex;
+  justify-content: center;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.position {
+  color: #526d82;
+}
+.list:hover {
+  background: #dde6ed;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.profile {
+  width: 50%;
+  flex: 1;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-title {
+  color: #526d82;
+}
+.edit {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  color: #526d82;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.edit .icon {
+  font-size: 20px;
+  padding: 5px auto;
+  transition: 0.5s ease-in-out;
+}
+.icon:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+.user-profile {
+  height: 90%;
+  margin-top: 1rem;
+  background: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.user-detail {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.user-detail img {
+  background: #fff;
+  border-radius: 50%;
+  width: 150px;
+  margin-bottom: 10px;
+}
+.user-detail .username {
+  color: #526d82;
+}
+.user-skills {
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.user-skills h3 {
+  color: #526d82;
+}
+.skill {
+  background: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+  gap: 20px;
+  color: #526d82;
+}
+.skill-icon {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+}
+.skill .duration {
+  font-size: 20px;
+}
+.profession {
+  color: #969393;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
