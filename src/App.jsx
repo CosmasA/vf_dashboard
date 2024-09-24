@@ -13,7 +13,7 @@ import ThemeLists from "./components/DearDay/ThemeLists";
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/">
       <div className="dashboard">
         <Sidebar />
 
