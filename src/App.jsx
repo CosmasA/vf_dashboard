@@ -21,7 +21,7 @@ const App = () => {
         <div className="dashboard-content">
           <Routes>
             <Route index element={<Content />} />
-            <Route path="/" element={<Content />} />
+            <Route path="/vf_dashboard" element={<Content />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/primary" element={<Primary />} />
             <Route path="/secondary" element={<Secondary />} />
