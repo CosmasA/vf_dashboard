@@ -349,3 +349,109 @@ body {
   padding-bottom: 10px;
   font-weight: bold;
 }
+
+@media (max-width: 760px) {
+  /* General adjustments */
+  html,
+  body {
+    padding: 0;
+    overflow: auto; /* Allow scrolling */
+  }
+
+  .dashboard {
+    flex-direction: column; /* Stack the content vertically */
+    gap: 10px;
+  }
+
+  .dashboard-container {
+    padding: 10px;
+    height: auto; /* Remove fixed height */
+  }
+
+  .dashboard-content {
+    padding: 10px;
+    border-radius: 0;
+  }
+
+  .content {
+    flex-direction: column; /* Stack content vertically */
+    gap: 10px;
+  }
+
+  .table-container {
+    padding: 0;
+  }
+
+  /* Adjust table layout for smaller screens */
+  .table th,
+  .table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* Card component */
+  .card-container {
+    flex-direction: column; /* Stack the cards vertically */
+    gap: 10px;
+  }
+
+  .card {
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Content header */
+  .content-header {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .content-header h2 {
+    font-size: 20px;
+  }
+
+  .breadcrumb {
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  /* List adjustments */
+  .list-header,
+  .list-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .list-item {
+    font-size: 14px;
+  }
+
+  .profile {
+    width: 100%; /* Take up full width */
+  }
+
+  .profile-header {
+    flex-direction: column;
+  }
+
+  .user-profile {
+    margin-top: 10px;
+    padding: 5px;
+  }
+
+  .user-detail {
+    height: auto;
+  }
+
+  .user-skills {
+    padding: 5px;
+  }
+
+  .skill {
+    gap: 10px;
+  }
+
+  .edit {
+    padding: 5px;
+  }
+}

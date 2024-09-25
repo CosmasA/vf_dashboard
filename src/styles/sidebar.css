@@ -72,3 +72,51 @@
   font-size: 1rem;
   padding-top: 16px;
 }
+@media (max-width: 760px) {
+  .menu {
+    width: 100%; /* Take up full width on small screens */
+    height: auto; /* Allow height to adjust */
+    flex-direction: row; /* Change to horizontal layout */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .logo {
+    padding: 5px;
+    flex-direction: row; /* Align logo and icon horizontally */
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    font-size: 1.5rem; /* Adjust size for smaller screens */
+  }
+
+  .icon {
+    font-size: 1.2rem; /* Adjust icon size */
+  }
+
+  .menu-list {
+    flex-direction: row; /* Change to horizontal layout */
+    gap: 1rem;
+    margin-left: 0; /* Remove left margin */
+  }
+
+  .menu-list .item {
+    padding: 5px;
+    font-size: 0.9rem; /* Adjust font size */
+    flex-direction: column; /* Stack icon and text vertically */
+    text-align: center; /* Center align the text */
+  }
+
+  .menu-list .item:hover {
+    background: rgba(82, 109, 130, 0.8);
+    color: #f0f0f0;
+  }
+
+  .footer {
+    font-size: 0.8rem; /* Adjust font size */
+    padding-top: 8px;
+  }
+}
