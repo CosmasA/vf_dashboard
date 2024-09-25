@@ -49,7 +49,7 @@ const Sidebar = () => {
           <FaHome className="icon" />
           Dashboard
         </Link>
-        <Link to="/primary" className="item">
+        <Link to={"/primary"} className="item">
           <FaChalkboardTeacher className="icon" />
           Primary
         </Link>
