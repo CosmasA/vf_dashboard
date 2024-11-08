@@ -10,6 +10,7 @@ import Theme from "./components/DearDay/Theme";
 import Profile from "./components/Profile";
 import TopicsList from "./components/Topics/TopicsList";
 import ThemeLists from "./components/DearDay/ThemeLists";
+import SchoolDetails from "./components/School/SchoolDetails";
 
 const App = () => {
   return (
@@ -25,9 +26,10 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/primary" element={<Primary />} />
             <Route path="/secondary" element={<Secondary />} />
-            <Route path="/topicslist" element={<TopicsList />} />
+            <Route path="/topics-modal" element={<TopicsList />} />
             <Route path="/themeslist" element={<ThemeLists />} />
             <Route path="/dearday" element={<Theme />} />
+            <Route path="/schools" element={<SchoolDetails />} />
           </Routes>
         </div>
       </div>

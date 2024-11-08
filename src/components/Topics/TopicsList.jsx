@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -12,8 +11,11 @@ const TopicsList = () => {
     const fetchTopics = async () => {
       try {
         const response = await axios.get("http://161.97.81.168:8080/");
-        setData(response.data);
-        console.log(response.data);
+        const sortedData = response.data.sort((a, b) => {
+          // Sort by classTaught in alphabetical order
+          return a.classTaught.localeCompare(b.classTaught);
+        });
+        setData(sortedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -22,30 +24,20 @@ const TopicsList = () => {
   }, []);
 
   return (
-    <div className="dashboard-container">
-      <section className="content-header">
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <Link
+          to="/vf_dashboard/"
+          style={{
+            textDecoration: "none",
+            color: "#526d82",
+            fontWeight: "bold",
+            alignSelf: "end",
+          }}
+        >
+          Close
+        </Link>
         <h2>List of all Topics</h2>
-        <nav className="breadcrumb">
-          <ol>
-            <li>
-              <Link to="#">
-                <FaHome className="breadcrumb-icon" />
-                Home
-              </Link>
-            </li>
-            <li className="active">Dashboard</li>
-          </ol>
-        </nav>
-      </section>
-      <hr
-        style={{
-          width: "100%",
-          color: "#777",
-          alignItems: "left",
-          float: "left",
-        }}
-      ></hr>
-      <div className="table-container">
         <Table striped bordered hover className="table">
           <thead>
             <tr>

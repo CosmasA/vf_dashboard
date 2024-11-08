@@ -24,30 +24,20 @@ const ThemeLists = () => {
   }, []);
 
   return (
-    <div className="dashboard-container">
-      <section className="content-header">
-        <h2>List of all Themes</h2>
-        <nav className="breadcrumb">
-          <ol>
-            <li>
-              <Link to="#">
-                <FaHome className="breadcrumb-icon" />
-                Home
-              </Link>
-            </li>
-            <li className="active">Dashboard</li>
-          </ol>
-        </nav>
-      </section>
-      <hr
-        style={{
-          width: "100%",
-          color: "#777",
-          alignItems: "left",
-          float: "left",
-        }}
-      ></hr>
-      <div className="table-container">
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <Link
+          to="/vf_dashboard/"
+          style={{
+            textDecoration: "none",
+            color: "#526d82",
+            fontWeight: "bold",
+            alignSelf: "end",
+          }}
+        >
+          Close
+        </Link>
+        <h2>List of the Themes</h2>
         <Table striped bordered hover className="table">
           <thead>
             <tr>

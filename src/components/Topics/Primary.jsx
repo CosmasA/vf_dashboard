@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
 const Primary = () => {
@@ -46,6 +46,17 @@ const Primary = () => {
           float: "left",
         }}
       ></hr>
+      <div className="head">
+        <Link to={"/viewPriTopics"}>
+          <FaListUl className="icon" />
+          View Topics
+        </Link>
+        |
+        <Link to={"/addPriTopic"}>
+          <FaPlus className="icon" />
+          Add Topic
+        </Link>
+      </div>
       <div className="table-container">
         <Table striped bordered hover className="table">
           <thead>

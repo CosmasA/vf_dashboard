@@ -350,108 +350,53 @@ body {
   font-weight: bold;
 }
 
-@media (max-width: 760px) {
-  /* General adjustments */
-  html,
-  body {
-    padding: 0;
-    overflow: auto; /* Allow scrolling */
-  }
+/* Modal styles */
 
-  .dashboard {
-    flex-direction: column; /* Stack the content vertically */
-    gap: 10px;
-  }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  .dashboard-container {
-    padding: 10px;
-    height: auto; /* Remove fixed height */
-  }
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 80%; /* Adjust this percentage to increase or decrease modal width */
+  width: 80%; /* Ensures the modal takes up 80% of the viewport width */
+  max-height: 90vh;
+  overflow-y: auto; /* Allows scrolling if content is too tall */
+}
+.head {
+  width: 100%;
+  height: 3rem;
+  background-color: inherit;
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: medium;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
+}
+.head .icon {
+  font-size: medium;
+  margin-right: 4px;
+}
+.head a {
+  text-decoration: none;
+  color: #526d82;
+}
 
-  .dashboard-content {
-    padding: 10px;
-    border-radius: 0;
-  }
-
-  .content {
-    flex-direction: column; /* Stack content vertically */
-    gap: 10px;
-  }
-
-  .table-container {
-    padding: 0;
-  }
-
-  /* Adjust table layout for smaller screens */
-  .table th,
-  .table td {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  /* Card component */
-  .card-container {
-    flex-direction: column; /* Stack the cards vertically */
-    gap: 10px;
-  }
-
-  .card {
-    width: 100%;
-    padding: 10px;
-  }
-
-  /* Content header */
-  .content-header {
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .content-header h2 {
-    font-size: 20px;
-  }
-
-  .breadcrumb {
-    text-align: center;
-    margin: 10px 0;
-  }
-
-  /* List adjustments */
-  .list-header,
-  .list-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .list-item {
-    font-size: 14px;
-  }
-
-  .profile {
-    width: 100%; /* Take up full width */
-  }
-
-  .profile-header {
-    flex-direction: column;
-  }
-
-  .user-profile {
-    margin-top: 10px;
-    padding: 5px;
-  }
-
-  .user-detail {
-    height: auto;
-  }
-
-  .user-skills {
-    padding: 5px;
-  }
-
-  .skill {
-    gap: 10px;
-  }
-
-  .edit {
-    padding: 5px;
-  }
+.head a:hover {
+  text-decoration: underline;
+  color: #526d82;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
 const Theme = () => {
@@ -46,6 +46,17 @@ const Theme = () => {
           float: "left",
         }}
       ></hr>
+      <div className="head">
+        <Link to={"/viewThemes"}>
+          <FaListUl className="icon" />
+          View Themes
+        </Link>
+        |
+        <Link to={"/addTheme"}>
+          <FaPlus className="icon" />
+          Add Theme
+        </Link>
+      </div>
       <div className="table-container">
         <Table striped bordered hover className="table">
           <thead>

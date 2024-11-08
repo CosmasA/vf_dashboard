@@ -13,7 +13,6 @@ const Card = () => {
       try {
         const response = await axios.get("http://161.97.81.168:8080/");
         setTopic(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -28,7 +27,6 @@ const Card = () => {
           "http://161.97.81.168:8080/viewTheme/"
         );
         setTheme(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -37,21 +35,19 @@ const Card = () => {
   }, []);
 
   useEffect(() => {
-    // Get the current month (0 is January, 11 is December)
     const currentMonth = new Date().getMonth();
-
-    // Determine the term based on the current month
     if (currentMonth >= 0 && currentMonth <= 3) {
-      setCurrentTerm("I"); // Term I for months 0 (Jan) to 3 (Apr)
+      setCurrentTerm("I");
     } else if (currentMonth >= 4 && currentMonth <= 7) {
-      setCurrentTerm("II"); // Term II for months 4 (May) to 7 (Aug)
+      setCurrentTerm("II");
     } else if (currentMonth >= 8 && currentMonth <= 11) {
-      setCurrentTerm("III"); // Term III for months 8 (Sep) to 11 (Dec)
+      setCurrentTerm("III");
     }
   }, []);
 
   return (
     <div className="card-container">
+      {/* Card for Total Topics */}
       <div className="card">
         <div className="card-title">
           <div className="card-cover">
@@ -63,9 +59,16 @@ const Card = () => {
           {topic.length}
         </p>
         <p>
-          <Link to={"/topicslist"}>View Details</Link>
+          <Link
+            to="/topics-modal"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
         </p>
       </div>
+
+      {/* Card for DEAR DAY Themes */}
       <div className="card">
         <div className="card-title">
           <div className="card-cover">
@@ -77,9 +80,16 @@ const Card = () => {
           {theme.length}
         </p>
         <p>
-          <Link to={"/themeslist"}>View Details</Link>
+          <Link
+            to="/themeslist"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
         </p>
       </div>
+
+      {/* Card for Current Term */}
       <div className="card">
         <div className="card-title">
           <div className="card-cover">
@@ -91,7 +101,12 @@ const Card = () => {
           {currentTerm}
         </p>
         <p>
-          <Link to={"#"}>View Details</Link>
+          <Link
+            to="#"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
         </p>
       </div>
     </div>
