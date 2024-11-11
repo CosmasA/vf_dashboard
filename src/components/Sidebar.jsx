@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FaHome,
   FaUsers,
@@ -6,82 +6,54 @@ import {
   FaBars,
   FaSchool,
   FaUserTie,
-  FaMoon,
   FaUser,
 } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useLocation } from "react-router-dom";
 import logo from "../Assets/fb.png";
 import "../styles/sidebar.css";
 import Footer from "./Footer";
 
 const Sidebar = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const location = useLocation();
 
-  // Function to toggle between dark and light themes
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-    document.body.classList.toggle("dark-theme", !isDarkTheme);
-  };
+  // Define menu items and active route check
+  const menuItems = [
+    { path: "/", label: "Dashboard", icon: <FaHome /> },
+    { path: "/primary", label: "Primary", icon: <FaChalkboardTeacher /> },
+    { path: "/secondary", label: "Secondary", icon: <FaChalkboardTeacher /> },
+    { path: "/dearday", label: "DEAR Day", icon: <FaBars /> },
+    { path: "/admins", label: "Admins", icon: <FaUsers /> },
+    { path: "/teachers", label: "Teachers", icon: <FaUserTie /> },
+    { path: "/schools", label: "Schools", icon: <FaSchool /> },
+    { path: "/profile", label: "Profile", icon: <FaUser /> },
+  ];
 
   return (
     <div className="menu">
-      {/* Logo Section with Link to Dashboard */}
       <div className="logo">
         <Link to="/" className="logo-link">
-          {" "}
-          {/* Add Link around the logo and brand name */}
-          <img
-            className="logo-icon"
-            src={logo}
-            style={{
-              width: "3rem",
-              height: "3rem",
-            }}
-            alt="fb_logo"
-          />
+          <img className="logo-icon" src={logo} alt="fb_logo" />
           <h4 className="brand-name">VirtualFundi</h4>
         </Link>
       </div>
 
-      {/* Menu List */}
       <div className="menu-list">
-        <Link to="/" className="item">
-          <FaHome className="icon" />
-          Dashboard
-        </Link>
-        <Link to={"/primary"} className="item">
-          <FaChalkboardTeacher className="icon" />
-          Primary
-        </Link>
-        <Link to="/secondary" className="item">
-          <FaChalkboardTeacher className="icon" />
-          Secondary
-        </Link>
-        <Link to="/dearday" className="item">
-          <FaBars className="icon" />
-          DEAR Day
-        </Link>
-        <Link to="/admins" className="item">
-          <FaUsers className="icon" />
-          Admins
-        </Link>
-        <Link to="/teachers" className="item">
-          <FaUserTie className="icon" />
-          Teachers
-        </Link>
-        <Link to="/schools" className="item">
-          <FaSchool className="icon" />
-          Schools
-        </Link>
-        <Link to="/profile" className="item">
-          <FaUser className="icon" />
-          Profile
-        </Link>
+        {menuItems.map((item, index) => (
+          <Link
+            to={item.path}
+            key={index}
+            className={`item ${
+              location.pathname === item.path ? "active" : ""
+            }`}
+          >
+            <span className="icon">{item.icon}</span>
+            <span className="label">{item.label}</span>
+          </Link>
+        ))}
       </div>
-      <div
-        className="theme-toggle"
-        style={{ textAlign: "center", marginTop: "auto" }}
-      >
+
+      {/* Conditionally render the footer based on screen width */}
+      <div className="footer-container">
         <Footer />
       </div>
     </div>
