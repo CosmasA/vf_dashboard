@@ -231,7 +231,12 @@ const SchoolDetails = () => {
       </div>
 
       {/* Modal for displaying school details */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>{selectedSchool?.schoolName}</Modal.Title>
         </Modal.Header>

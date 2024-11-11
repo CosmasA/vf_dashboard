@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import TopicsList from "./components/Topics/TopicsList";
 import ThemeLists from "./components/DearDay/ThemeLists";
 import SchoolDetails from "./components/School/SchoolDetails";
+import TeacherDetails from "./components/School/TeacherDetails";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/themeslist" element={<ThemeLists />} />
             <Route path="/dearday" element={<Theme />} />
             <Route path="/schools" element={<SchoolDetails />} />
+            <Route path="/teachers" element={<TeacherDetails />} />
           </Routes>
         </div>
       </div>
