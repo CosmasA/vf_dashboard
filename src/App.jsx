@@ -12,6 +12,9 @@ import TopicsList from "./components/Topics/TopicsList";
 import ThemeLists from "./components/DearDay/ThemeLists";
 import SchoolDetails from "./components/School/SchoolDetails";
 import TeacherDetails from "./components/School/TeacherDetails";
+import SessionListPri from "./components/Sessions/SessionListPri";
+import SessionListSec from "./components/Sessions/SessionListSec";
+import SubThemes from "./components/DearDay/SubThemes";
 
 const App = () => {
   return (
@@ -26,6 +29,15 @@ const App = () => {
             <Route path="/vf_dashboard/" element={<Content />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/primary" element={<Primary />} />
+            <Route
+              path="/viewSessionsPri/:topicId"
+              element={<SessionListPri />}
+            />
+            <Route
+              path="/viewSessionsSec/:topicId"
+              element={<SessionListSec />}
+            />
+            <Route path="/viewSubTheme/:theme_id" element={<SubThemes />} />
             <Route path="/secondary" element={<Secondary />} />
             <Route path="/topics-modal" element={<TopicsList />} />
             <Route path="/themeslist" element={<ThemeLists />} />

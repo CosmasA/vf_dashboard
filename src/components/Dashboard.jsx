@@ -21,14 +21,14 @@ const Dashboard = () => {
           </ol>
         </nav>
       </section>
-      <hr
+      {/* <hr
         style={{
           width: "100%",
           color: "#777",
           alignItems: "left",
           float: "left",
         }}
-      ></hr>
+      ></hr> */}
       <div className="team-container">
         <Card />
         <Team />

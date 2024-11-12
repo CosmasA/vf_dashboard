@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
 const Secondary = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,16 @@ const Secondary = () => {
     };
     fetchData();
   }, []);
+
+  const handleEditSession = (topicId) => {
+    navigate(`/updatePriTopic/${topicId}`);
+    console.log("Add session for topic with code:", topicId);
+  };
+
+  const handleViewSession = (topicId) => {
+    navigate(`/viewSessionsSec/${topicId}`);
+    console.log("List of sessions for topic:", topicId);
+  };
 
   return (
     <div className="dashboard-container">
@@ -47,7 +58,7 @@ const Secondary = () => {
         }}
       ></hr>
       <div className="head">
-        <Link to={"/viewSecTopics"}>
+        <Link to={"/secondary"}>
           <FaListUl className="icon" />
           View Topics
         </Link>
@@ -76,8 +87,13 @@ const Secondary = () => {
                 <td>{topic.classTaught}</td>
                 <td>{topic.term}</td>
                 <td className="actions">
-                  <Button variant="warning">Edit</Button>
-                  <Button variant="info">Sessions</Button>
+                  <Button className="btn warning">Edit</Button>
+                  <Button
+                    className="btn info"
+                    onClick={() => handleViewSession(topic.id)}
+                  >
+                    Sessions
+                  </Button>
                 </td>
               </tr>
             ))}

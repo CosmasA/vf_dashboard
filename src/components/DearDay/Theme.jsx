@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
 const Theme = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,15 @@ const Theme = () => {
     };
     fetchData();
   }, []);
+
+  const handleUpdateActivity = (id) => {
+    navigate(`/editTheme/${id}`);
+    console.log("Update for theme with id: ", id);
+  };
+
+  const handleView = (theme_id) => {
+    navigate(`/viewSubTheme/${theme_id}`);
+  };
 
   return (
     <div className="dashboard-container">
@@ -76,8 +86,13 @@ const Theme = () => {
                 <td>{item.classTaught}</td>
                 <td>{item.term}</td>
                 <td className="action">
-                  <Button variant="warning">Edit</Button>
-                  <Button variant="info">Sub-Themes</Button>
+                  <Button className="btn warning">Edit</Button>
+                  <Button
+                    className="btn info"
+                    onClick={() => handleView(item.id)}
+                  >
+                    Sub-Themes
+                  </Button>
                 </td>
               </tr>
             ))}
