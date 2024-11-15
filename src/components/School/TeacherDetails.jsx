@@ -340,7 +340,7 @@ const TeacherDetails = () => {
               <p>
                 <strong>Class Taught:</strong> {selectedTeacher.classTaught}
               </p>
-              <Button variant="primary" onClick={handleEditClick}>
+              <Button className="btn warning" onClick={handleEditClick}>
                 Edit
               </Button>
             </div>
@@ -449,7 +449,7 @@ const TeacherDetails = () => {
               />
             </Form.Group>
             <Button
-              variant="primary"
+              variant="success"
               onClick={handleAddTeacher}
               className="mt-3"
             >

@@ -15,6 +15,7 @@ import TeacherDetails from "./components/School/TeacherDetails";
 import SessionListPri from "./components/Sessions/SessionListPri";
 import SessionListSec from "./components/Sessions/SessionListSec";
 import SubThemes from "./components/DearDay/SubThemes";
+import Chapters from "./components/DearDay/Chapters";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               element={<SessionListSec />}
             />
             <Route path="/viewSubTheme/:theme_id" element={<SubThemes />} />
+            <Route path="/viewChapters/:sub_theme_id" element={<Chapters />} />
             <Route path="/secondary" element={<Secondary />} />
             <Route path="/topics-modal" element={<TopicsList />} />
             <Route path="/themeslist" element={<ThemeLists />} />

@@ -8,6 +8,7 @@ const Primary = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [topicDetails, setTopicDetails] = useState({});
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -133,6 +134,22 @@ const Primary = () => {
     }
   };
 
+  const handleDeleteTopic = () => setShowConfirmDelete(true);
+
+  // Confirm delete action
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(
+        `http://161.97.81.168:8080/deleteTopic/${topicDetails.id}`
+      );
+      setShowDetailsModal(false);
+      setShowConfirmDelete(false);
+      setData(data.filter((topic) => topic.id !== topicDetails.id)); // Update UI
+    } catch (error) {
+      console.error("Error deleting topic:", error);
+    }
+  };
+
   const handleViewSession = (topicId) => {
     navigate(`/viewSessionsPri/${topicId}`);
     console.log("List of sessions for topic:", topicId);
@@ -177,7 +194,7 @@ const Primary = () => {
         <Table striped bordered hover className="table">
           <thead>
             <tr>
-              <th className="actions">Code</th>
+              <th className="topic-code">Topic Code</th>
               <th>Topic Name</th>
               <th>Class</th>
               <th>Term</th>
@@ -243,6 +260,35 @@ const Primary = () => {
               <strong>Term:</strong> {topicDetails.term}
             </p>
           </Modal.Body>
+          {/* <Modal.Footer>
+            <Button variant="danger" onClick={handleDeleteTopic}>
+              Delete
+            </Button>
+          </Modal.Footer> */}
+        </Modal>
+
+        {/* Confirmation Modal */}
+        <Modal
+          show={showConfirmDelete}
+          onHide={() => setShowConfirmDelete(false)}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header>
+            <Modal.Title>Confirm Deletion</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={confirmDelete}>
+              Yes
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => setShowConfirmDelete(false)}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
         </Modal>
       </div>
       {/* Add Topic Modal */}
