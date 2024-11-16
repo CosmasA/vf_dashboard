@@ -233,7 +233,7 @@ const Chapters = () => {
                 <Page
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
-                  scale={1.4} // Adjust scale for clarity
+                  scale={1.1} // Adjust scale for clarity
                 />
               ))}
             </Document>

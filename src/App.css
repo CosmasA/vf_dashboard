@@ -10,7 +10,7 @@
 
 html,
 body {
-  background-color: #f0f0f0;
+  background: linear-gradient(to bottom, #c9e5f3, #f8f8f8);
   padding: 5px;
   color: #000;
   height: 100%;
@@ -73,8 +73,8 @@ body {
 }
 
 .table th {
-  background: #526d82;
-  color: #f0f0f0;
+  background: #e6e6e6;
+  color: #526d82;
   padding: 16px;
   opacity: 0.8;
 }
@@ -122,11 +122,11 @@ body {
 
 /* Info Button Style */
 .btn.info {
-  background-color: #526d82;
+  background-color: #8796a1;
   color: white;
 }
 .btn.info:hover {
-  background-color: #384d5e; /* Darker shade on hover */
+  background-color: #455a6a; /* Darker shade on hover */
 }
 .btn:focus {
   outline: 2px solid #dcdcdc;
@@ -296,7 +296,8 @@ h3 {
   padding: 1rem;
 }
 .card {
-  background-color: #f0f0f0;
+  background-color: #fff;
+  border: 1px solid #e8e4e4;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
@@ -315,15 +316,12 @@ h3 {
   cursor: pointer;
 }
 .card-cover {
-  background: #fff;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
-  padding: 10px;
   justify-content: center;
-  color: #969393;
+  color: #526d82;
   align-items: center;
-  border-radius: 25px;
 }
 .card-title {
   display: flex;
@@ -337,7 +335,7 @@ h3 {
 /* In your CSS file */
 .card a {
   text-decoration: none;
-  color: inherit;
+  color: #526d82;
 }
 
 .card a:hover {
@@ -589,60 +587,51 @@ h3 {
 .menu {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 1rem;
   height: 97vh;
-  width: 12%;
+  width: 13%;
 }
 .menu-list {
   margin: 10px auto;
-  justify-content: center;
+  align-items: flex-start;
   padding: 5px;
   flex-grow: 1;
 }
 
 .item {
   display: flex;
-  align-items: center;
   padding: 10px;
-  color: white;
   text-decoration: none;
-  font-size: 16px;
-  /* width: 224px; */
 }
 
 .menu-list .item {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
-  padding: 10px;
-  border-radius: 4px;
-  transition: 0.3s ease-in-out;
+  padding: 10px 36px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
   color: #526d82;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 .menu-list .item:hover {
-  background: rgba(82, 109, 130, 0.8);
-  color: #f0f0f0;
+  background: #e6f0f3; /* Soft Light Blue Gray */
+  color: rgba(82, 109, 130, 0.8); /* Muted Blue-Gray */
 }
 
 .item:hover {
   background-color: #34495e;
 }
-/* 
-.icon {
-  margin-right: 10px;
-} */
+
 .menu-list .item.active {
-  background-color: #526d82;
-  color: white;
-  font-weight: bold;
+  background-color: #fff;
+  color: #526d82;
+  font-weight: 500;
 }
 
 .menu-list .item.active .icon {
-  color: white; /* Ensure icon also reflects active state */
+  color: #526d82; /* Ensure icon also reflects active state */
 }
 
 .menu-list .item .menu-label {
@@ -713,14 +702,14 @@ h3 {
 }
 
 .pdf-modal {
-  max-width: 100% !important; /* Limits the width of the modal */
-  margin: auto; /* Centers horizontally */
+  max-width: 100%;
+  margin: auto;
 }
 
 .pdf-modal .modal-dialog {
   display: flex;
-  align-items: center; /* Ensures vertical alignment */
-  justify-content: center; /* Centers content horizontally */
+  align-items: center;
+  justify-content: center;
 }
 .custom-modal .modal-dialog {
   max-width: 80%; /* Adjust width as needed */
