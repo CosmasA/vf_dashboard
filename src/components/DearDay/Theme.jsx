@@ -225,6 +225,7 @@ const Theme = () => {
           onHide={handleCloseDetailsModal}
           backdrop="static"
           keyboard={false}
+          className="custom-modal"
         >
           <Modal.Header closeButton>
             <Modal.Title>Theme Details</Modal.Title>
@@ -280,6 +281,7 @@ const Theme = () => {
         onHide={handleCloseAddModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Add New Theme</Modal.Title>
@@ -352,6 +354,7 @@ const Theme = () => {
         onHide={handleCloseEditModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Edit Theme</Modal.Title>

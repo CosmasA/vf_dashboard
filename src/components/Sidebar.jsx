@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaHome,
   FaUsers,
@@ -7,14 +7,16 @@ import {
   FaSchool,
   FaUserTie,
   FaUser,
+  FaColumns, // Layouting icon
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../Assets/fb.png";
+import logo from "../Assets/fundi_logo.png";
 import "../styles/sidebar.css";
 import Footer from "./Footer";
 
 const Sidebar = () => {
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Define menu items and active route check
   const menuItems = [
@@ -28,15 +30,29 @@ const Sidebar = () => {
     { path: "/profile", label: "Profile", icon: <FaUser /> },
   ];
 
+  // Toggle sidebar state
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="menu">
-      <div className="logo">
-        <Link to="/" className="logo-link">
-          <img className="logo-icon" src={logo} alt="fb_logo" />
-          <h4 className="brand-name">VirtualFundi</h4>
-        </Link>
+    <div className={`menu ${isSidebarOpen ? "open" : "collapsed"}`}>
+      <div className="logo-container">
+        {isSidebarOpen && (
+          <div className="logo">
+            <Link to="/" className="logo-link">
+              <img className="logo-icon" src={logo} alt="fb_logo" />
+            </Link>
+          </div>
+        )}
+
+        {/* Layouting Icon for Sidebar Toggle */}
+        <div className="toggle-button" onClick={toggleSidebar}>
+          <FaColumns /> {/* Layouting icon */}
+        </div>
       </div>
 
+      {/* Menu Items */}
       <div className="menu-list">
         {menuItems.map((item, index) => (
           <Link
@@ -47,15 +63,17 @@ const Sidebar = () => {
             }`}
           >
             <span className="icon">{item.icon}</span>
-            <span className="label">{item.label}</span>
+            {isSidebarOpen && <span className="label">{item.label}</span>}
           </Link>
         ))}
       </div>
 
-      {/* Conditionally render the footer based on screen width */}
-      <div className="footer-container">
-        <Footer />
-      </div>
+      {/* Footer */}
+      {isSidebarOpen && (
+        <div className="footer-container">
+          <Footer />
+        </div>
+      )}
     </div>
   );
 };

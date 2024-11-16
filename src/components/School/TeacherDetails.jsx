@@ -319,6 +319,7 @@ const TeacherDetails = () => {
         onHide={handleCloseModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>
@@ -402,6 +403,7 @@ const TeacherDetails = () => {
         onHide={handleCloseAddModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Add New Teacher</Modal.Title>

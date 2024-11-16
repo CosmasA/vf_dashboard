@@ -109,6 +109,67 @@ const Card = () => {
           </Link>
         </p>
       </div>
+      <div className="card">
+        <div className="card-title">
+          <div className="card-cover">
+            <FaCog />
+          </div>
+          <h3>Total Topics</h3>
+        </div>
+        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
+          {topic.length}
+        </p>
+        <p>
+          <Link
+            to="/topics-modal"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
+        </p>
+      </div>
+
+      {/* Card for DEAR DAY Themes */}
+      <div className="card">
+        <div className="card-title">
+          <div className="card-cover">
+            <FaBook />
+          </div>
+          <h3>DEAR DAY Themes</h3>
+        </div>
+        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
+          {theme.length}
+        </p>
+        <p>
+          <Link
+            to="/themeslist"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
+        </p>
+      </div>
+
+      {/* Card for Current Term */}
+      <div className="card">
+        <div className="card-title">
+          <div className="card-cover">
+            <FaCalendarAlt />
+          </div>
+          <h3>Current Term</h3>
+        </div>
+        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
+          {currentTerm}
+        </p>
+        <p>
+          <Link
+            to="#"
+            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
+          >
+            View Details
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>Dashboard</h2>
+        <h4>Welcome to VirtualFundi!</h4>
         <nav className="breadcrumb">
           <ol>
             <li>
