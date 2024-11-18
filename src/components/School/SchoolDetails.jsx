@@ -236,6 +236,7 @@ const SchoolDetails = () => {
         onHide={handleCloseModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>{selectedSchool?.schoolName}</Modal.Title>

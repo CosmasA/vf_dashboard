@@ -240,6 +240,7 @@ const Secondary = () => {
           onHide={handleCloseDetailsModal}
           backdrop="static"
           keyboard={false}
+          className="custom-modal"
         >
           <Modal.Header closeButton>
             <Modal.Title>Topic Details</Modal.Title>
@@ -298,6 +299,7 @@ const Secondary = () => {
         onHide={handleCloseAddModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Add New Topic</Modal.Title>
@@ -396,6 +398,7 @@ const Secondary = () => {
         onHide={handleCloseEditModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Edit Topic</Modal.Title>

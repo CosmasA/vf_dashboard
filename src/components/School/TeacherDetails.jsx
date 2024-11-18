@@ -341,7 +341,7 @@ const TeacherDetails = () => {
               <p>
                 <strong>Class Taught:</strong> {selectedTeacher.classTaught}
               </p>
-              <Button className="btn warning" onClick={handleEditClick}>
+              <Button className="btn-edit" onClick={handleEditClick}>
                 Edit
               </Button>
             </div>

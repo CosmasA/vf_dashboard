@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../Assets/fundi_logo.png";
+import toggle from "../Assets/toggle.png";
 import "../styles/sidebar.css";
 import Footer from "./Footer";
 
@@ -36,7 +37,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`menu ${isSidebarOpen ? "open" : "collapsed"}`}>
+    <div
+      className={`menu ${isSidebarOpen ? "open" : "collapsed"} ${
+        window.innerHeight <= 600 ? "short-height" : ""
+      }`}
+    >
       <div className="logo-container">
         {isSidebarOpen && (
           <div className="logo">
@@ -45,10 +50,8 @@ const Sidebar = () => {
             </Link>
           </div>
         )}
-
-        {/* Layouting Icon for Sidebar Toggle */}
         <div className="toggle-button" onClick={toggleSidebar}>
-          <FaColumns /> {/* Layouting icon */}
+          <img className="toggle-icon" src={toggle} alt="toggle_button" />{" "}
         </div>
       </div>
 
@@ -58,7 +61,7 @@ const Sidebar = () => {
           <Link
             to={item.path}
             key={index}
-            className={`item ${
+            className={`item ${isSidebarOpen ? "" : "toggled"} ${
               location.pathname === item.path ? "active" : ""
             }`}
           >

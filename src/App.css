@@ -20,7 +20,7 @@ body {
 
 .dashboard {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   height: 100%;
 }
 
@@ -120,17 +120,32 @@ body {
   margin-left: 20px;
   color: white;
 }
+.btn-edit {
+  text-align: center;
+  background-color: #f5a623;
+  color: white;
+}
 .btn.warning:hover {
   background-color: #e6951e; /* Darker shade on hover */
 }
 
 /* Info Button Style */
 .btn.info {
+  text-align: center;
   background-color: #8796a1;
   color: white;
 }
 .btn.info:hover {
   background-color: #455a6a; /* Darker shade on hover */
+}
+.custom-modal .btn-success {
+  width: 100%; /* Match modal width */
+  text-align: center;
+}
+.custom-modal .btn-edit {
+  width: 100%; /* Match modal width */
+  text-align: center;
+  /* display: block; */
 }
 .btn:focus {
   outline: 2px solid #dcdcdc;
@@ -214,13 +229,12 @@ h3 {
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: 0.5s ease-in-out;
 }
 
 .card:hover {
-  transform: scale(1.04);
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .card-cover {
   width: 60px;
@@ -480,37 +494,34 @@ h3 {
   transition: width 0.3s ease-in-out;
 }
 .menu.collapsed {
-  width: 75px; /* Reduced width when collapsed */
+  width: 64px; /* Reduced width when collapsed */
 }
 .logo-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   padding: 10px;
 }
 
 .logo {
-  display: flex; /* Use flexbox to align child elements in a row */
-  align-items: center; /* Vertically center the image and text */
-  gap: 10px; /* Add space between the image and the text */
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-link {
-  display: flex; /* Ensure the link container uses flexbox */
-  align-items: center; /* Vertically align items */
-  text-decoration: none; /* Remove underline for the link */
-  color: inherit; /* Keep text color consistent */
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-icon {
-  width: 140px; /* Set image width */
-  height: 60px; /* Set image height */
+  width: 140px;
+  height: 50px;
 }
-
-.brand-name {
-  font-size: 18px; /* Adjust text size */
-  color: #526d82; /* Adjust color for text */
-  margin: 0; /* Remove default margin from h4 */
+.btn-close {
+  box-shadow: none !important;
 }
 
 .toggle-button {
@@ -520,36 +531,45 @@ h3 {
   padding: 10px;
   cursor: pointer;
   color: #526d82;
-  margin-top: 12px;
+  margin-top: 8px;
+}
+.toggle-icon {
+  width: 25px;
+  height: 20px;
 }
 .menu-list {
   margin: 0 auto;
   align-items: flex-start;
   padding: 5px;
 }
+.label {
+  /* border: 1px solid; */
+  margin-top: auto;
+}
 
 .item {
   display: flex;
-  padding: 10px;
   text-decoration: none;
+  justify-content: flex-start;
+  align-items: center;
+  color: #526d82;
 }
 
 .menu-list .item {
-  display: flex;
-  text-decoration: none;
-  padding: 8px 24px;
+  padding: 10px 24px;
   transition: all 0.3s ease;
+  margin: 5px auto;
   border-radius: 6px;
-  color: #526d82;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
 }
 .icon {
   margin-right: 10px;
+  font-size: 1.4rem;
 }
 .menu-list .item:hover {
-  background: #e6f0f3; /* Soft Light Blue Gray */
-  color: rgba(82, 109, 130, 0.8); /* Muted Blue-Gray */
+  background: #f7f7f7;
+  color: rgba(82, 109, 130, 0.8);
 }
 
 .item:hover {
@@ -563,16 +583,29 @@ h3 {
 }
 
 .menu-list .item.active .icon {
-  color: #526d82; /* Ensure icon also reflects active state */
+  color: #526d82;
 }
 
 .menu-list .item .menu-label {
   display: inline;
 }
+.menu-list .item.toggled {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin: 5px auto;
+  padding: 10px 10px 16px 18px;
+  transition: all 0.5s ease;
+}
 
-/* Hides labels when screen width is less than 760px */
-.label {
-  display: inline-block;
+.menu-list .item.toggled .icon {
+  font-size: 1.3rem;
+}
+
+.menu-list .item.toggled .label {
+  display: none;
 }
 
 .footer-container {
@@ -587,19 +620,11 @@ h3 {
   padding: 10px;
   text-align: center;
 }
-
-.logo-link {
-  text-decoration: none;
+.footer-cover {
+  font-size: small;
+  text-align: left;
   color: #526d82;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-
-.logo-link h2 {
-  margin-left: 10px;
-}
-
 .pdf-modal {
   max-width: 100%;
   margin: auto;
@@ -611,13 +636,13 @@ h3 {
   justify-content: center;
 }
 .custom-modal .modal-dialog {
-  max-width: 80%; /* Adjust width as needed */
-  width: 80%; /* Adjust width as needed */
+  max-width: 80%;
+  width: 80%;
 }
 
 .custom-modal .modal-content {
-  margin: auto; /* Ensures the modal is centered */
-  padding: 1.5rem; /* Optional: Add padding for better spacing */
+  margin: auto;
+  padding: 1.5rem;
 }
 
 /* Media queries */
@@ -646,48 +671,53 @@ h3 {
   }
 
   .content {
-    flex-direction: column; /* Stack items vertically */
-    gap: 1rem; /* Reduce gap for smaller screens */
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .footer-container {
-    display: flex;
-    font-size: 0.5rem;
+    display: none;
   }
   .custom-modal .modal-dialog {
-    max-width: 95%; /* Adjust for smaller screens */
+    max-width: 95%;
     width: 95%;
   }
   .user-image {
     width: 30px;
     height: 30px;
   }
-
-  .label,
-  .brand-name {
-    display: none; /* Hide labels on small screens */
-  }
-
   .menu {
-    gap: 8px;
+    width: 64px;
     overflow-y: auto;
+    gap: 8px;
+    transition: width 0.3s ease;
   }
+
   .menu-list .item {
-    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 50px;
+    height: 50px; /* Same as width for circular shape */
+    border-radius: 50%; /* Circular menu items */
     font-size: medium;
-    gap: 4px;
+    gap: 4px; /* Adjust spacing between icon and label */
+  }
+
+  .menu-list .item .label,
+  .brand-name,
+  .logo {
+    display: none; /* Hide text label on smaller screens */
   }
 
   .table-container,
   .team-container {
     width: 100%;
-    max-height: 75vh;
+    max-height: 80vh;
     overflow-y: auto;
     overflow-x: auto;
-  }
-
-  .item {
-    justify-content: center; /* Center icons in narrow sidebar */
   }
 }
 
@@ -771,38 +801,109 @@ h3 {
   }
 }
 
-@media (max-height: 480px) {
+@media (max-height: 600px) {
   .dashboard-content {
     padding: 10px;
-    height: 90vh;
+    height: 85vh;
     width: 85%;
+  }
+  .logo-container {
+    padding: 0;
+  }
+  .logo-icon {
+    width: 100px;
+    height: 40px;
+  }
+  .menu {
+    width: 150px;
   }
   .menu-list {
     overflow-y: auto;
-    margin-bottom: 0;
+    margin: 0 auto;
+    height: auto !important;
+  }
+  .menu.collapsed.short-height {
+    width: 64px;
+  }
+
+  .menu.collapsed.short-height .menu-list .item {
+    /* Circular icons for collapsed sidebar */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .menu.collapsed.short-height .menu-list .item .icon {
+    font-size: 0.8rem;
+  }
+
+  .menu.collapsed.short-height .menu-list .item .label {
+    display: none; /* Hide labels */
+  }
+
+  .menu-list .item.active {
+    background-color: #fff;
+    color: #526d82;
+    font-weight: 500;
+  }
+
+  .menu-list .item.active .icon {
+    color: #526d82;
   }
   .card-container {
     grid-template-columns: 1fr;
   }
-  .menu-list .item {
-    padding: 3px 10px;
+  .content-header {
+    display: flex;
+    align-items: center;
+    height: 2rem;
+  }
+  .content-header h4,
+  h3,
+  h2 {
+    font-size: medium;
+  }
+  .breadcrumb {
     font-size: small;
-    gap: 6px;
+    margin-bottom: 1.4rem;
+  }
+
+  .menu-list .item,
+  .icon,
+  .footer-cover {
+    padding: 2px 10px;
+    font-size: small;
+    justify-content: left;
+    align-items: center;
+    margin: 0;
+    gap: 0;
     border-radius: 4px;
   }
   .table-container {
     width: 100%;
-    height: 42vh;
+    height: 45vh;
+    overflow-y: auto;
     overflow-y: auto;
   }
   .team-container {
     width: 100%;
-    height: 64vh;
+    height: 67vh;
     overflow-y: auto;
+    overflow-y: auto;
+  }
+  .footer-cover {
+    display: flex;
+    font-size: 0.5rem;
   }
   .footer-container {
     display: flex;
-    font-size: 0.5rem;
+    height: auto;
+    margin: auto;
   }
   .profile {
     width: 100%;

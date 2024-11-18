@@ -239,6 +239,7 @@ const Primary = () => {
           onHide={handleCloseDetailsModal}
           backdrop="static"
           keyboard={false}
+          className="custom-modal"
         >
           <Modal.Header closeButton>
             <Modal.Title>Topic Details</Modal.Title>
@@ -260,11 +261,6 @@ const Primary = () => {
               <strong>Term:</strong> {topicDetails.term}
             </p>
           </Modal.Body>
-          {/* <Modal.Footer>
-            <Button variant="danger" onClick={handleDeleteTopic}>
-              Delete
-            </Button>
-          </Modal.Footer> */}
         </Modal>
 
         {/* Confirmation Modal */}
@@ -297,6 +293,7 @@ const Primary = () => {
         onHide={handleCloseAddModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Add New Topic</Modal.Title>
@@ -394,6 +391,7 @@ const Primary = () => {
         onHide={handleCloseEditModal}
         backdrop="static"
         keyboard={false}
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Edit Topic</Modal.Title>
