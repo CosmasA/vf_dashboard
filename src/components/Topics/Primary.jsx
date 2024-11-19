@@ -167,7 +167,7 @@ const Primary = () => {
                 Home
               </Link>
             </li>
-            <li className="active">Dashboard</li>
+            <li className="active">Primary</li>
           </ol>
         </nav>
       </section>

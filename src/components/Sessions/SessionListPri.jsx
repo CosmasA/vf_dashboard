@@ -3,12 +3,14 @@ import axios from "axios";
 import { FaEdit, FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Table, Button, Modal, Form } from "react-bootstrap";
+import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
 const SessionListPri = () => {
   const navigate = useNavigate();
   const [sessions, setSessions] = useState([]);
   const { topicId } = useParams();
+  const [topic, setTopic] = useState([]);
   const [topicName, setTopicName] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +22,21 @@ const SessionListPri = () => {
   const [schoolResources, setSchoolResources] = useState("");
   const [duration, setDuration] = useState("");
   const [objectives, setObjectives] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editSessionId, setEditSessionId] = useState(null);
+
+  const [selectedSession, setSelectedSession] = useState(null); // To hold the clicked session details
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+
+  const handleSessionClick = (session) => {
+    setSelectedSession(session);
+    setShowDetailsModal(true);
+  };
+
+  const closeModal = () => {
+    setSelectedSession(null);
+    setShowDetailsModal(false);
+  };
 
   // ReactQuill modules
   const modules = {
@@ -34,6 +51,21 @@ const SessionListPri = () => {
       ["link", "image", "video"],
     ],
   };
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const response = await axios.get(
+          `http://161.97.81.168:8080/getTopic/${topicId}`
+        );
+        setTopic(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+    fetchTopics();
+  }, [topicId]);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -85,12 +117,69 @@ const SessionListPri = () => {
     }
   };
 
-  const handleActivityLists = (sessionId) => {
-    navigate(`/activity-list/${sessionId}`);
+  const fetchSessionById = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://161.97.81.168:8080/getSession/${id}`
+      );
+      const session = response.data;
+
+      // Update the state with session data
+      setSessionName(session.sessionName);
+      setSelectedTopic(session.topicId);
+      setFundibotsResources(session.fundibotsResources);
+      setSchoolResources(session.schoolResources);
+      setDuration(session.duration);
+      setObjectives(session.learningObjective);
+      setEditSessionId(session.id);
+
+      // Show the edit modal
+      setShowEditModal(true);
+    } catch (error) {
+      console.error("Error fetching session by ID:", error);
+    }
   };
 
-  const handleEditSession = (sessionId) => {
-    navigate(`/editPriSession/${sessionId}`);
+  const handleEditSession = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://161.97.81.168:8080/updateSession/${editSessionId}`,
+        {
+          sessionName,
+          topicId: selectedTopic,
+          fundibotsResources,
+          schoolResources,
+          duration,
+          objectives,
+        }
+      );
+
+      // Update the session list after editing
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session.id === editSessionId
+            ? {
+                ...session,
+                sessionName,
+                fundibotsResources,
+                schoolResources,
+                duration,
+                objectives,
+              }
+            : session
+        )
+      );
+
+      // Close the modal
+      setShowEditModal(false);
+    } catch (error) {
+      console.error("Error updating session:", error);
+    }
+  };
+
+  const handleActivityLists = (sessionId) => {
+    navigate(`/activitylist/${sessionId}`);
   };
 
   return (
@@ -154,7 +243,7 @@ const SessionListPri = () => {
                     <tr key={session.id}>
                       <td>
                         <Link
-                          to={`/activity-list/${session.id}`}
+                          onClick={() => handleSessionClick(session)}
                           className="custom-link"
                         >
                           {session.sessionName}
@@ -163,7 +252,7 @@ const SessionListPri = () => {
                       <td className="action-column">
                         <Button
                           className="btn warning"
-                          onClick={() => handleEditSession(session.id)}
+                          onClick={() => fetchSessionById(session.id)}
                         >
                           Edit
                         </Button>
@@ -206,13 +295,29 @@ const SessionListPri = () => {
                 required
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicSubject">
+              <Form.Label>Topic Name:</Form.Label>
+              <Form.Select
+                value={selectedTopic}
+                onChange={(e) => setSelectedTopic(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Select a Topic
+                </option>
+                <option key={topic.id} value={topic.id}>
+                  {topic.topicName}
+                </option>
+              </Form.Select>
+            </Form.Group>
+            <hr></hr>
+            <h6>Practical Resources:</h6>
             <Form.Group className="mb-3">
               <Form.Label>Resources by Fundi Bots:</Form.Label>
               <ReactQuill
                 theme="snow"
                 value={fundibotsResources}
                 onChange={setFundibotsResources}
-                style={{ height: "150px" }} // Ensures consistent size
                 placeholder="Add resources by Fundi Bots"
                 required
               />
@@ -223,8 +328,88 @@ const SessionListPri = () => {
                 theme="snow"
                 value={schoolResources}
                 onChange={setSchoolResources}
-                style={{ height: "150px" }} // Ensures consistent size
                 placeholder="Add resources by School"
+                required
+              />
+            </Form.Group>
+            <h6>NB: Ensure that the kits contain all their components.</h6>
+            <hr></hr>
+            <Form.Group className="mb-3">
+              <Form.Label>Duration:</Form.Label>
+              <Form.Select
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Choose Duration
+                </option>
+                <option value="40">40 mins</option>
+                <option value="60">60 mins</option>
+                <option value="80">80 mins</option>
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Learning Objectives:</Form.Label>
+              <ReactQuill
+                theme="snow"
+                value={objectives}
+                onChange={setObjectives}
+                placeholder="Add learning objectives"
+                required
+              />
+            </Form.Group>
+            <div className="submit">
+              {/* <Button onClick={() => setShowModal(false)} variant="secondary">
+                Cancel
+              </Button> */}
+              <Button variant="success" type="submit">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Edit Session Modal */}
+      <Modal
+        show={showEditModal}
+        onHide={() => setShowEditModal(false)}
+        backdrop="static"
+        keyboard={false}
+        className="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Session</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleEditSession}>
+            <Form.Group className="mb-3">
+              <Form.Label>Session Name:</Form.Label>
+              <Form.Control
+                type="text"
+                value={sessionName}
+                onChange={(e) => setSessionName(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Resources by Fundi Bots:</Form.Label>
+              <ReactQuill
+                theme="snow"
+                value={fundibotsResources}
+                onChange={setFundibotsResources}
+                modules={modules}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Resources by School:</Form.Label>
+              <ReactQuill
+                theme="snow"
+                value={schoolResources}
+                onChange={setSchoolResources}
+                modules={modules}
                 required
               />
             </Form.Group>
@@ -249,25 +434,61 @@ const SessionListPri = () => {
                 theme="snow"
                 value={objectives}
                 onChange={setObjectives}
-                style={{ height: "150px" }} // Ensures consistent size
-                placeholder="Add learning objectives"
+                modules={modules}
                 required
               />
             </Form.Group>
-            <div className="d-flex justify-content-end">
-              <Button
-                variant="secondary"
-                onClick={() => setShowModal(false)}
-                className="me-2"
-              >
-                Cancel
-              </Button>
-              <Button variant="primary" type="submit">
-                Submit
+            <div className="submit">
+              <Button variant="success" type="submit">
+                Save Changes
               </Button>
             </div>
           </Form>
         </Modal.Body>
+      </Modal>
+
+      {/* Session Details Modal */}
+      <Modal
+        show={showDetailsModal}
+        onHide={closeModal}
+        className="custom-modal"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Session Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedSession && (
+            <div>
+              <p>
+                <strong>Session Name:</strong>{" "}
+                {parse(selectedSession.sessionName)}
+              </p>
+              <p>
+                <strong>Tools provided by Fundi Bots:</strong>{" "}
+                {parse(selectedSession.fundibotsResources)}
+              </p>
+              <p>
+                <strong>Tools provided by the School/Learners:</strong>{" "}
+                {parse(selectedSession.schoolResources)}
+              </p>
+              <p>
+                <strong>Duration:</strong> {parse(selectedSession.duration)}{" "}
+                Minutes
+              </p>
+              <p>
+                <strong>Objectives:</strong>{" "}
+                {parse(selectedSession.learningObjective)}
+              </p>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

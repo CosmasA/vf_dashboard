@@ -16,6 +16,7 @@ import SessionListPri from "./components/Sessions/SessionListPri";
 import SessionListSec from "./components/Sessions/SessionListSec";
 import SubThemes from "./components/DearDay/SubThemes";
 import Chapters from "./components/DearDay/Chapters";
+import Activitylist from "./components/Activities/Activitylist";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               path="/viewSessionsSec/:topicId"
               element={<SessionListSec />}
             />
+            <Route path="/activitylist/:sessionId" element={<Activitylist />} />
             <Route path="/viewSubTheme/:theme_id" element={<SubThemes />} />
             <Route path="/viewChapters/:sub_theme_id" element={<Chapters />} />
             <Route path="/secondary" element={<Secondary />} />

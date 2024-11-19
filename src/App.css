@@ -137,6 +137,16 @@ body {
   width: 100%;
   text-align: center;
 }
+.custom-modal .btn-secondary {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.custom-modal .btn-danger {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+}
 .custom-modal .btn-warning {
   width: 100%;
   text-align: center;
@@ -632,6 +642,7 @@ body {
 .custom-modal .modal-dialog {
   max-width: 80%;
   width: 80%;
+  color: #526d82;
 }
 
 .custom-modal .modal-content {
@@ -639,17 +650,17 @@ body {
   padding: 1.5rem;
 }
 .react-quill {
-  height: 150px; /* Adjust height as needed */
-  margin-bottom: 30px; /* Add space between editors */
+  height: 150px;
+  margin-bottom: 30px;
 }
 
 .react-quill .ql-container {
   height: 100%;
-  border-radius: 4px; /* Smoothen edges */
+  border-radius: 4px;
 }
 
 .react-quill .ql-toolbar {
-  border-radius: 4px 4px 0 0; /* Match container corners */
+  border-radius: 4px 4px 0 0;
 }
 
 /* Media queries */
