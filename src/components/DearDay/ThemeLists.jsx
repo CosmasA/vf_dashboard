@@ -37,7 +37,7 @@ const ThemeLists = () => {
         >
           Close
         </Link>
-        <h2>List of the Themes</h2>
+        <h4>List of the Themes</h4>
         <Table striped bordered hover className="table">
           <thead>
             <tr>

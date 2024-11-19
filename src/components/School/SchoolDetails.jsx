@@ -162,7 +162,7 @@ const SchoolDetails = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>School Details</h2>
+        <h4>School Details</h4>
         <nav className="breadcrumb">
           <ol>
             <li>

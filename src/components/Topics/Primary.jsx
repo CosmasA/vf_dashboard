@@ -158,7 +158,7 @@ const Primary = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>Primary Section</h2>
+        <h4>Primary Section</h4>
         <nav className="breadcrumb">
           <ol>
             <li>

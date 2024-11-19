@@ -58,7 +58,7 @@ body {
 /* Table styling */
 .table-container {
   width: 100%;
-  height: 70vh;
+  height: 74vh;
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -120,32 +120,27 @@ body {
   margin-left: 20px;
   color: white;
 }
-.btn-edit {
-  text-align: center;
-  background-color: #f5a623;
-  color: white;
-}
+
 .btn.warning:hover {
-  background-color: #e6951e; /* Darker shade on hover */
+  background-color: #e6951e;
 }
 
-/* Info Button Style */
 .btn.info {
   text-align: center;
   background-color: #8796a1;
   color: white;
 }
 .btn.info:hover {
-  background-color: #455a6a; /* Darker shade on hover */
+  background-color: #455a6a;
 }
 .custom-modal .btn-success {
-  width: 100%; /* Match modal width */
+  width: 100%;
   text-align: center;
 }
-.custom-modal .btn-edit {
-  width: 100%; /* Match modal width */
+.custom-modal .btn-warning {
+  width: 100%;
   text-align: center;
-  /* display: block; */
+  color: #ffffff;
 }
 .btn:focus {
   outline: 2px solid #dcdcdc;
@@ -158,7 +153,7 @@ body {
 .team-container {
   padding: 10px;
   width: 100%;
-  height: 78vh;
+  height: 85vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -173,17 +168,16 @@ body {
   width: 100%;
   justify-content: space-between;
   padding: 20px 10px;
-  height: 4rem;
+  height: 3rem;
   position: relative;
 }
-.content-header h2,
-h3 {
+.content-header h3 {
   color: #526d82;
+  font-size: large;
 }
 .breadcrumb {
   float: right;
-  margin-right: 25px;
-  margin-top: 16px;
+  margin-right: 5px;
   text-align: right;
   font-size: 1rem;
 }
@@ -234,7 +228,7 @@ h3 {
 
 .card:hover {
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 .card-cover {
   width: 60px;
@@ -260,8 +254,8 @@ h3 {
 }
 
 .card a:hover {
-  color: #526d82; /* Change to the desired hover color */
-  text-decoration: underline; /* Optional: Add underline on hover */
+  color: #526d82;
+  text-decoration: underline;
 }
 .user-image {
   width: 40px;
@@ -543,7 +537,6 @@ h3 {
   padding: 5px;
 }
 .label {
-  /* border: 1px solid; */
   margin-top: auto;
 }
 
@@ -560,12 +553,12 @@ h3 {
   transition: all 0.3s ease;
   margin: 5px auto;
   border-radius: 6px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 .icon {
   margin-right: 10px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 .menu-list .item:hover {
   background: #f7f7f7;
@@ -578,8 +571,7 @@ h3 {
 
 .menu-list .item.active {
   background-color: #fff;
-  color: #526d82;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .menu-list .item.active .icon {
@@ -626,14 +618,16 @@ h3 {
   color: #526d82;
 }
 .pdf-modal {
-  max-width: 100%;
+  /* max-width: 100%; */
   margin: auto;
 }
 
 .pdf-modal .modal-dialog {
+  max-width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  max-height: 90%;
 }
 .custom-modal .modal-dialog {
   max-width: 80%;
@@ -643,6 +637,19 @@ h3 {
 .custom-modal .modal-content {
   margin: auto;
   padding: 1.5rem;
+}
+.react-quill {
+  height: 150px; /* Adjust height as needed */
+  margin-bottom: 30px; /* Add space between editors */
+}
+
+.react-quill .ql-container {
+  height: 100%;
+  border-radius: 4px; /* Smoothen edges */
+}
+
+.react-quill .ql-toolbar {
+  border-radius: 4px 4px 0 0; /* Match container corners */
 }
 
 /* Media queries */
@@ -870,7 +877,7 @@ h3 {
   }
   .breadcrumb {
     font-size: small;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0;
   }
 
   .menu-list .item,

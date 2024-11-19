@@ -158,7 +158,7 @@ const Secondary = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>Secondary Section</h2>
+        <h4>Secondary Section</h4>
         <nav className="breadcrumb">
           <ol>
             <li>

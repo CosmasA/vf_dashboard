@@ -37,7 +37,7 @@ const TopicsList = () => {
         >
           Close
         </Link>
-        <h2>List of all Topics</h2>
+        <h4>List of all Topics</h4>
         <Table striped bordered hover className="table">
           <thead>
             <tr>

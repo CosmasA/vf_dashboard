@@ -251,7 +251,7 @@ const TeacherDetails = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>Teachers Details</h2>
+        <h4>Teachers Details</h4>
         <nav className="breadcrumb">
           <ol>
             <li>
@@ -341,7 +341,7 @@ const TeacherDetails = () => {
               <p>
                 <strong>Class Taught:</strong> {selectedTeacher.classTaught}
               </p>
-              <Button className="btn-edit" onClick={handleEditClick}>
+              <Button variant="warning" onClick={handleEditClick}>
                 Edit
               </Button>
             </div>

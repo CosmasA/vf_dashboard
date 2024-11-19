@@ -101,12 +101,12 @@ const Chapters = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h3>
+        <h5>
           Chapters for -{" "}
           {subthemeName.length > 61
             ? subthemeName.substring(0, 61) + "..."
             : subthemeName}
-        </h3>
+        </h5>
 
         <nav className="breadcrumb">
           <ol>
@@ -233,7 +233,7 @@ const Chapters = () => {
                 <Page
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
-                  scale={1.1} // Adjust scale for clarity
+                  scale={1.65} // Adjust scale for clarity
                 />
               ))}
             </Document>
@@ -246,7 +246,8 @@ const Chapters = () => {
         show={showConfirmation}
         onHide={cancelDelete}
         centered
-        backdrop="static" // Prevents closing the modal by clicking outside
+        backdrop="static"
+        className="custom-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>

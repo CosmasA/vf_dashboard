@@ -144,7 +144,7 @@ const Theme = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h2>DEAR_Day Section</h2>
+        <h4>DEAR_Day Section</h4>
         <nav className="breadcrumb">
           <ol>
             <li>
