@@ -13,6 +13,8 @@ const SessionListPri = () => {
   const [topic, setTopic] = useState([]);
   const [topicName, setTopicName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [idToDelete, setIdToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Modal-related state
   const [showModal, setShowModal] = useState(false);
@@ -59,7 +61,6 @@ const SessionListPri = () => {
           `http://161.97.81.168:8080/getTopic/${topicId}`
         );
         setTopic(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching topics:", error);
       }
@@ -67,20 +68,21 @@ const SessionListPri = () => {
     fetchTopics();
   }, [topicId]);
 
-  useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axios.get(
-          `http://161.97.81.168:8080/viewSessions/${topicId}`
-        );
-        setSessions(response.data);
-      } catch (error) {
-        console.error("Error fetching sessions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchSessions = async () => {
+    try {
+      const response = await axios.get(
+        `http://161.97.81.168:8080/viewSessions/${topicId}`
+      );
+      setSessions(response.data);
+      console.log("Session List:", response.data);
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     const getTopicName = async () => {
       try {
         const response = await axios.get(
@@ -88,7 +90,7 @@ const SessionListPri = () => {
         );
         setTopicName(response.data.topicName);
       } catch (error) {
-        console.error("Error fetching topics:", error);
+        console.error("Error fetching topic name:", error);
       }
     };
 
@@ -98,43 +100,71 @@ const SessionListPri = () => {
 
   const handleAddSession = async (e) => {
     e.preventDefault();
+
+    axios
+      .post("http://161.97.81.168:8080/addSession/", {
+        sessionName: sessionName,
+        topic: selectedTopic,
+        duration: duration,
+        learningObjective: objectives,
+        fundibotsResources: fundibotsResources,
+        schoolResources: schoolResources,
+      })
+      .then(function (res) {
+        console.log("Response", res);
+        alert("Added successfully");
+        console.log("New Session added successfully");
+        setShowModal(false); // Close the modal
+      });
+  };
+
+  const handleDelete = async (sessionId) => {
+    setIdToDelete(sessionId);
+    setShowConfirmation(true);
+    console.log("Preparing to delete item with ID:", sessionId);
+  };
+
+  const confirmDelete = async () => {
     try {
-      const response = await axios.post(
-        `http://161.97.81.168:8080/addSession`,
-        {
-          sessionName,
-          topicId: selectedTopic,
-          fundibotsResources,
-          schoolResources,
-          duration,
-          objectives,
-        }
+      // Perform the delete operation
+      await axios.delete(
+        `http://161.97.81.168:8080/deleteSession/${idToDelete}`
       );
-      setSessions([...sessions, response.data]); // Add new session to the list
-      setShowModal(false); // Close the modal
-    } catch (error) {
-      console.error("Error adding session:", error);
+      // After successful deletion, hide the confirmation dialog and reload the data
+      setShowConfirmation(false);
+      setShowDetailsModal(false);
+      console.log("Item Deleted Successfully!");
+      setIdToDelete(null); // Reset the ID to delete
+      fetchSessions(); // Re-fetch activities to update the UI
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const fetchSessionById = async (id) => {
+  const cancelDelete = () => {
+    // If user cancels, hide the confirmation dialog and reset the ID to delete
+    setShowConfirmation(false);
+    setIdToDelete(null);
+    console.log("Delete canceled");
+  };
+
+  const fetchSessionById = async (sessionId) => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/getSession/${id}`
+        `http://161.97.81.168:8080/getSession/${sessionId}`
       );
       const session = response.data;
 
       // Update the state with session data
       setSessionName(session.sessionName);
-      setSelectedTopic(session.topicId);
+      setSelectedTopic(session.topic);
       setFundibotsResources(session.fundibotsResources);
       setSchoolResources(session.schoolResources);
       setDuration(session.duration);
       setObjectives(session.learningObjective);
       setEditSessionId(session.id);
-
-      // Show the edit modal
       setShowEditModal(true);
+      console.log("Data", session);
     } catch (error) {
       console.error("Error fetching session by ID:", error);
     }
@@ -142,36 +172,29 @@ const SessionListPri = () => {
 
   const handleEditSession = async (e) => {
     e.preventDefault();
+    if (!editSessionId) {
+      console.error("Session ID is undefined");
+      return;
+    }
     try {
-      await axios.put(
-        `http://161.97.81.168:8080/updateSession/${editSessionId}`,
-        {
-          sessionName,
-          topicId: selectedTopic,
-          fundibotsResources,
-          schoolResources,
-          duration,
-          objectives,
-        }
-      );
-
-      // Update the session list after editing
-      setSessions((prevSessions) =>
-        prevSessions.map((session) =>
-          session.id === editSessionId
-            ? {
-                ...session,
-                sessionName,
-                fundibotsResources,
-                schoolResources,
-                duration,
-                objectives,
-              }
-            : session
-        )
-      );
-
-      // Close the modal
+      await axios
+        .put(`http://161.97.81.168:8080/updateSession/${editSessionId}`, {
+          sessionName: sessionName,
+          topic: selectedTopic,
+          duration: duration,
+          learningObjective: objectives,
+          fundibotsResources: fundibotsResources,
+          schoolResources: schoolResources,
+        })
+        .then((res) => {
+          console.log("Response:", res);
+          if (res.request.status === 200) {
+            console.log("Session updated successfully");
+            alert("Session Updated Successfully!");
+          } else {
+            console.log("Error");
+          }
+        });
       setShowEditModal(false);
     } catch (error) {
       console.error("Error updating session:", error);
@@ -487,6 +510,37 @@ const SessionListPri = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>
             Close
+          </Button>
+          {/* <Button
+            variant="danger"
+            onClick={() => handleDelete(selectedSession.id)}
+          >
+            Delete
+          </Button> */}
+        </Modal.Footer>
+      </Modal>
+
+      {/* Confirmation Modal */}
+      <Modal
+        show={showConfirmation}
+        onHide={cancelDelete}
+        centered
+        className="custom-modal"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={confirmDelete}>
+            Yes
+          </Button>
+          <Button variant="secondary" onClick={cancelDelete}>
+            No
           </Button>
         </Modal.Footer>
       </Modal>

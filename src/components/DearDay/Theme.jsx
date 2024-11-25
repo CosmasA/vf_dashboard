@@ -153,7 +153,7 @@ const Theme = () => {
                 Home
               </Link>
             </li>
-            <li className="active">Dashboard</li>
+            <li className="active">DEAR_Day</li>
           </ol>
         </nav>
       </section>
@@ -166,7 +166,7 @@ const Theme = () => {
         }}
       ></hr>
       <div className="head">
-        <Link to={"/viewThemes"}>
+        <Link to={"/dearday"}>
           <FaListUl className="icon" />
           View Themes
         </Link>
