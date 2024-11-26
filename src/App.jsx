@@ -17,6 +17,7 @@ import SessionListSec from "./components/Sessions/SessionListSec";
 import SubThemes from "./components/DearDay/SubThemes";
 import Chapters from "./components/DearDay/Chapters";
 import Activitylist from "./components/Activities/Activitylist";
+import Admins from "./components/Admins";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route index element={<Content />} />
             <Route path="/vf_dashboard/" element={<Content />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/admins" element={<Admins />} />
             <Route path="/primary" element={<Primary />} />
             <Route
               path="/viewSessionsPri/:topicId"

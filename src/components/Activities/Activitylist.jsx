@@ -27,15 +27,6 @@ const Activitylist = () => {
   const [videoTitle, setVideoTitle] = useState("");
   const [video, setVideo] = useState(null);
   const [realvideo, setRealvideo] = useState("");
-  const [newActivity, setNewActivity] = useState({
-    title: "",
-    mediaType: "text", // default to text
-    duration: "",
-    teacherActivity: "",
-    studentActivity: "",
-    learningOutcome: "",
-    videoUrl: "", // Only used for video activities
-  });
   const [showEditActivityModal, setShowEditActivityModal] = useState(false);
   const [editingActivity, setEditingActivity] = useState(null);
   const [editActivityTitle, setEditActivityTitle] = useState("");
@@ -48,6 +39,15 @@ const Activitylist = () => {
   const [editRealvideo, setEditRealvideo] = useState("");
   const [activityId, setActivityId] = useState(null);
   const navigate = useNavigate();
+  const [newActivity, setNewActivity] = useState({
+    title: "",
+    mediaType: "text",
+    duration: "",
+    teacherActivity: "",
+    studentActivity: "",
+    learningOutcome: "",
+    videoUrl: "",
+  });
 
   const maxLength = 10;
 

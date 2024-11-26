@@ -10,7 +10,7 @@
 
 html,
 body {
-  background: linear-gradient(to bottom, #c9e5f3, #f9f9f9);
+  background: linear-gradient(175deg, #008cff29, #5b5c1229), #fffffff5;
   padding: 5px;
   color: #526d82;
   height: 100%;
@@ -558,7 +558,7 @@ body {
 }
 
 .menu-list .item {
-  padding: 10px 24px;
+  padding: 10px 30px;
   transition: all 0.3s ease;
   margin: 5px auto;
   border-radius: 6px;
@@ -567,7 +567,7 @@ body {
 }
 .icon {
   margin-right: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .menu-list .item:hover {
   background: #f7f7f7;
@@ -580,7 +580,7 @@ body {
 
 .menu-list .item.active {
   background-color: #fff;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .menu-list .item.active .icon {
@@ -597,12 +597,12 @@ body {
   justify-content: center;
   align-items: center;
   margin: 5px auto;
-  padding: 10px 10px 12px 18px;
   transition: all 0.5s ease;
 }
 
 .menu-list .item.toggled .icon {
-  font-size: 1.3rem;
+  font-size: 1rem;
+  padding: 10px 10px 12px 18px;
 }
 
 .menu-list .item.toggled .label {

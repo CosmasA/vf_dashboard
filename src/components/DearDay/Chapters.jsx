@@ -219,7 +219,7 @@ const Chapters = () => {
           className="pdf-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>PDF Viewer</Modal.Title>
+            <Modal.Title>Article Content</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ height: "80vh", overflow: "auto" }}>
             <Document
