@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { FaPlus, FaListUl, FaHome, FaTrash, FaEdit } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTimesCircle,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import axios, { CancelToken } from "axios";
+import { Table, Button, Modal, Form, ProgressBar } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
@@ -16,6 +21,11 @@ const Activitylist = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const cancelUpload = useRef(null);
+  const [uploadDone, setUploadDone] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+  const [clicked, setClicked] = useState(false);
   const [activityDetails, setActivityDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
@@ -29,25 +39,11 @@ const Activitylist = () => {
   const [realvideo, setRealvideo] = useState("");
   const [showEditActivityModal, setShowEditActivityModal] = useState(false);
   const [editingActivity, setEditingActivity] = useState(null);
-  const [editActivityTitle, setEditActivityTitle] = useState("");
-  const [editVideoTitle, setEditVideoTitle] = useState("");
-  const [editSelectedTime, setEditSelectedTime] = useState("");
-  const [editTeachersActivity, setEditTeachersActivity] = useState("");
-  const [editStudentsActivity, setEditStudentsActivity] = useState("");
-  const [editNotes, setEditNotes] = useState("");
+  const [isNewVideoSelected, setIsNewVideoSelected] = useState(false);
   const [editVideo, setEditVideo] = useState(null);
-  const [editRealvideo, setEditRealvideo] = useState("");
   const [activityId, setActivityId] = useState(null);
+  const [mediaType, setMediaType] = useState("");
   const navigate = useNavigate();
-  const [newActivity, setNewActivity] = useState({
-    title: "",
-    mediaType: "text",
-    duration: "",
-    teacherActivity: "",
-    studentActivity: "",
-    learningOutcome: "",
-    videoUrl: "",
-  });
 
   const maxLength = 10;
 
@@ -130,6 +126,7 @@ const Activitylist = () => {
   const handleDelete = async (id) => {
     setIdToDelete(id);
     setShowConfirmation(true);
+    console.log("Preparing to delete item with ID:", id);
   };
 
   const confirmDelete = async () => {
@@ -152,6 +149,7 @@ const Activitylist = () => {
     // If user cancels, hide the confirmation dialog and reset the ID to delete
     setShowConfirmation(false);
     setIdToDelete(null);
+    console.log("Delete canceled");
   };
 
   const handleCloseModal = () => {
@@ -161,11 +159,6 @@ const Activitylist = () => {
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
-
-  const handleUpdateActivity = (sessionId) => {
-    navigate(`/editSecActivity/${sessionId}`);
-    console.log("Add session for topic with code:", sessionId);
-  };
 
   const handleBack = () => {
     navigate(`/viewSessionsPri/${session.topic}`);
@@ -178,36 +171,49 @@ const Activitylist = () => {
   const handleAddActivitySubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("mediaType", mediaType);
+    formData.append("title", activityTitle);
+    formData.append("session", session.id);
+    formData.append("time", selectedTime);
+
+    if (mediaType === "video") {
+      formData.append("video", video); // Append the video file
+      formData.append("real_video", realvideo);
+      formData.append("video_title", videoTitle);
+    } else if (mediaType === "text") {
+      formData.append("teacherActivity", teachersActivity);
+      formData.append("studentActivity", studentsActivity);
+      formData.append("notes", notes);
+    }
+
     try {
-      let formData = new FormData();
-      formData.append("mediaType", mediaType);
-      formData.append("title", activityTitle);
-      formData.append("session", session.id);
-      formData.append("time", selectedTime);
-
-      if (mediaType === "text") {
-        formData.append("teacherActivity", teachersActivity);
-        formData.append("studentActivity", studentsActivity);
-        formData.append("notes", notes);
-      } else if (mediaType === "video") {
-        formData.append("video", video);
-        formData.append("real_video", realvideo);
-        formData.append("video_title", videoTitle);
-        formData.append("time", selectedTime);
-        formData.append("mediaType", "video");
-      }
-
-      // Make POST request to upload media
       const response = await axios.post(
         "http://161.97.81.168:8080/addActivity/",
-        formData
+        formData,
+        {
+          onUploadProgress: (data) => {
+            setPercentage(Math.round((100 * data.loaded) / data.total));
+          },
+          cancelToken: new CancelToken(
+            (cancel) => (cancelUpload.current = cancel)
+          ),
+        }
       );
-      console.log("Activity added successfully");
-      setShowAddActivityModal(false); // Close the modal after successful submission
-      fetchActivities(); // Re-fetch activities to show the newly added activity
+      console.log("Activity added successfully:", response.data);
+      setUploadDone(true);
+      setShowAddActivityModal(false); // Close modal
+      fetchActivities(); // Refresh activity list
     } catch (error) {
       console.error("Error adding activity:", error);
     }
+  };
+
+  const handleCancelUpload = () => {
+    setUploadProgress(0);
+    setVideo(null);
+    setUploadDone(false);
+    setClicked(true); // Change icon color
   };
 
   useEffect(() => {
@@ -218,14 +224,14 @@ const Activitylist = () => {
           console.log("Fetched activity data:", response.data);
           const activity = response.data;
           setEditingActivity(activity);
-          setEditActivityTitle(activity?.title || "");
-          setEditSelectedTime(activity?.time || "");
-          setEditTeachersActivity(activity?.teacherActivity || "");
-          setEditStudentsActivity(activity?.studentActivity || "");
-          setEditNotes(activity?.notes || "");
-          setEditVideoTitle(activity?.video_title || "");
+          setActivityTitle(activity?.title || "");
+          setSelectedTime(activity?.time || "");
+          setTeachersActivity(activity?.teacherActivity || "");
+          setStudentsActivity(activity?.studentActivity || "");
+          setNotes(activity?.notes || "");
+          setVideoTitle(activity?.video_title || "");
           setEditVideo(activity?.video || null);
-          setEditRealvideo(activity?.real_video || "");
+          setRealvideo(activity?.real_video || "");
         })
         .catch((error) => {
           console.error("Error fetching activity data:", error);
@@ -238,49 +244,65 @@ const Activitylist = () => {
     setShowEditActivityModal(true); // Open the modal
   };
 
+  const handleVideoChange = (e) => {
+    setVideo(e.target.files[0]);
+    setIsNewVideoSelected(true);
+  };
+
   const handleEditActivity = async (e) => {
-    e.preventDefault(); // Prevent form submission from reloading the page
+    e.preventDefault();
 
     // Create a FormData object to handle the data (useful for file uploads)
     const formData = new FormData();
-    formData.append("mediaType", editingActivity.mediaType);
-    formData.append("title", editActivityTitle);
-    formData.append("sessionName", session.sessionName); // Read-only field
-    formData.append("timeAllocation", editSelectedTime);
+    formData.append("mediaType", mediaType);
+    formData.append("title", activityTitle);
+    formData.append("session", session.id);
+    formData.append("time", selectedTime);
 
-    if (editingActivity.mediaType === "video") {
-      formData.append("videoTitle", editVideoTitle);
-      if (editVideo) {
-        formData.append("video", editVideo); // Only append if a new video file is selected
-      }
-      formData.append("videoType", editRealvideo);
-    } else if (editingActivity.mediaType === "text") {
-      formData.append("teacherActivity", editTeachersActivity);
-      formData.append("studentActivity", editStudentsActivity);
-      formData.append("notes", editNotes);
+    if (mediaType === "text") {
+      formData.append("teacherActivity", teachersActivity);
+      formData.append("studentActivity", studentsActivity);
+      formData.append("notes", notes);
+    } else if (mediaType === "video") {
+      formData.append("video", video); // Append the video file
+      formData.append("real_video", realvideo);
+      formData.append("video_title", videoTitle);
     }
+
+    console.log(session.id);
 
     try {
       const response = await axios.put(
-        `http://161.97.81.168:8080/updateActivity/${editingActivity.id}`, // Use the activity ID
+        `http://161.97.81.168:8080/updateActivity/${activityId}`, // Use the activity ID
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data", // Required for file uploads
+          onUploadProgress: (data) => {
+            setPercentage(Math.round((100 * data.loaded) / data.total));
           },
+          cancelToken: new CancelToken(
+            (cancel) => (cancelUpload.current = cancel)
+          ),
         }
       );
-
       if (response.status === 200) {
-        alert("Activity updated successfully!");
+        console.log("Activity updated successfully:", response.data);
+        setUploadDone(true);
         setShowEditActivityModal(false); // Close the modal
-        refreshActivities(); // Optional: Refresh activity list after editing
+        fetchActivities();
       } else {
         alert("Failed to update activity. Please try again.");
       }
     } catch (error) {
-      console.error("Error updating activity:", error);
-      alert("An error occurred while updating the activity. Please try again.");
+      if (error.response) {
+        // Log the response from the server to identify the specific error
+        console.error("Error response:", error.response.data);
+        alert(`Error: ${error.response.data.message || "An error occurred."}`);
+      } else {
+        console.error("Error:", error.message);
+        alert(
+          "An error occurred while updating the activity. Please try again."
+        );
+      }
     }
   };
 
@@ -346,7 +368,7 @@ const Activitylist = () => {
               <Table striped bordered hover className="table">
                 <thead>
                   <tr>
-                    <th>Chapter Title</th>
+                    <th>Activity Title</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -359,7 +381,7 @@ const Activitylist = () => {
                           style={{
                             background: "none",
                             border: "none",
-                            color: "#545353",
+                            color: "#526d82",
                             textDecoration: "none",
                             cursor: "pointer",
                           }}
@@ -388,6 +410,11 @@ const Activitylist = () => {
             )}
           </>
         )}
+        <div className="submit_container">
+          <Button variant="secondary" onClick={handleBack}>
+            Back
+          </Button>
+        </div>
       </div>
 
       {/* Add Activity Modal */}
@@ -402,26 +429,26 @@ const Activitylist = () => {
           <Modal.Title>Add New Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group controlId="formMediaType">
+          <Form.Group controlId="mediaType">
             <Form.Label>Media Type</Form.Label>
-            <Form.Control
-              as="select"
-              value={newActivity.mediaType}
-              onChange={(e) =>
-                setNewActivity({ ...newActivity, mediaType: e.target.value })
-              }
+            <Form.Select
+              value={mediaType}
+              onChange={(e) => setMediaType(e.target.value)}
               required
             >
+              <option value="" disabled>
+                Select Media Type
+              </option>
               <option value="text">Text</option>
               <option value="video">Video</option>
-            </Form.Control>
+            </Form.Select>
           </Form.Group>
 
           <Form onSubmit={handleAddActivitySubmit}>
-            {newActivity.mediaType === "video" && (
+            {mediaType === "text" && (
               <>
                 <Form.Group controlId="formTitle">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Activity Title</Form.Label>
                   <Form.Control
                     type="text"
                     value={activityTitle}
@@ -434,7 +461,83 @@ const Activitylist = () => {
                   <Form.Label>Session</Form.Label>
                   <Form.Control
                     type="text"
-                    value={session.sessionName}
+                    value={session.sessionName || ""}
+                    readOnly
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formDuration">
+                  <Form.Label>Duration</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={selectedTime}
+                    onChange={(e) => setSelectedTime(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Time
+                    </option>
+                    <option value="05">05 mins</option>
+                    <option value="10">10 mins</option>
+                    <option value="15">15 mins</option>
+                    <option value="20">20 mins</option>
+                    <option value="25">25 mins</option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="formTeacherActivity">
+                  <Form.Label>Teacher's Activity</Form.Label>
+                  <ReactQuill
+                    theme="snow"
+                    placeholder="Teacher's Activities"
+                    value={teachersActivity}
+                    onChange={setTeachersActivity}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formStudentActivity">
+                  <Form.Label>Learners' Activity</Form.Label>
+                  <ReactQuill
+                    theme="snow"
+                    placeholder="Learners' Activities"
+                    value={studentsActivity}
+                    onChange={setStudentsActivity}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formLearningOutcome">
+                  <Form.Label>Notes</Form.Label>
+                  <ReactQuill
+                    theme="snow"
+                    value={notes}
+                    onChange={setNotes}
+                    placeholder="Notes/Links/References"
+                    required
+                  />
+                </Form.Group>
+              </>
+            )}
+
+            {mediaType === "video" && (
+              <>
+                <Form.Group controlId="formTitle">
+                  <Form.Label>Activity Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={activityTitle}
+                    onChange={(e) => setActivityTitle(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="session">
+                  <Form.Label>Session</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={session.sessionName || ""}
                     readOnly
                     required
                   />
@@ -475,6 +578,7 @@ const Activitylist = () => {
                     type="file"
                     accept="video/*"
                     onChange={(e) => setVideo(e.target.files[0])}
+                    required
                   />
                 </Form.Group>
 
@@ -493,77 +597,37 @@ const Activitylist = () => {
                     <option value="placeholder">Placeholder</option>
                   </Form.Control>
                 </Form.Group>
-              </>
-            )}
-
-            {newActivity.mediaType === "text" && (
-              <>
-                <Form.Group controlId="formTitle">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={activityTitle}
-                    onChange={(e) => setActivityTitle(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="session">
-                  <Form.Label>Session</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={session.sessionName}
-                    readOnly
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="formDuration">
-                  <Form.Label>Duration</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={selectedTime}
-                    onChange={(e) => setSelectedTime(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select Time
-                    </option>
-                    <option value="05">05 mins</option>
-                    <option value="10">10 mins</option>
-                    <option value="15">15 mins</option>
-                    <option value="20">20 mins</option>
-                    <option value="25">25 mins</option>
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formTeacherActivity">
-                  <Form.Label>Teacher Activity</Form.Label>
-                  <ReactQuill
-                    theme="snow"
-                    placeholder="Teachers' Activities"
-                    value={teachersActivity}
-                    onChange={(value) => setTeachersActivity(value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="formStudentActivity">
-                  <Form.Label>Learners' Activity</Form.Label>
-                  <ReactQuill
-                    theme="snow"
-                    placeholder="Learners' Activities"
-                    value={studentsActivity}
-                    onChange={(value) => setStudentsActivity(value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="formLearningOutcome">
-                  <Form.Label>Notes</Form.Label>
-                  <ReactQuill
-                    theme="snow"
-                    value={notes}
-                    onChange={setNotes}
-                    placeholder="Notes/Links/References"
-                    required
-                  />
-                </Form.Group>
+                {/* Bootstrap Progress Bar */}
+                {video && (
+                  <div style={{ marginTop: "10px" }}>
+                    <ProgressBar
+                      animated
+                      now={uploadProgress}
+                      label={`${uploadProgress}%`}
+                      style={{ height: "20px" }}
+                      variant={uploadDone ? "success" : "primary"}
+                    />
+                    <div className="d-flex justify-content-between align-items-center mt-2">
+                      {uploadDone ? (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="tick-icon"
+                          style={{ color: "green", fontSize: "1.5rem" }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          onClick={handleCancelUpload}
+                          style={{
+                            cursor: "pointer",
+                            color: clicked ? "red" : "blue",
+                            fontSize: "1.5rem",
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
               </>
             )}
             <br />
@@ -590,7 +654,7 @@ const Activitylist = () => {
         <Modal.Body>
           {editingActivity && (
             <Form.Group controlId="formEditMediaType">
-              <Form.Label>Media Type</Form.Label>
+              <Form.Label>Activity Type</Form.Label>
               <Form.Control
                 as="select"
                 value={editingActivity.mediaType}
@@ -616,18 +680,8 @@ const Activitylist = () => {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={editActivityTitle || ""}
-                    onChange={(e) => setEditActivityTitle(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="editSession">
-                  <Form.Label>Session</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={session?.sessionName || ""}
-                    readOnly
+                    value={activityTitle}
+                    onChange={(e) => setActivityTitle(e.target.value)}
                     required
                   />
                 </Form.Group>
@@ -636,8 +690,8 @@ const Activitylist = () => {
                   <Form.Label>Time Allocation</Form.Label>
                   <Form.Control
                     as="select"
-                    value={editSelectedTime || ""}
-                    onChange={(e) => setEditSelectedTime(e.target.value)}
+                    value={selectedTime}
+                    onChange={(e) => setSelectedTime(e.target.value)}
                     required
                   >
                     <option value="" disabled>
@@ -655,8 +709,8 @@ const Activitylist = () => {
                   <Form.Label>Video Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={editVideoTitle || ""}
-                    onChange={(e) => setEditVideoTitle(e.target.value)}
+                    value={videoTitle}
+                    onChange={(e) => setVideoTitle(e.target.value)}
                     required
                   />
                 </Form.Group>
@@ -682,7 +736,7 @@ const Activitylist = () => {
                   <Form.Control
                     type="file"
                     accept="video/*"
-                    onChange={(e) => setEditVideo(e.target.files[0])}
+                    onChange={handleVideoChange}
                   />
                 </Form.Group>
 
@@ -690,8 +744,8 @@ const Activitylist = () => {
                   <Form.Label>Select Video Type</Form.Label>
                   <Form.Control
                     as="select"
-                    value={editRealvideo || ""}
-                    onChange={(e) => setEditRealvideo(e.target.value)}
+                    value={realvideo}
+                    onChange={(e) => setRealvideo(e.target.value)}
                     required
                   >
                     <option value="" disabled>
@@ -701,6 +755,38 @@ const Activitylist = () => {
                     <option value="placeholder">Placeholder</option>
                   </Form.Control>
                 </Form.Group>
+
+                {/* Bootstrap Progress Bar */}
+                {video && (
+                  <div style={{ marginTop: "10px" }}>
+                    <ProgressBar
+                      animated
+                      now={uploadProgress}
+                      label={`${uploadProgress}%`}
+                      style={{ height: "20px" }}
+                      variant={uploadDone ? "success" : "primary"}
+                    />
+                    <div className="d-flex justify-content-between align-items-center mt-2">
+                      {uploadDone ? (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="tick-icon"
+                          style={{ color: "green", fontSize: "1.5rem" }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          onClick={handleCancelUpload}
+                          style={{
+                            cursor: "pointer",
+                            color: clicked ? "red" : "blue",
+                            fontSize: "1.5rem",
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
               </>
             )}
 
@@ -710,26 +796,18 @@ const Activitylist = () => {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={editActivityTitle || ""}
-                    onChange={(e) => setEditActivityTitle(e.target.value)}
+                    value={activityTitle}
+                    onChange={(e) => setActivityTitle(e.target.value)}
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="editSession">
-                  <Form.Label>Session</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={session?.sessionName || ""}
-                    readOnly
-                    required
-                  />
-                </Form.Group>
+
                 <Form.Group controlId="formEditDuration">
                   <Form.Label>Duration</Form.Label>
                   <Form.Control
                     as="select"
-                    value={editSelectedTime || ""}
-                    onChange={(e) => setEditSelectedTime(e.target.value)}
+                    value={selectedTime}
+                    onChange={(e) => setSelectedTime(e.target.value)}
                     required
                   >
                     <option value="" disabled>
@@ -746,8 +824,8 @@ const Activitylist = () => {
                   <Form.Label>Teacher Activity</Form.Label>
                   <ReactQuill
                     theme="snow"
-                    value={editTeachersActivity || ""}
-                    onChange={(value) => setEditTeachersActivity(value)}
+                    value={teachersActivity}
+                    onChange={(value) => setTeachersActivity(value)}
                     placeholder="Teachers' Activities"
                     required
                   />
@@ -756,8 +834,8 @@ const Activitylist = () => {
                   <Form.Label>Learners' Activity</Form.Label>
                   <ReactQuill
                     theme="snow"
-                    value={editStudentsActivity || ""}
-                    onChange={(value) => setEditStudentsActivity(value)}
+                    value={studentsActivity}
+                    onChange={(value) => setStudentsActivity(value)}
                     placeholder="Learners' Activities"
                     required
                   />
@@ -766,8 +844,8 @@ const Activitylist = () => {
                   <Form.Label>Notes</Form.Label>
                   <ReactQuill
                     theme="snow"
-                    value={editNotes || ""}
-                    onChange={setEditNotes}
+                    value={notes}
+                    onChange={setNotes}
                     placeholder="Notes/Links/References"
                     required
                   />
@@ -798,7 +876,7 @@ const Activitylist = () => {
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Are you sure you want to delete?</p>
+          <p>Are you sure you want to delete this item?</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={confirmDelete}>
