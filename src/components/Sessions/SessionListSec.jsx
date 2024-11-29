@@ -44,11 +44,7 @@ const SessionListSec = () => {
   }, [topicId]);
 
   const handleActivityLists = (sessionId) => {
-    navigate(`/activity-list/${sessionId}`);
-  };
-
-  const handleEditSession = (sessionId) => {
-    navigate(`/editPriSession/${sessionId}`);
+    navigate(`/activitylists/${sessionId}`);
   };
 
   return (

@@ -167,7 +167,7 @@ const Secondary = () => {
                 Home
               </Link>
             </li>
-            <li className="active">Dashboard</li>
+            <li className="active">Secondary</li>
           </ol>
         </nav>
       </section>

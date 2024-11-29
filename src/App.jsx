@@ -17,6 +17,7 @@ import SessionListSec from "./components/Sessions/SessionListSec";
 import SubThemes from "./components/DearDay/SubThemes";
 import Chapters from "./components/DearDay/Chapters";
 import Activitylist from "./components/Activities/Activitylist";
+import ActivitylistSec from "./components/Activities/ActivitylistSec";
 import Admins from "./components/Admins";
 
 const App = () => {
@@ -42,6 +43,10 @@ const App = () => {
               element={<SessionListSec />}
             />
             <Route path="/activitylist/:sessionId" element={<Activitylist />} />
+            <Route
+              path="/activitylists/:sessionId"
+              element={<ActivitylistSec />}
+            />
             <Route path="/viewSubTheme/:theme_id" element={<SubThemes />} />
             <Route path="/viewChapters/:sub_theme_id" element={<Chapters />} />
             <Route path="/secondary" element={<Secondary />} />

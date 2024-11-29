@@ -11,7 +11,7 @@ import { Table, Button, Modal, Form, ProgressBar } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
-const Activitylist = () => {
+const ActivitylistSec = () => {
   const [activities, setActivities] = useState([]);
   const [sessionName, setSessionName] = useState("");
   const [topicName, setTopicName] = useState("");
@@ -161,7 +161,7 @@ const Activitylist = () => {
   const handleShow = () => setShowModal(true);
 
   const handleBack = () => {
-    navigate(`/viewSessionsPri/${session.topic}`);
+    navigate(`/viewSessionsSec/${session.topic}`);
   };
 
   const handleAddActivity = () => {
@@ -312,11 +312,11 @@ const Activitylist = () => {
             </li>
             {topicItem && (
               <li>
-                <Link to="/primary">{topicItem.topicName}</Link>
+                <Link to="/secondary">{topicItem.topicName}</Link>
               </li>
             )}
             <li>
-              <Link to={`/viewSessionsPri/${session.topic}`}>
+              <Link to={`/viewSessionsSec/${session.topic}`}>
                 {sessionName.substring(0, maxLength)}
               </Link>
             </li>
@@ -326,7 +326,7 @@ const Activitylist = () => {
       </section>
       <hr style={{ width: "100%", color: "#337ab7" }} />
       <div className="head">
-        <Link to={`/viewSessionsPri/${session.topic}`}>
+        <Link to={`/viewSessionsSec/${session.topic}`}>
           <FaListUl className="icon" />
           View Sessions
         </Link>{" "}
@@ -971,4 +971,4 @@ const Activitylist = () => {
   );
 };
 
-export default Activitylist;
+export default ActivitylistSec;
