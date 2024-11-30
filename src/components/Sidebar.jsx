@@ -7,13 +7,12 @@ import {
   FaSchool,
   FaUserTie,
   FaUser,
-  FaColumns, // Layouting icon
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../Assets/fundi_logo.png";
 import toggle from "../Assets/toggle.png";
-import "../styles/sidebar.css";
 import Footer from "./Footer";
+import { Tooltip, OverlayTrigger } from "react-bootstrap"; // Import from react-bootstrap
 
 const Sidebar = () => {
   const location = useLocation();
@@ -51,23 +50,28 @@ const Sidebar = () => {
           </div>
         )}
         <div className="toggle-button" onClick={toggleSidebar}>
-          <img className="toggle-icon" src={toggle} alt="toggle_button" />{" "}
+          <img className="toggle-icon" src={toggle} alt="toggle_button" />
         </div>
       </div>
 
       {/* Menu Items */}
       <div className="menu-list">
         {menuItems.map((item, index) => (
-          <Link
-            to={item.path}
+          <OverlayTrigger
             key={index}
-            className={`item ${isSidebarOpen ? "" : "toggled"} ${
-              location.pathname === item.path ? "active" : ""
-            }`}
+            placement="right" // Tooltip position
+            overlay={<Tooltip id={`tooltip-${index}`}>{item.label}</Tooltip>}
           >
-            <span className="icon">{item.icon}</span>
-            {isSidebarOpen && <span className="label">{item.label}</span>}
-          </Link>
+            <Link
+              to={item.path}
+              className={`item ${isSidebarOpen ? "" : "toggled"} ${
+                location.pathname === item.path ? "active" : ""
+              }`}
+            >
+              <span className="icon">{item.icon}</span>
+              {isSidebarOpen && <span className="label">{item.label}</span>}
+            </Link>
+          </OverlayTrigger>
         ))}
       </div>
 

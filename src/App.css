@@ -38,7 +38,7 @@ body {
 }
 
 .dashboard-content {
-  background: #fdfdfd;
+  background: #f8f8f8;
   flex: 1;
   border-radius: 0.5rem;
   display: flex;
@@ -57,7 +57,7 @@ body {
 /* Table styling */
 .table-container {
   width: 100%;
-  height: 74vh;
+  height: 70vh;
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -160,9 +160,8 @@ body {
 }
 
 .team-container {
-  padding: 10px;
   width: 100%;
-  height: 85vh;
+  height: 82vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -177,7 +176,7 @@ body {
   width: 100%;
   justify-content: space-between;
   padding: 20px 10px;
-  height: 3rem;
+  height: 4rem;
   position: relative;
 }
 .content-header h3 {
@@ -222,52 +221,74 @@ body {
 
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.2rem;
   padding: 1rem;
 }
+
 .card {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #e8e4e4;
   border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.06);
   padding: 1rem;
   text-align: center;
-  transition: 0.5s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-.card-cover {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  color: #526d82;
-  align-items: center;
-  font-size: x-large;
-  margin-bottom: 0.5rem;
-}
-.card-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  padding-top: 10px;
-  color: #526d82;
-  gap: 1rem;
-}
-/* In your CSS file */
-.card a {
-  text-decoration: none;
-  color: #526d82;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2), 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card a:hover {
+.card-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-cover {
+  font-size: 2rem; /* Icon size */
+  color: #526d82;
+  margin-bottom: 0.5rem;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #526d82;
+  margin: 0;
+}
+
+.card-stat {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #526d82;
+  margin: 0.5rem 0;
+}
+
+.card-link {
+  font-size: 1rem;
   color: #526d82;
   text-decoration: underline;
 }
+
+.card-link:hover {
+  color: #0a7cc9;
+}
+@media (min-width: 820px) {
+  .card-container {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(400px, 1fr)
+    ); /* Allow wider cards */
+  }
+
+  .card {
+    padding: 1rem; /* Add more padding for larger screens */
+  }
+}
+
 .user-image {
   width: 40px;
   height: 40px;
@@ -467,7 +488,7 @@ body {
 .head {
   width: 100%;
   height: 3rem;
-  background-color: inherit;
+  background-color: #ffffff;
   display: flex;
   justify-content: flex-start;
   gap: 8px;
@@ -610,6 +631,15 @@ body {
   display: none;
 }
 
+.tooltip-inner {
+  background-color: #526d82;
+  color: #fff;
+  font-size: 16px;
+}
+.tooltip-arrow {
+  display: none !important;
+}
+
 .footer-container {
   margin-top: auto;
   display: flex;
@@ -670,6 +700,43 @@ body {
   margin-top: 8px;
 }
 
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.chart-content {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.chart-item-bar,
+.chart-item-doughnut {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  height: 500px;
+  color: #526d82;
+}
+
+.chart-item-line {
+  width: 100%; /* Wider line chart */
+  /* max-width: 1200px; */
+  /* height: 500px;  */
+  color: #526d82;
+}
+
+.no-border {
+  border-bottom: none !important;
+  background: none !important;
+  color: #526d82;
+}
+
 /* Media queries */
 
 @media (max-width: 820px) {
@@ -681,7 +748,24 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
   .card-container {
-    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+  }
+
+  .card-stat {
+    font-size: 1.5rem;
+  }
+
+  .card-link {
+    font-size: 0.9rem;
   }
 
   .list-item.avatar {
@@ -932,6 +1016,7 @@ body {
     overflow-y: auto;
     overflow-y: auto;
   }
+
   .footer-cover {
     display: flex;
     font-size: 0.5rem;

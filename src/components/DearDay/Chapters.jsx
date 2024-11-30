@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaListUl, FaHome, FaTrash, FaEdit } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Table, Button, Modal } from "react-bootstrap";
+import { Table, Button, Modal, Form } from "react-bootstrap";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 
@@ -11,6 +11,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/2
 
 const Chapters = () => {
   const [articles, setArticles] = useState([]);
+  const [articleTitle, setArticleTitle] = useState("");
+  const [article, setArticle] = useState(null);
   const [subthemeName, setSubthemeName] = useState("");
   const [themeName, setThemeName] = useState("");
   const [subthemes, setSubthemes] = useState([]);
@@ -21,6 +23,18 @@ const Chapters = () => {
   const navigate = useNavigate();
   const [pdfUrl, setPdfUrl] = useState("");
   const [numPages, setNumPages] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [currentArticleId, setCurrentArticleId] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const handleShowAddModal = () => setShowAddModal(true);
+  const handleCloseAddModal = () => setShowAddModal(false);
+
+  const openAddModal = () => {
+    setArticleTitle("");
+    setArticle(null);
+    setShowAddModal(true);
+  };
 
   const fetchChapters = async () => {
     try {
@@ -56,6 +70,27 @@ const Chapters = () => {
     fetchChapters();
   }, [sub_theme_id]);
 
+  const handleAddChapter = async (e) => {
+    e.preventDefault();
+
+    try {
+      let formData = new FormData();
+      formData.append("title", articleTitle);
+      formData.append("sub_theme", subthemes.id);
+      formData.append("article", article);
+      // Make POST request to upload media
+      const response = await axios.post(
+        "http://161.97.81.168:8080/addChapter/",
+        formData
+      );
+      setShowAddModal(false);
+      fetchChapters();
+      console.log("Media uploaded successfully:", response.data);
+    } catch (error) {
+      console.error("Error uploading media:", error);
+    }
+  };
+
   const handleDelete = (id) => {
     setIdToDelete(id);
     setShowConfirmation(true);
@@ -82,9 +117,84 @@ const Chapters = () => {
     console.log("Delete canceled");
   };
 
-  const handleUpdateChapter = (sub_theme_id) => {
-    console.log("Navigating to edit article with ID:", sub_theme_id);
-    navigate(`/editArticle/${sub_theme_id}`);
+  const handleEditClick = (id) => {
+    setCurrentArticleId(id);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => setShowEditModal(false);
+
+  useEffect(() => {
+    const fetchChapter = async () => {
+      if (!currentArticleId) {
+        // console.error("No article ID set for editing.");
+        return;
+      }
+
+      console.log("Fetching chapter details for ID:", currentArticleId);
+
+      try {
+        const response = await axios.get(
+          `http://161.97.81.168:8080/getChapter/${currentArticleId}`
+        );
+        const chapter = response.data;
+        console.log("Fetched Article:", chapter);
+        setArticleTitle(chapter.title || "");
+        setArticle(null); // Reset article file input
+      } catch (error) {
+        if (error.response) {
+          console.error("Error Response Data:", error.response.data);
+          console.error("Error Response Status:", error.response.status);
+        } else if (error.request) {
+          console.error("Error Request:", error.request);
+        } else {
+          console.error("Error Message:", error.message);
+        }
+      }
+    };
+
+    fetchChapter();
+  }, [currentArticleId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!currentArticleId) {
+      console.error("No article ID specified for update.");
+      return;
+    }
+
+    try {
+      let formData = new FormData();
+      formData.append("title", articleTitle);
+
+      // Check if a file is selected before appending
+      if (article) {
+        formData.append("article", article);
+      }
+
+      const res = await axios.put(
+        `http://161.97.81.168:8080/updateChapter/${currentArticleId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      alert("Chapter Updated Successfully!");
+      setShowEditModal(false);
+      fetchChapters();
+    } catch (error) {
+      if (error.response) {
+        console.error("Error Response Data:", error.response.data);
+        console.error("Error Response Status:", error.response.status);
+      } else if (error.request) {
+        console.error("Error Request:", error.request);
+      } else {
+        console.error("Error Message:", error.message);
+      }
+    }
   };
 
   const handleBack = () => {
@@ -133,8 +243,8 @@ const Chapters = () => {
           <FaListUl className="icon" /> View Sub-Themes
         </Link>{" "}
         |
-        <Link to={`/addArticle/${sub_theme_id}`}>
-          <FaPlus className="icon" /> Add Article
+        <Link onClick={openAddModal}>
+          <FaPlus className="icon" /> Add Chapter
         </Link>
       </div>
       <div className="table-container">
@@ -183,7 +293,7 @@ const Chapters = () => {
                       <td className="topic-code">
                         <Button
                           className="btn warning"
-                          onClick={() => handleUpdateChapter(activity.id)}
+                          onClick={() => handleEditClick(activity.id)}
                         >
                           <FaEdit />
                         </Button>
@@ -263,6 +373,91 @@ const Chapters = () => {
             No
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      {/* Modal for Adding a new chapter */}
+      <Modal
+        show={showAddModal}
+        onHide={handleCloseAddModal}
+        className="custom-modal"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Chapter</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleAddChapter}>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Article Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={articleTitle}
+                onChange={(e) => setArticleTitle(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Sub-Theme</Form.Label>
+              <Form.Control type="text" value={subthemes.title} readOnly />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>File</Form.Label>
+              <Form.Control
+                type="file"
+                accept=".pdf, image/*"
+                onChange={(e) => setArticle(e.target.files[0])}
+              />
+            </Form.Group>
+          </Modal.Body>
+
+          <Button variant="success" type="submit">
+            Add Chapter
+          </Button>
+        </Form>
+      </Modal>
+
+      {/* Modal for Editing a chapter */}
+      <Modal
+        show={showEditModal}
+        onHide={handleCloseEditModal}
+        className="custom-modal"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Article</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="articleTitle">
+              <Form.Label>Article Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={articleTitle}
+                onChange={(e) => setArticleTitle(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="articleFile" className="mt-3">
+              <Form.Label>Upload File</Form.Label>
+              <Form.Control
+                type="file"
+                accept=".pdf, image/*"
+                onChange={(e) => setArticle(e.target.files[0])}
+              />
+            </Form.Group>
+
+            <div className="d-flex justify-content-end mt-4">
+              <Button type="submit" variant="success">
+                Update
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
       </Modal>
     </div>
   );

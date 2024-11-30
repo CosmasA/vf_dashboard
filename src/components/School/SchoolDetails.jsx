@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Modal, Button } from "react-bootstrap"; // Import Modal and Button from React-Bootstrap
+import { Table, Modal, Button, Card } from "react-bootstrap"; // Import Modal and Button from React-Bootstrap
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -195,39 +195,46 @@ const SchoolDetails = () => {
         </Link>
       </div>
       <div className="table-container">
-        <Table striped bordered hover className="table">
-          <thead>
-            <tr>
-              <th>School Name</th>
-              <th>Region</th>
-              <th>Level</th>
-              <th>Username</th>
-              <th>Password</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedSchoolData.map((school, index) => (
-              <tr key={index}>
-                <td>
-                  <button
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "inherit",
-                    }}
-                    onClick={() => handleSchoolClick(school)}
-                  >
-                    {school.schoolName}
-                  </button>
-                </td>
-                <td>{school.region}</td>
-                <td>{school.level}</td>
-                <td>{school.username}</td>
-                <td>{school.password}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Card>
+          <Card.Header as="h4" className="card-header no-border">
+            Schools Information
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover className="table">
+              <thead>
+                <tr>
+                  <th>School Name</th>
+                  <th>Region</th>
+                  <th>Level</th>
+                  <th>Username</th>
+                  <th>Password</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedSchoolData.map((school, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Button
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "inherit",
+                        }}
+                        onClick={() => handleSchoolClick(school)}
+                      >
+                        {school.schoolName}
+                      </Button>
+                    </td>
+                    <td>{school.region}</td>
+                    <td>{school.level}</td>
+                    <td>{school.username}</td>
+                    <td>{school.password}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
       </div>
 
       {/* Modal for displaying school details */}

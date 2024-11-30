@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FaCog, FaBook, FaCalendarAlt, FaSchool } from "react-icons/fa";
+import {
+  FaCog,
+  FaBook,
+  FaCalendarAlt,
+  FaSchool,
+  FaUser,
+  FaFileAlt,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -55,14 +62,9 @@ const Card = () => {
           </div>
           <h3>Total Topics</h3>
         </div>
-        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
-          {topic.length}
-        </p>
+        <p className="card-stat">{topic.length}</p>
         <p>
-          <Link
-            to="/topics-modal"
-            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
-          >
+          <Link to="/topics-modal" className="card-link">
             View Details
           </Link>
         </p>
@@ -76,14 +78,9 @@ const Card = () => {
           </div>
           <h3>DEAR DAY Themes</h3>
         </div>
-        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
-          {theme.length}
-        </p>
+        <p className="card-stat">{theme.length}</p>
         <p>
-          <Link
-            to="/themeslist"
-            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
-          >
+          <Link to="/themeslist" className="card-link">
             View Details
           </Link>
         </p>
@@ -97,18 +94,15 @@ const Card = () => {
           </div>
           <h3>Current Term</h3>
         </div>
-        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
-          {currentTerm}
-        </p>
+        <p className="card-stat">{currentTerm}</p>
         <p>
-          <Link
-            to="#"
-            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
-          >
+          <Link to="#" className="card-link">
             View Details
           </Link>
         </p>
       </div>
+
+      {/* Card for Schools Enrolled */}
       <div className="card">
         <div className="card-title">
           <div className="card-cover">
@@ -116,14 +110,41 @@ const Card = () => {
           </div>
           <h3>Schools Enrolled</h3>
         </div>
-        <p style={{ fontSize: "24px", fontWeight: "bold", color: "#526d82" }}>
-          51
-        </p>
+        <p className="card-stat">51</p>
         <p>
-          <Link
-            to="#"
-            className="text-blue-500 underline focus:outline-none hover:text-blue-700"
-          >
+          <Link to="/schools" className="card-link">
+            View Details
+          </Link>
+        </p>
+      </div>
+
+      {/* Card for Teachers */}
+      <div className="card">
+        <div className="card-title">
+          <div className="card-cover">
+            <FaUser />
+          </div>
+          <h3>Teachers</h3>
+        </div>
+        <p className="card-stat">21</p>
+        <p>
+          <Link to="/teachers" className="card-link">
+            View Details
+          </Link>
+        </p>
+      </div>
+
+      {/* Card for VirtualFundi Reports */}
+      <div className="card">
+        <div className="card-title">
+          <div className="card-cover">
+            <FaFileAlt />
+          </div>
+          <h3>Reports</h3>
+        </div>
+        <p className="card-stat">02</p>
+        <p>
+          <Link to="#" className="card-link">
             View Details
           </Link>
         </p>

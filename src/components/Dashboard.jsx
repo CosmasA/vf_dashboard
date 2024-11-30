@@ -3,6 +3,7 @@ import { FaUserCircle, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Team from "./Team";
 import Card from "./Card";
+import Tabletscharts from "./Charts/Tabletscharts";
 
 const Dashboard = () => {
   return (
@@ -31,6 +32,7 @@ const Dashboard = () => {
       ></hr> */}
       <div className="team-container">
         <Card />
+        <Tabletscharts />
         <Team />
       </div>
     </div>

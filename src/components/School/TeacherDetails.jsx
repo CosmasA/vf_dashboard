@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Modal, Button, Form } from "react-bootstrap";
+import { Table, Modal, Button, Form, Card } from "react-bootstrap";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -278,39 +278,46 @@ const TeacherDetails = () => {
       </div>
 
       <div className="table-container">
-        <Table striped bordered hover className="table">
-          <thead>
-            <tr>
-              <th>S/No</th>
-              <th>Teacher Name</th>
-              <th>School Name</th>
-              <th>Contact Number</th>
-              <th>Class Taught</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedTeachersData.map((teacher, index) => (
-              <tr key={teacher.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <span
-                    onClick={() => handleShowModal(teacher)}
-                    style={{
-                      color: "inherit",
-                      cursor: "pointer",
-                      textDecoration: "none",
-                    }}
-                  >
-                    {teacher.teacherName}
-                  </span>
-                </td>
-                <td>{teacher.schoolName}</td>
-                <td>{teacher.contactNumber}</td>
-                <td>{teacher.classTaught}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Card>
+          <Card.Header as="h4" className="card-header no-border">
+            Teachers Information
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover className="table">
+              <thead>
+                <tr>
+                  <th>S/No</th>
+                  <th>Teacher Name</th>
+                  <th>School Name</th>
+                  <th>Contact Number</th>
+                  <th>Class Taught</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedTeachersData.map((teacher, index) => (
+                  <tr key={teacher.id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <span
+                        onClick={() => handleShowModal(teacher)}
+                        style={{
+                          color: "inherit",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        {teacher.teacherName}
+                      </span>
+                    </td>
+                    <td>{teacher.schoolName}</td>
+                    <td>{teacher.contactNumber}</td>
+                    <td>{teacher.classTaught}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
       </div>
 
       {/* Modal for displaying and editing teacher details */}

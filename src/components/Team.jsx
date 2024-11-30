@@ -83,29 +83,35 @@ const Team = () => {
   ];
 
   return (
-    <div className="team-list">
-      <div className="team-header">
-        <h2 style={{ color: "#526d82" }}>VirtualFundi Team</h2>
-      </div>
-      <div className="list-container">
-        <div className="list-header">
-          <div className="list-item id">ID</div>
-          <div className="list-item avatar">Photo</div>
-          <div className="list-item">Name</div>
-          <div className="list-item">Post</div>
-          <div className="list-item">Department</div>
+    <div className="container mt-4">
+      <div className="card">
+        <div className="card-header no-border">
+          <h4 style={{ color: "#526d82", margin: 0 }}>VirtualFundi Team</h4>
         </div>
-        {team.map((member) => (
-          <div className="list-row" key={member.id}>
-            <div className="list-item id">{member.id}</div>
-            <div className="list-item avatar">
-              <img src={member.Image} alt="User" className="user-image" />
+        <div className="card-body">
+          <div className="team-list">
+            <div className="list-container">
+              <div className="list-header">
+                <div className="list-item id">ID</div>
+                <div className="list-item avatar">Photo</div>
+                <div className="list-item">Name</div>
+                <div className="list-item">Post</div>
+                <div className="list-item">Department</div>
+              </div>
+              {team.map((member) => (
+                <div className="list-row" key={member.id}>
+                  <div className="list-item id">{member.id}</div>
+                  <div className="list-item avatar">
+                    <img src={member.Image} alt="User" className="user-image" />
+                  </div>
+                  <div className="list-item">{member.name}</div>
+                  <div className="list-item">{member.post}</div>
+                  <div className="list-item">{member.department}</div>
+                </div>
+              ))}
             </div>
-            <div className="list-item">{member.name}</div>
-            <div className="list-item">{member.post}</div>
-            <div className="list-item">{member.department}</div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
