@@ -191,7 +191,7 @@ const Primary = () => {
         </Link>
       </div>
       <div className="table-container">
-        <Table striped bordered hover className="table">
+        <Table striped bordered hover className="table" responsive="sm">
           <thead>
             <tr>
               <th className="topic-code">Topic Code</th>

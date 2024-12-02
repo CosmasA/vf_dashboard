@@ -1,5 +1,6 @@
 import React from "react";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
+import TabletTracker from "./TabletTracker";
 import {
   Chart as ChartJS,
   BarElement,
@@ -205,7 +206,7 @@ const Tabletscharts = () => {
               </h4>
             </div>
             <div className="card-body">
-              <div style={{ height: "400px" }}>
+              <div style={{ height: "400px", padding: "5px 10px" }}>
                 <Bar data={barData} options={barOptions} />
               </div>
             </div>
@@ -226,6 +227,8 @@ const Tabletscharts = () => {
           </div>
         </div>
       </div>
+
+      <TabletTracker />
 
       <div className="row">
         <div className="col-12">

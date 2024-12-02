@@ -53,101 +53,117 @@ const Card = () => {
   }, []);
 
   return (
-    <div className="card-container">
-      {/* Card for Total Topics */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaCog />
+    <div className="container mt-4">
+      <div className="row mb-4">
+        {/* Card for Total Topics */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaCog />
+              </div>
+              <h3>Total Topics</h3>
+            </div>
+            <p className="card-stat">{topic.length}</p>
+            <p>
+              <Link to="/topics-modal" className="card-link">
+                View Details
+              </Link>
+            </p>
           </div>
-          <h3>Total Topics</h3>
         </div>
-        <p className="card-stat">{topic.length}</p>
-        <p>
-          <Link to="/topics-modal" className="card-link">
-            View Details
-          </Link>
-        </p>
+
+        {/* Card for DEAR DAY Themes */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaBook />
+              </div>
+              <h3>DEAR Day </h3>
+            </div>
+            <p className="card-stat">{theme.length}</p>
+            <p>
+              <Link to="/themeslist" className="card-link">
+                View Details
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Card for Current Term */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaCalendarAlt />
+              </div>
+              <h3>Current Term</h3>
+            </div>
+            <p className="card-stat">{currentTerm}</p>
+            <p>
+              <Link to="#" className="card-link">
+                View Details
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Card for DEAR DAY Themes */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaBook />
+      <div className="row mb-4">
+        {/* Card for Schools Enrolled */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaSchool />
+              </div>
+              <h3>Schools Enrolled</h3>
+            </div>
+            <p className="card-stat">51</p>
+            <p>
+              <Link to="/schools" className="card-link">
+                View Details
+              </Link>
+            </p>
           </div>
-          <h3>DEAR DAY Themes</h3>
         </div>
-        <p className="card-stat">{theme.length}</p>
-        <p>
-          <Link to="/themeslist" className="card-link">
-            View Details
-          </Link>
-        </p>
-      </div>
 
-      {/* Card for Current Term */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaCalendarAlt />
+        {/* Card for Teachers */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaUser />
+              </div>
+              <h3>Teachers</h3>
+            </div>
+            <p className="card-stat">21</p>
+            <p>
+              <Link to="/teachers" className="card-link">
+                View Details
+              </Link>
+            </p>
           </div>
-          <h3>Current Term</h3>
         </div>
-        <p className="card-stat">{currentTerm}</p>
-        <p>
-          <Link to="#" className="card-link">
-            View Details
-          </Link>
-        </p>
-      </div>
 
-      {/* Card for Schools Enrolled */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaSchool />
+        {/* Card for VirtualFundi Reports */}
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-title">
+              <div className="card-cover">
+                <FaFileAlt />
+              </div>
+              <h3>Reports</h3>
+            </div>
+            <p className="card-stat">02</p>
+            <p>
+              <Link to="#" className="card-link">
+                View Details
+              </Link>
+            </p>
           </div>
-          <h3>Schools Enrolled</h3>
         </div>
-        <p className="card-stat">51</p>
-        <p>
-          <Link to="/schools" className="card-link">
-            View Details
-          </Link>
-        </p>
-      </div>
-
-      {/* Card for Teachers */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaUser />
-          </div>
-          <h3>Teachers</h3>
-        </div>
-        <p className="card-stat">21</p>
-        <p>
-          <Link to="/teachers" className="card-link">
-            View Details
-          </Link>
-        </p>
-      </div>
-
-      {/* Card for VirtualFundi Reports */}
-      <div className="card">
-        <div className="card-title">
-          <div className="card-cover">
-            <FaFileAlt />
-          </div>
-          <h3>Reports</h3>
-        </div>
-        <p className="card-stat">02</p>
-        <p>
-          <Link to="#" className="card-link">
-            View Details
-          </Link>
-        </p>
       </div>
     </div>
   );

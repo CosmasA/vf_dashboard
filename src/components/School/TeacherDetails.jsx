@@ -283,7 +283,7 @@ const TeacherDetails = () => {
             Teachers Information
           </Card.Header>
           <Card.Body>
-            <Table striped bordered hover className="table">
+            <Table striped bordered hover className="table" responsive="sm">
               <thead>
                 <tr>
                   <th>S/No</th>
