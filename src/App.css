@@ -44,7 +44,6 @@ body {
   display: flex;
   flex-direction: column;
   opacity: 1;
-  /* transition: opacity 3s ease-in-out; */
   height: 97vh;
   width: 85%;
 }
@@ -755,6 +754,41 @@ body {
   line-height: 20px;
   position: absolute;
   right: 10px;
+}
+
+/* Scroll to top arrow */
+.scroll-to-top {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffce56;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0.8;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.scroll-to-top.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.scroll-to-top:hover {
+  background-color: #f5a623;
+  transform: scale(1.1);
+}
+
+.scroll-to-top svg {
+  font-size: 1.5rem;
 }
 
 /* Media queries */

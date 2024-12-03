@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FaArrowUp } from "react-icons/fa";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import routing components
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
-import Content from "./components/Content";
+import Dashboard from "./components/Dashboard";
 import Primary from "./components/Topics/Primary";
 import Secondary from "./components/Topics/Secondary";
 import Theme from "./components/DearDay/Theme";
@@ -29,8 +30,8 @@ const App = () => {
         {/* Dashboard Content */}
         <div className="dashboard-content">
           <Routes>
-            <Route index element={<Content />} />
-            <Route path="/vf_dashboard/" element={<Content />} />
+            <Route index element={<Dashboard />} />
+            <Route path="/vf_dashboard/" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admins" element={<Admins />} />
             <Route path="/primary" element={<Primary />} />

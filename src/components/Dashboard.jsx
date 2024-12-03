@@ -1,11 +1,13 @@
 import React from "react";
-import { FaUserCircle, FaHome } from "react-icons/fa";
+import { FaUserCircle, FaHome, FaArrowUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Team from "./Team";
 import Card from "./Card";
 import Tabletscharts from "./Charts/Tabletscharts";
 
 const Dashboard = () => {
+  // Function to scroll to the top
+
   return (
     <div className="dashboard-container">
       <section className="content-header">
@@ -22,14 +24,7 @@ const Dashboard = () => {
           </ol>
         </nav>
       </section>
-      {/* <hr
-        style={{
-          width: "100%",
-          color: "#777",
-          alignItems: "left",
-          float: "left",
-        }}
-      ></hr> */}
+
       <div className="team-container">
         <Card />
         <Tabletscharts />
