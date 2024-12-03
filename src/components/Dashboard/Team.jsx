@@ -1,5 +1,5 @@
 import React from "react";
-import User from "../assets/user.png";
+import User from "../../assets/user.png";
 
 const Team = () => {
   const team = [

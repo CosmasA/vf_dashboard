@@ -9,8 +9,8 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../Assets/fundi_logo.png";
-import toggle from "../Assets/toggle.png";
+import logo from "../../Assets/fundi_logo.png";
+import toggle from "../../Assets/toggle.png";
 import Footer from "./Footer";
 import { Tooltip, OverlayTrigger } from "react-bootstrap"; // Import from react-bootstrap
 

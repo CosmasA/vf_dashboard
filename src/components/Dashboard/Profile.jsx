@@ -1,6 +1,6 @@
 import React from "react";
 import { FaEdit, FaCog, FaBook, FaChalkboardTeacher } from "react-icons/fa";
-import userImage from "../assets/user.png";
+import userImage from "../../assets/user.png";
 
 const Profile = () => {
   const skills = [
