@@ -9,7 +9,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../Assets/fundi_logo.png";
+import logo from "../../Assets/fb.png";
 import toggle from "../../Assets/toggle.png";
 import Footer from "./Footer";
 import { Tooltip, OverlayTrigger } from "react-bootstrap"; // Import from react-bootstrap
@@ -46,6 +46,9 @@ const Sidebar = () => {
           <div className="logo">
             <Link to="/" className="logo-link">
               <img className="logo-icon" src={logo} alt="fb_logo" />
+              <span>
+                <h6>VirtualFundi</h6>
+              </span>
             </Link>
           </div>
         )}
