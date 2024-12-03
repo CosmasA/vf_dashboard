@@ -3,7 +3,7 @@ import { FaUserCircle, FaHome, FaArrowUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Team from "./Team";
 import Card from "./Card";
-import Tabletscharts from "./Charts/Tabletscharts";
+import Tabletscharts from "../Charts/Tabletscharts";
 
 const Dashboard = () => {
   // Function to scroll to the top

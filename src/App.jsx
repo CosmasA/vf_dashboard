@@ -3,12 +3,12 @@ import { FaArrowUp } from "react-icons/fa";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import routing components
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
+import Sidebar from "./components/Dashboard/Sidebar";
+import Dashboard from "./components/Dashboard/Dashboard";
 import Primary from "./components/Topics/Primary";
 import Secondary from "./components/Topics/Secondary";
 import Theme from "./components/DearDay/Theme";
-import Profile from "./components/Profile";
+import Profile from "./components/Dashboard/Profile";
 import TopicsList from "./components/Topics/TopicsList";
 import ThemeLists from "./components/DearDay/ThemeLists";
 import SchoolDetails from "./components/School/SchoolDetails";
@@ -19,7 +19,7 @@ import SubThemes from "./components/DearDay/SubThemes";
 import Chapters from "./components/DearDay/Chapters";
 import Activitylist from "./components/Activities/Activitylist";
 import ActivitylistSec from "./components/Activities/ActivitylistSec";
-import Admins from "./components/Admins";
+import Admins from "./components/Dashboard/Admins";
 
 const App = () => {
   return (
