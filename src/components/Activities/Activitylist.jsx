@@ -161,7 +161,7 @@ const Activitylist = () => {
   const handleShow = () => setShowModal(true);
 
   const handleBack = () => {
-    navigate(`/viewSessionsPri/${session.topic}`);
+    navigate(`/primary/viewSessionsPri/${session.topic}`);
   };
 
   const handleAddActivity = () => {
@@ -346,7 +346,7 @@ const Activitylist = () => {
               </li>
             )}
             <li>
-              <Link to={`/viewSessionsPri/${session.topic}`}>
+              <Link to={`/primary/viewSessionsPri/${session.topic}`}>
                 {sessionName.substring(0, maxLength)}
               </Link>
             </li>
@@ -356,7 +356,7 @@ const Activitylist = () => {
       </section>
       <hr style={{ width: "100%", color: "#337ab7" }} />
       <div className="head">
-        <Link to={`/viewSessionsPri/${session.topic}`}>
+        <Link to={`/primary/viewSessionsPri/${session.topic}`}>
           <FaListUl className="icon" />
           View Sessions
         </Link>{" "}

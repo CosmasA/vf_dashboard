@@ -199,7 +199,7 @@ const Chapters = () => {
 
   const handleBack = () => {
     console.log("Navigating back to sub-theme view:", subthemes.theme);
-    navigate(`/viewSubTheme/${subthemes.theme}`);
+    navigate(`/dearday/viewSubTheme/${subthemes.theme}`);
   };
 
   const handleOpenPdf = (pdfPath) => {
@@ -229,7 +229,7 @@ const Chapters = () => {
               <Link to="/viewThemes">{themeName}</Link>
             </li>
             <li>
-              <Link to={`/viewSubTheme/${subthemes.theme}`}>
+              <Link to={`/dearday/viewSubTheme/${subthemes.theme}`}>
                 {subthemeName.substring(0, 10)}
               </Link>
             </li>
@@ -239,7 +239,7 @@ const Chapters = () => {
       </section>
       <hr style={{ width: "100%", color: "#337ab7" }} />
       <div className="head">
-        <Link to={`/viewSubTheme/${subthemes.theme}`}>
+        <Link to={`/dearday/viewSubTheme/${subthemes.theme}`}>
           <FaListUl className="icon" /> View Sub-Themes
         </Link>{" "}
         |

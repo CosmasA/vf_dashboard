@@ -151,7 +151,7 @@ const Primary = () => {
   };
 
   const handleViewSession = (topicId) => {
-    navigate(`/viewSessionsPri/${topicId}`);
+    navigate(`/primary/viewSessionsPri/${topicId}`);
     console.log("List of sessions for topic:", topicId);
   };
 

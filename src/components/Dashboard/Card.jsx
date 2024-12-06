@@ -82,13 +82,13 @@ const Card = () => {
             </div>
             <p className="card-stat">{topic.length}</p>
             <p>
-              <Button
-                variant="link"
+              <Link
+                variant="primary"
                 className="card-link"
                 onClick={handleShowTopicsModal}
               >
                 View Details
-              </Button>
+              </Link>
             </p>
           </div>
         </div>
@@ -104,13 +104,13 @@ const Card = () => {
             </div>
             <p className="card-stat">{theme.length}</p>
             <p>
-              <Button
-                variant="link"
+              <Link
+                variant="primary"
                 className="card-link"
                 onClick={handleShowThemesModal}
               >
                 View Details
-              </Button>
+              </Link>
             </p>
           </div>
         </div>
@@ -196,7 +196,7 @@ const Card = () => {
         onHide={handleCloseTopicsModal}
         backdrop="static"
         keyboard={false}
-        className="custom-modal"
+        className="pdf-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Topics List</Modal.Title>
@@ -232,7 +232,7 @@ const Card = () => {
         onHide={handleCloseThemesModal}
         backdrop="static"
         keyboard={false}
-        className="custom-modal"
+        className="pdf-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Themes List</Modal.Title>

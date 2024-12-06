@@ -151,7 +151,7 @@ const Secondary = () => {
   };
 
   const handleViewSession = (topicId) => {
-    navigate(`/viewSessionsSec/${topicId}`);
+    navigate(`/secondary/viewSessionsSec/${topicId}`);
     console.log("List of sessions for topic:", topicId);
   };
 

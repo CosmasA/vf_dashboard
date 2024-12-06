@@ -135,7 +135,7 @@ const SubThemes = () => {
   };
 
   const handleView = (sub_theme_id) => {
-    navigate(`/viewChapters/${sub_theme_id}`);
+    navigate(`/dearday/viewSubTheme/viewChapters/${sub_theme_id}`);
   };
 
   return (

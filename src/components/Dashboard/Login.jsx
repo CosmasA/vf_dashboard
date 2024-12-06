@@ -3,23 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
 import axios from "axios";
 import { setToken } from "./token";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import loginBgImage from "../../assets/fbimage.png";
 
-// const client = axios.create({
-//   baseURL: "http://161.97.81.168:8080/",
-// });
-
-// Use environment variables to set the API base URL dynamically
 const client = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? "/api" // Using the proxy in development
-      : "https://161.97.81.168:8080", // Use the secure URL for production
+  baseURL: "http://161.97.81.168:8080/",
 });
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
 
   const submitLogin = async (e) => {
@@ -32,14 +27,14 @@ const Login = ({ onLogin }) => {
       setToken(res.data.token);
       console.log("Login successful:", res.data);
       onLogin(); // Call the onLogin prop
-    } catch {
-      if (error.response.status === 401) {
-        console.log("Invalid username or password", error);
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        console.log("Invalid username or password", err);
         setError("Invalid username or password");
       } else {
         setError("An error occurred. Please try again later.");
       }
-      console.error("Login error:", error);
+      console.error("Login error:", err);
     }
   };
 
@@ -49,19 +44,8 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div
-      style={{
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        margin: "0 0 0 0",
-      }}
-    >
-      <Card style={{ maxWidth: "600px", width: "100%", maxHeight: "600px" }}>
+    <div className="login-container">
+      <Card className="col-md-4">
         <Card.Body>
           <h3 className="text-center mb-4">Welcome to VirtualFundi</h3>
           <em>
@@ -83,19 +67,28 @@ const Login = ({ onLogin }) => {
                 className="input-field"
               />
             </Form.Group>
+
             <Form.Group
               controlId="formPassword"
               className="mb-3 d-flex align-items-center"
             >
-              <Form.Label className="label-text">Password:</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="input-field"
-              />
+              <Form.Label className="label-text-password">Password:</Form.Label>
+              <div className="password-container">
+                <Form.Control
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="input-field"
+                />
+                <div
+                  className="password-icon"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                </div>
+              </div>
             </Form.Group>
 
             <div className="d-grid mb-3">

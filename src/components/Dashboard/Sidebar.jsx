@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   // Define menu items and active route check
   const menuItems = [
-    { path: "/", label: "Dashboard", icon: <FaHome /> },
+    { path: "/home", label: "Dashboard", icon: <FaHome /> },
     { path: "/primary", label: "Primary", icon: <FaChalkboardTeacher /> },
     { path: "/secondary", label: "Secondary", icon: <FaChalkboardTeacher /> },
     { path: "/dearday", label: "DEAR Day", icon: <FaBars /> },
@@ -68,7 +68,7 @@ const Sidebar = () => {
             <Link
               to={item.path}
               className={`item ${isSidebarOpen ? "" : "toggled"} ${
-                location.pathname === item.path ? "active" : ""
+                location.pathname.startsWith(item.path) ? "active" : ""
               }`}
             >
               <span className="icon">{item.icon}</span>

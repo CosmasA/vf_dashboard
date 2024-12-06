@@ -64,24 +64,27 @@ const App = () => {
               <Route path="/admins" element={<Admins />} />
               <Route path="/primary" element={<Primary />} />
               <Route
-                path="/viewSessionsPri/:topicId"
+                path="/primary/viewSessionsPri/:topicId"
                 element={<SessionListPri />}
               />
               <Route
-                path="/viewSessionsSec/:topicId"
+                path="/secondary/viewSessionsSec/:topicId"
                 element={<SessionListSec />}
               />
               <Route
-                path="/activitylist/:sessionId"
+                path="/primary/viewSessionsPri/activitylist/:sessionId"
                 element={<Activitylist />}
               />
               <Route
-                path="/activitylists/:sessionId"
+                path="/secondary/viewSessionsSec/activitylists/:sessionId"
                 element={<ActivitylistSec />}
               />
-              <Route path="/viewSubTheme/:theme_id" element={<SubThemes />} />
               <Route
-                path="/viewChapters/:sub_theme_id"
+                path="/dearday/viewSubTheme/:theme_id"
+                element={<SubThemes />}
+              />
+              <Route
+                path="/dearday/viewSubTheme/viewChapters/:sub_theme_id"
                 element={<Chapters />}
               />
               <Route path="/secondary" element={<Secondary />} />

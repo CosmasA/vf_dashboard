@@ -161,7 +161,7 @@ const ActivitylistSec = () => {
   const handleShow = () => setShowModal(true);
 
   const handleBack = () => {
-    navigate(`/viewSessionsSec/${session.topic}`);
+    navigate(`/secondary/viewSessionsSec/${session.topic}`);
   };
 
   const handleAddActivity = () => {
@@ -345,7 +345,7 @@ const ActivitylistSec = () => {
               </li>
             )}
             <li>
-              <Link to={`/viewSessionsSec/${session.topic}`}>
+              <Link to={`/secondary/viewSessionsSec/${session.topic}`}>
                 {sessionName.substring(0, maxLength)}
               </Link>
             </li>
@@ -355,7 +355,7 @@ const ActivitylistSec = () => {
       </section>
       <hr style={{ width: "100%", color: "#337ab7" }} />
       <div className="head">
-        <Link to={`/viewSessionsSec/${session.topic}`}>
+        <Link to={`/secondary/viewSessionsSec/${session.topic}`}>
           <FaListUl className="icon" />
           View Sessions
         </Link>{" "}

@@ -202,7 +202,7 @@ const SessionListPri = () => {
   };
 
   const handleActivityLists = (sessionId) => {
-    navigate(`/activitylist/${sessionId}`);
+    navigate(`/primary/viewSessionsPri/activitylist/${sessionId}`);
   };
 
   return (
