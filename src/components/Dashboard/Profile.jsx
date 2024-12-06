@@ -1,11 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FaEdit, FaCog, FaBook, FaChalkboardTeacher } from "react-icons/fa";
 import userImage from "../../assets/user.png";
 
-const Profile = () => {
+const Profile = ({ onLogout }) => {
+  const navigate = useNavigate(); // Initialize navigate
+
   const skills = [
     {
-      title: "Embedded systems Engineer",
+      title: "Embedded Systems Engineer",
       duration: "5+ Years",
       icon: <FaCog />,
     },
@@ -20,10 +23,16 @@ const Profile = () => {
       icon: <FaBook />,
     },
   ];
+
+  const handleLogoutClick = () => {
+    onLogout(); // Call the logout function passed as a prop
+    console.log("Logged Out Successfully!");
+    navigate("/"); // Redirect to login page
+  };
+
   return (
     <div className="profile">
       <div className="profile-header">
-        {" "}
         <h2 className="header-title">Profile</h2>
         <div className="edit">
           <FaEdit className="icon" />
@@ -48,6 +57,9 @@ const Profile = () => {
           ))}
         </div>
       </div>
+      <button className="btn btn-danger mt-3" onClick={handleLogoutClick}>
+        Logout
+      </button>
     </div>
   );
 };

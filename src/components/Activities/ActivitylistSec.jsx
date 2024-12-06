@@ -195,25 +195,42 @@ const ActivitylistSec = () => {
           onUploadProgress: (data) => {
             setPercentage(Math.round((100 * data.loaded) / data.total));
           },
-          cancelToken: new CancelToken(
+          cancelToken: new axios.CancelToken(
             (cancel) => (cancelUpload.current = cancel)
           ),
         }
       );
       console.log("Activity added successfully:", response.data);
       setUploadDone(true);
+      setTimeout(() => {
+        setPercentage(0);
+        setUploadDone(false);
+      }, 2000);
+      alert("New Activity Added successfully!");
       setShowAddActivityModal(false); // Close modal
       fetchActivities(); // Refresh activity list
     } catch (error) {
-      console.error("Error adding activity:", error);
+      if (axios.isCancel(error)) {
+        console.log("Upload canceled by the user.");
+        alert("Upload canceled by the user!");
+      } else {
+        console.error("Error encountered on adding new activity:", error);
+        alert("Failed to add new activity!");
+      }
+
+      setPercentage(0);
+      setUploadDone(false);
     }
   };
 
   const handleCancelUpload = () => {
-    setUploadProgress(0);
-    setVideo(null);
-    setUploadDone(false);
-    setClicked(true); // Change icon color
+    if (cancelUpload.current) {
+      cancelUpload.current("Upload canceled by the user.");
+      setClicked(true);
+      setPercentage(0);
+      setVideo(null);
+      setTimeout(() => setClicked(false), 2000); // Optional visual feedback
+    }
   };
 
   useEffect(() => {
@@ -279,18 +296,30 @@ const ActivitylistSec = () => {
           onUploadProgress: (data) => {
             setPercentage(Math.round((100 * data.loaded) / data.total));
           },
-          cancelToken: new CancelToken(
+          cancelToken: new axios.CancelToken(
             (cancel) => (cancelUpload.current = cancel)
           ),
         }
       );
       setUploadDone(true);
+      setTimeout(() => {
+        setPercentage(0);
+        setUploadDone(false);
+      }, 2000);
       setShowEditActivityModal(false); // Close modal
       fetchActivities(); // Refresh activities list
       console.log("Activity updated successfully:", response.data);
       alert("Activity updated successfully!");
     } catch (error) {
-      console.error("Error updating activity:", error);
+      if (axios.isCancel(error)) {
+        console.log("Upload canceled by the user.");
+      } else {
+        console.error("Error updating activity:", error);
+        alert("Failed to update activity!");
+      }
+
+      setPercentage(0);
+      setUploadDone(false);
     }
   };
 
@@ -589,9 +618,10 @@ const ActivitylistSec = () => {
                 {video && (
                   <div style={{ marginTop: "10px" }}>
                     <ProgressBar
+                      striped
                       animated
-                      now={uploadProgress}
-                      label={`${uploadProgress}%`}
+                      now={percentage}
+                      label={`${percentage}%`}
                       style={{ height: "20px" }}
                       variant={uploadDone ? "success" : "primary"}
                     />
@@ -743,38 +773,6 @@ const ActivitylistSec = () => {
                     <option value="placeholder">Placeholder</option>
                   </Form.Control>
                 </Form.Group>
-
-                {/* Bootstrap Progress Bar */}
-                {video && (
-                  <div style={{ marginTop: "10px" }}>
-                    <ProgressBar
-                      animated
-                      now={uploadProgress}
-                      label={`${uploadProgress}%`}
-                      style={{ height: "20px" }}
-                      variant={uploadDone ? "success" : "primary"}
-                    />
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                      {uploadDone ? (
-                        <FontAwesomeIcon
-                          icon={faCheckCircle}
-                          className="tick-icon"
-                          style={{ color: "green", fontSize: "1.5rem" }}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faTimesCircle}
-                          onClick={handleCancelUpload}
-                          style={{
-                            cursor: "pointer",
-                            color: clicked ? "red" : "blue",
-                            fontSize: "1.5rem",
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
               </>
             )}
 
@@ -840,6 +838,36 @@ const ActivitylistSec = () => {
                 </Form.Group>
               </>
             )}
+
+            {/* Bootstrap Progress Bar */}
+            <div style={{ marginTop: "10px" }}>
+              <ProgressBar
+                now={percentage}
+                animated
+                label={`${percentage}%`}
+                style={{ height: "20px" }}
+                variant={uploadDone ? "success" : "primary"}
+              />
+              <div className="d-flex justify-content-between align-items-center mt-2">
+                {uploadDone ? (
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="tick-icon"
+                    style={{ color: "green", fontSize: "1.5rem" }}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faTimesCircle}
+                    onClick={handleCancelUpload}
+                    style={{
+                      cursor: "pointer",
+                      color: clicked ? "red" : "blue",
+                      fontSize: "1.5rem",
+                    }}
+                  />
+                )}
+              </div>
+            </div>
 
             <br />
             <div className="submit">

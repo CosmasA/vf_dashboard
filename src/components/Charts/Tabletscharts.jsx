@@ -72,14 +72,14 @@ const Tabletscharts = () => {
       },
       y: {
         ticks: {
-          color: "#526d82", // Change y-axis text color
+          color: "#526d82",
         },
         title: {
           display: true,
           text: "No. of Tablets",
-          color: "#526d82", // Change y-axis title color
+          color: "#526d82",
           font: {
-            size: 16, // Increase font size for x-axis title
+            size: 16,
           },
         },
       },
@@ -206,7 +206,15 @@ const Tabletscharts = () => {
               </h4>
             </div>
             <div className="card-body">
-              <div style={{ height: "400px", padding: "5px 10px" }}>
+              <div
+                style={{
+                  height: "400px",
+                  width: "auto",
+                  border: "1px solid #fff",
+                  borderRadius: "6px",
+                  padding: "2px",
+                }}
+              >
                 <Bar data={barData} options={barOptions} />
               </div>
             </div>
@@ -220,7 +228,14 @@ const Tabletscharts = () => {
               </h4>
             </div>
             <div className="card-body">
-              <div style={{ height: "400px" }}>
+              <div
+                style={{
+                  height: "400px",
+                  border: "1px solid #fff",
+                  borderRadius: "6px",
+                  padding: "2px",
+                }}
+              >
                 <Doughnut data={doughnutData} options={doughnutOptions} />
               </div>
             </div>
