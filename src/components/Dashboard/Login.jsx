@@ -6,9 +6,11 @@ import loginBgImage from "../../assets/fbimage.png";
 import { setToken } from "./token";
 
 const client = axios.create({
-  baseURL: "http://161.97.81.168:8080/",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/api" // Use the proxy in development
+      : "http://161.97.81.168:8080", // Use the actual URL for production
 });
-
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
