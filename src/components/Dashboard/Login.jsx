@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
 import axios from "axios";
-import loginBgImage from "../../assets/fbimage.png";
 import { setToken } from "./token";
 
+// const client = axios.create({
+//   baseURL: "http://161.97.81.168:8080/",
+// });
+
+// Use environment variables to set the API base URL dynamically
 const client = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
-      ? "/api" // Use the proxy in development
-      : "http://161.97.81.168:8080", // Use the actual URL for production
+      ? "/api" // Using the proxy in development
+      : "https://161.97.81.168:8080", // Use the secure URL for production
 });
+
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +32,14 @@ const Login = ({ onLogin }) => {
       setToken(res.data.token);
       console.log("Login successful:", res.data);
       onLogin(); // Call the onLogin prop
-    } catch (err) {
-      // Handle errors
+    } catch {
+      if (error.response.status === 401) {
+        console.log("Invalid username or password", error);
+        setError("Invalid username or password");
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
+      console.error("Login error:", error);
     }
   };
 

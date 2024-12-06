@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
@@ -134,7 +134,7 @@ const Primary = () => {
     }
   };
 
-  const handleDeleteTopic = () => setShowConfirmDelete(true);
+  // const handleDeleteTopic = () => setShowConfirmDelete(true);
 
   // Confirm delete action
   const confirmDelete = async () => {
