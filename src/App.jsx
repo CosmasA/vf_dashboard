@@ -13,7 +13,6 @@ import Primary from "./components/Topics/Primary";
 import Secondary from "./components/Topics/Secondary";
 import Login from "./components/Dashboard/Login"; // Import Login component
 import Theme from "./components/DearDay/Theme";
-import Profile from "./components/Dashboard/Profile";
 import TopicsList from "./components/Topics/TopicsList";
 import ThemeLists from "./components/DearDay/ThemeLists";
 import SchoolDetails from "./components/School/SchoolDetails";
@@ -25,6 +24,7 @@ import Chapters from "./components/DearDay/Chapters";
 import Activitylist from "./components/Activities/Activitylist";
 import ActivitylistSec from "./components/Activities/ActivitylistSec";
 import Admins from "./components/Dashboard/Admins";
+import Accounts from "./components/Dashboard/Accounts";
 import { getToken, removeToken } from "./components/Dashboard/token"; // Import token utilities
 
 const App = () => {
@@ -58,8 +58,8 @@ const App = () => {
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Dashboard />} />
               <Route
-                path="/profile"
-                element={<Profile onLogout={handleLogout} />}
+                path="/accounts"
+                element={<Accounts onLogout={handleLogout} />}
               />
               <Route path="/admins" element={<Admins />} />
               <Route path="/primary" element={<Primary />} />

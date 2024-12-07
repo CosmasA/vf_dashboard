@@ -7,6 +7,7 @@ import {
   FaSchool,
   FaUserTie,
   FaUser,
+  FaCog,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../Assets/fb.png";
@@ -27,7 +28,7 @@ const Sidebar = () => {
     { path: "/admins", label: "Admins", icon: <FaUsers /> },
     { path: "/teachers", label: "Teachers", icon: <FaUserTie /> },
     { path: "/schools", label: "Schools", icon: <FaSchool /> },
-    { path: "/profile", label: "Profile", icon: <FaUser /> },
+    { path: "/accounts", label: "Settings", icon: <FaCog /> },
   ];
 
   // Toggle sidebar state

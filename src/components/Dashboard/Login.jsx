@@ -45,7 +45,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      <Card className="col-md-4">
+      <Card className="col-md-4" style={{ background: "#e8f7ff" }}>
         <Card.Body>
           <h3 className="text-center mb-4">Welcome to VirtualFundi</h3>
           <em>
@@ -90,6 +90,7 @@ const Login = ({ onLogin }) => {
                 </div>
               </div>
             </Form.Group>
+            <br />
 
             <div className="d-grid mb-3">
               <Button variant="primary" type="submit" size="lg">
