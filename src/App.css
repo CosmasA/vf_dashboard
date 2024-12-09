@@ -47,12 +47,14 @@ body {
   font-size: 1.2rem;
   color: #526d82;
   margin-right: 12px;
+  padding-top: 12px;
 }
 .label-text-password {
   font-weight: 500;
   font-size: 1.2rem;
   color: #526d82;
   margin-right: 20px;
+  padding-top: 12px;
 }
 
 .input-field {
@@ -94,7 +96,7 @@ body {
   opacity: 0;
 }
 .dashboard-content {
-  background: #f7f7f7;
+  background: #f9f9f9;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;

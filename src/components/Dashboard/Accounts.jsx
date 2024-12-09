@@ -197,15 +197,15 @@ const Accounts = ({ onLogout }) => {
               <h5>Change Password</h5>
               <div className="form-group">
                 <label>Current Password</label>
-                <input type="password" className="form-control" />
+                <input type="password" className="form-control" required />
               </div>
               <div className="form-group">
                 <label>New Password</label>
-                <input type="password" className="form-control" />
+                <input type="password" className="form-control" required />
               </div>
               <div className="form-group">
                 <label>Confirm New Password</label>
-                <input type="password" className="form-control" />
+                <input type="password" className="form-control" required />
               </div>
               <div className="form-group">
                 <label>Profile Photo</label>

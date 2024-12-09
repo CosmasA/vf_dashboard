@@ -57,6 +57,7 @@ const Admins = () => {
           },
         }
       );
+      alert("Record Added successfully");
       console.log("Response:", response);
       setShow(false);
     } catch (error) {
