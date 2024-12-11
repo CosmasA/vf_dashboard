@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios, { CancelToken } from "axios";
-import { Table, Button, Modal, Form, ProgressBar } from "react-bootstrap";
+import { Table, Button, Modal, Form, ProgressBar, Card } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
@@ -382,56 +382,60 @@ const ActivitylistSec = () => {
                 </p>
               </div>
             ) : (
-              <Table striped bordered hover className="table">
-                <thead>
-                  <tr>
-                    <th>Activity Title</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activities.map((activity) => (
-                    <tr key={activity.id}>
-                      <td>
-                        <button
-                          onClick={() => fetchActivityDetails(activity.id)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#526d82",
-                            textDecoration: "none",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {activity.title}
-                        </button>
-                      </td>
-                      <td className="topic-code">
-                        <Button
-                          className="btn warning"
-                          onClick={() => handleEditClick(activity.id)}
-                        >
-                          <FaEdit />
-                        </Button>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDelete(activity.id)}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <Card>
+                <Card.Body>
+                  <Table striped bordered hover className="table">
+                    <thead>
+                      <tr>
+                        <th>Activity Title</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {activities.map((activity) => (
+                        <tr key={activity.id}>
+                          <td>
+                            <button
+                              onClick={() => fetchActivityDetails(activity.id)}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "#526d82",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {activity.title}
+                            </button>
+                          </td>
+                          <td className="topic-code">
+                            <Button
+                              className="btn warning"
+                              onClick={() => handleEditClick(activity.id)}
+                            >
+                              <FaEdit />
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => handleDelete(activity.id)}
+                            >
+                              <FaTrash />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
             )}
           </>
         )}
-        <div className="submit_container">
+        {/* <div className="submit_container">
           <Button variant="secondary" onClick={handleBack}>
             Back
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {/* Add Activity Modal */}

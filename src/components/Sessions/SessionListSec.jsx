@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEdit, FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
@@ -254,42 +254,46 @@ const SessionListSec = () => {
                 </p>
               </div>
             ) : (
-              <Table striped bordered hover className="table">
-                <thead>
-                  <tr>
-                    <th>Session Name</th>
-                    <th className="actions">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sessions.map((session) => (
-                    <tr key={session.id}>
-                      <td>
-                        <Link
-                          onClick={() => handleSessionClick(session)}
-                          className="custom-link"
-                        >
-                          {session.sessionName}
-                        </Link>
-                      </td>
-                      <td className="action-column">
-                        <Button
-                          className="btn warning"
-                          onClick={() => fetchSessionById(session.id)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          className="btn info"
-                          onClick={() => handleActivityLists(session.id)}
-                        >
-                          Activities
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <Card>
+                <Card.Body>
+                  <Table striped bordered hover className="table">
+                    <thead>
+                      <tr>
+                        <th>Session Name</th>
+                        <th className="actions">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sessions.map((session) => (
+                        <tr key={session.id}>
+                          <td>
+                            <Link
+                              onClick={() => handleSessionClick(session)}
+                              className="custom-link"
+                            >
+                              {session.sessionName}
+                            </Link>
+                          </td>
+                          <td className="action-column">
+                            <Button
+                              className="btn warning"
+                              onClick={() => fetchSessionById(session.id)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              className="btn info"
+                              onClick={() => handleActivityLists(session.id)}
+                            >
+                              Activities
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
             )}
           </>
         )}

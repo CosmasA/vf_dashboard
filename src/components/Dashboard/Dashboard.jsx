@@ -9,8 +9,6 @@ const Dashboard = () => {
   const [showTopBtn, setShowTopBtn] = useState(false);
 
   useEffect(() => {
-    console.log("useEffect triggered");
-
     const handleScroll = () => {
       console.log("Scroll event triggered");
       console.log("Current scroll position:", window.scrollY); // Log scroll position

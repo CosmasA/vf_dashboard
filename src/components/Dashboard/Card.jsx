@@ -10,10 +10,12 @@ import {
 import { Link } from "react-router-dom";
 import { Modal, Button, Table, Alert } from "react-bootstrap";
 import axios from "axios";
+import { getToken } from "../Dashboard/token";
 
 const Card = () => {
   const [topic, setTopic] = useState([]);
   const [theme, setTheme] = useState([]);
+  const [teachersData, setTeachersData] = useState([]);
   const [currentTerm, setCurrentTerm] = useState("");
   const [showTopicsModal, setShowTopicsModal] = useState(false); // Topics modal visibility state
   const [showThemesModal, setShowThemesModal] = useState(false); // Themes modal visibility state
@@ -46,6 +48,27 @@ const Card = () => {
       }
     };
     fetchThemes();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = getToken(); // Retrieve the token
+        const response = await axios.get(
+          "http://161.97.81.168:8080/viewTeachers/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Use the token here
+            },
+          }
+        );
+        setTeachersData(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   // Set current term based on the month
@@ -162,7 +185,7 @@ const Card = () => {
               </div>
               <h3>Teachers</h3>
             </div>
-            <p className="card-stat">21</p>
+            <p className="card-stat">{teachersData.length}</p>
             <p>
               <Link to="/teachers" className="card-link">
                 View Details

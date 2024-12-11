@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
@@ -191,48 +191,52 @@ const Primary = () => {
         </Link>
       </div>
       <div className="table-container">
-        <Table striped bordered hover className="table" responsive="sm">
-          <thead>
-            <tr>
-              <th className="topic-code">Topic Code</th>
-              <th>Topic Name</th>
-              <th>Class</th>
-              <th>Term</th>
-              <th className="actions">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((topic) => (
-              <tr key={topic.id}>
-                <td>{topic.topicCode}</td>
-                <td>
-                  <Link
-                    onClick={() => handleShowTopicDetails(topic)}
-                    className="custom-link"
-                  >
-                    {topic.topicName}
-                  </Link>
-                </td>
-                <td>{topic.classTaught}</td>
-                <td>{topic.term}</td>
-                <td className="actions">
-                  <Button
-                    className="btn warning"
-                    onClick={() => handleShowEditModal(topic)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    className="btn info"
-                    onClick={() => handleViewSession(topic.id)}
-                  >
-                    Sessions
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Card>
+          <Card.Body>
+            <Table striped bordered hover className="table" responsive="sm">
+              <thead>
+                <tr>
+                  <th className="topic-code">Topic Code</th>
+                  <th>Topic Name</th>
+                  <th>Class</th>
+                  <th>Term</th>
+                  <th className="actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((topic) => (
+                  <tr key={topic.id}>
+                    <td>{topic.topicCode}</td>
+                    <td>
+                      <Link
+                        onClick={() => handleShowTopicDetails(topic)}
+                        className="custom-link"
+                      >
+                        {topic.topicName}
+                      </Link>
+                    </td>
+                    <td>{topic.classTaught}</td>
+                    <td>{topic.term}</td>
+                    <td className="actions">
+                      <Button
+                        className="btn warning"
+                        onClick={() => handleShowEditModal(topic)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="btn info"
+                        onClick={() => handleViewSession(topic.id)}
+                      >
+                        Sessions
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
         {/* Modal to show Topic Details */}
         <Modal
           show={showDetailsModal}

@@ -4,6 +4,7 @@ import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { setToken, getToken } from "../Dashboard/token";
+import { useParams } from "react-router-dom";
 
 const TeacherDetails = () => {
   const [schoolName, setSchoolName] = useState("");
@@ -11,160 +12,13 @@ const TeacherDetails = () => {
   const [classTaught, setClassTaught] = useState("");
   const [phoneName, setPhoneName] = useState("");
   const [teachersData, setTeachersData] = useState([]);
-
-  //   [
-  //   {
-  //     id: 1,
-  //     teacherName: "Omia Faima Monday",
-  //     schoolName: "Vanguard Primary School",
-  //     contactNumber: "0772377194",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 2,
-  //     teacherName: "Omona Denis",
-  //     schoolName: "Vanguard Primary School",
-  //     contactNumber: "0775989397",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 3,
-  //     teacherName: "Boyo Muhamudu",
-  //     schoolName: "Bukokho Secondary School",
-  //     contactNumber: "0785718545",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 4,
-  //     teacherName: "Mataya Martin",
-  //     schoolName: "Bukokho Secondary School",
-  //     contactNumber: "0776630438",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 5,
-  //     teacherName: "Obalim Richard",
-  //     schoolName: "Comboni College",
-  //     contactNumber: "0783623879",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 6,
-  //     teacherName: "Olima Dickson",
-  //     schoolName: "Comboni College",
-  //     contactNumber: "0702291493",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 7,
-  //     teacherName: "Nahwera Shallon",
-  //     schoolName: "Nyakashambya Primary School",
-  //     contactNumber: "0778059175",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 8,
-  //     teacherName: "Natwijuka Alison",
-  //     schoolName: "Nyakashambya Primary School",
-  //     contactNumber: "078943954",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 9,
-  //     teacherName: "Kukundakwe Poline",
-  //     schoolName: "Ntungamo High School",
-  //     contactNumber: "0789549870",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 10,
-  //     teacherName: "Nuwaha Gilbert",
-  //     schoolName: "Ntungamo High School",
-  //     contactNumber: "0774907761",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 11,
-  //     teacherName: "Mirembe Nathan",
-  //     schoolName: "Bethany High School",
-  //     contactNumber: "0781558060",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 12,
-  //     teacherName: "Mugumya Richard",
-  //     schoolName: "Bethany High School",
-  //     contactNumber: "0759006929",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 13,
-  //     teacherName: "Magumba Latif",
-  //     schoolName: "Rays Junior School",
-  //     contactNumber: "0750170095",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 14,
-  //     teacherName: "Gidudu Hilary",
-  //     schoolName: "Arlington Junior School",
-  //     contactNumber: "0783648343",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 15,
-  //     teacherName: "Isingoma B. Moses",
-  //     schoolName: "Arlington Junior School",
-  //     contactNumber: "0783006950",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 16,
-  //     teacherName: "Wakoko Edward",
-  //     schoolName: "Hill Preparatory School",
-  //     contactNumber: "0755369349",
-  //     classTaught: "P.4",
-  //   },
-  //   {
-  //     id: 17,
-  //     teacherName: "Bwire Perez",
-  //     schoolName: "Seeta High School",
-  //     contactNumber: "0704517209",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 18,
-  //     teacherName: "Mujasi Samuel",
-  //     schoolName: "Seeta High School",
-  //     contactNumber: "0776004567",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 19,
-  //     teacherName: "Bisereko Daniel",
-  //     schoolName: "Seeta High School",
-  //     contactNumber: "0784191572",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 20,
-  //     teacherName: "Kusasira Graham",
-  //     schoolName: "Seeta High School",
-  //     contactNumber: "0702569453",
-  //     classTaught: "S.1",
-  //   },
-  //   {
-  //     id: 21,
-  //     teacherName: "Mugarura David",
-  //     schoolName: "Seeta High School",
-  //     contactNumber: "0785152249",
-  //     classTaught: "S.1",
-  //   },
-  // ]);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [editTeacherId, setEditTeacherId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editFormData, setEditFormData] = useState({
     teacherName: "",
@@ -173,13 +27,74 @@ const TeacherDetails = () => {
     classTaught: "",
   });
 
-  const [newTeacherData, setNewTeacherData] = useState({
-    teacherName: "",
-    schoolName: "",
-    contactNumber: "",
-    classTaught: "",
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = getToken(); // Retrieve the token
+        const response = await axios.get(
+          "http://161.97.81.168:8080/viewTeachers/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Use the token here
+            },
+          }
+        );
+        setTeachersData(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = getToken(); // Retrieve the token
+      const response = await axios.post(
+        "http://161.97.81.168:8080/addTeacher/",
+        {
+          schoolName: schoolName,
+          teachersName: teachersName,
+          classTaught: classTaught,
+          phoneName: phoneName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Use the token here
+          },
+        }
+      );
+      alert("Record Added successfully");
+      console.log("Response:", response);
+      handleCloseAddModal();
+    } catch (error) {
+      console.error("Error inserting data:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+      }
+    }
+  };
+
+  const fetchTeacherById = async (teacherId) => {
+    try {
+      const response = await axios.get(
+        `http://161.97.81.168:8080/getTeacher/${teacherId}`
+      );
+      const details = response.data;
+      setClassTaught(details.classTaught);
+      setTeachersName(details.teachersName);
+      setSchoolName(details.schoolName);
+      setPhoneName(details.phoneName);
+      setEditTeacherId(details.id);
+      console.log(details);
+    } catch (error) {
+      console.error("Error fetching a teacher by ID:", error);
+    }
+  };
   // Function to open modal and set selected teacher details
   const handleShowModal = (teacher) => {
     setSelectedTeacher(teacher);
@@ -203,18 +118,14 @@ const TeacherDetails = () => {
   };
 
   const handleCloseAddModal = () => {
-    setShowAddModal(false);
-    setNewTeacherData({
-      teacherName: "",
-      schoolName: "",
-      contactNumber: "",
-      classTaught: "",
-    });
-  };
+    // Reset fields to default values
+    setSchoolName("");
+    setTeachersName("");
+    setClassTaught("");
+    setPhoneName("");
 
-  // Function to toggle edit mode
-  const handleEditClick = () => {
-    setIsEditing(true);
+    // Close the modal
+    setShowAddModal(false);
   };
 
   // Function to handle form changes
@@ -225,81 +136,28 @@ const TeacherDetails = () => {
 
   // Function to save changes
   const handleSaveChanges = () => {
-    setTeachersData((prevData) =>
-      prevData.map((teacher) =>
-        teacher.id === selectedTeacher.id
-          ? { ...teacher, ...editFormData }
-          : teacher
-      )
-    );
-    setIsEditing(false);
-    handleCloseModal();
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = getToken(); // Retrieve the token
-        const response = await axios.get(
-          "http://161.97.81.168:8080/viewTeachers/",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Use the token here
-            },
-          }
-        );
-        setTeachersData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const token = getToken(); // Retrieve the token
-      const response = await axios.post(
-        "http://161.97.81.168:8080/addTeacher/",
-        {
-          schoolName,
-          teachersName,
-          classTaught,
-          phoneName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Use the token here
-          },
-        }
-      );
-      alert("Record Added successfully");
-      console.log("Response:", response);
-      setShow(false);
-    } catch (error) {
-      console.error("Error inserting data:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
+    if (!editTeacherId) {
+      console.error("Teacher ID is undefined");
+      return;
     }
-  };
-
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-    setNewTeacherData({ ...newTeacherData, [name]: value });
-  };
-
-  const handleAddTeacher = () => {
-    const newTeacher = {
-      id: teachersData.length + 1, // Create a unique ID
-      ...newTeacherData,
-    };
-    setTeachersData((prevData) => [...prevData, newTeacher]);
-    handleCloseAddModal();
+    axios
+      .put(`http://161.97.81.168:8080/updateTeacher/${editTeacherId}`, {
+        schoolName: schoolName,
+        teachersName: teachersName,
+        classTaught: classTaught,
+        phoneName: phoneName,
+      })
+      .then((response) => {
+        setSuccess("Teacher details updated successfully.");
+        alert("Teacher details updated successfully");
+        console.log("Response:", response);
+        setError(null);
+        handleCloseModal();
+      })
+      .catch((err) => {
+        setError("Failed to update teacher details.", err);
+        setSuccess(null);
+      });
   };
 
   const sortedTeachersData = [...teachersData].sort((a, b) =>
@@ -406,7 +264,7 @@ const TeacherDetails = () => {
               <p>
                 <strong>Class Taught:</strong> {selectedTeacher.classTaught}
               </p>
-              <Button variant="warning" onClick={handleEditClick}>
+              <Button variant="warning" onClick={fetchTeacherById}>
                 Edit
               </Button>
             </div>
@@ -480,8 +338,8 @@ const TeacherDetails = () => {
               <Form.Control
                 type="text"
                 name="teacherName"
-                value={newTeacherData.teacherName}
-                onChange={handleAddChange}
+                value={teachersName}
+                onChange={(e) => setTeachersName(e.target.value)}
                 required
               />
             </Form.Group>
@@ -490,8 +348,8 @@ const TeacherDetails = () => {
               <Form.Control
                 type="text"
                 name="schoolName"
-                value={newTeacherData.schoolName}
-                onChange={handleAddChange}
+                value={schoolName}
+                onChange={(e) => setSchoolName(e.target.value)}
                 required
               />
             </Form.Group>
@@ -500,26 +358,33 @@ const TeacherDetails = () => {
               <Form.Control
                 type="text"
                 name="contactNumber"
-                value={newTeacherData.contactNumber}
-                onChange={handleAddChange}
+                value={phoneName}
+                onChange={(e) => setPhoneName(e.target.value)}
                 required
               />
             </Form.Group>
             <Form.Group>
               <Form.Label>Class Taught</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
                 name="classTaught"
-                value={newTeacherData.classTaught}
-                onChange={handleAddChange}
+                value={classTaught}
+                onChange={(e) => setClassTaught(e.target.value)}
                 required
-              />
+              >
+                <option value="" disabled>
+                  Select Class
+                </option>
+                <option value="P.4">P.4</option>
+                <option value="P.5">P.5</option>
+                <option value="P.6">P.6</option>
+                <option value="P.7">P.7</option>
+                <option value="S.1">S.1</option>
+                <option value="S.2">S.2</option>
+                <option value="S.3">S.3</option>
+                <option value="S.4">S.4</option>
+              </Form.Select>
             </Form.Group>
-            <Button
-              variant="success"
-              onClick={handleAddTeacher}
-              className="mt-3"
-            >
+            <Button variant="success" type="submit" className="mt-3">
               Add Teacher
             </Button>
           </Form>
