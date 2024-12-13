@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaListUl, FaHome, FaTrash, FaEdit } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 
@@ -264,58 +264,62 @@ const Chapters = () => {
                 </p>
               </div>
             ) : (
-              <Table striped bordered hover className="table">
-                <thead>
-                  <tr>
-                    <th>Chapter Title</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {articles.map((activity) => (
-                    <tr key={activity.id}>
-                      <td>
-                        <button
-                          onClick={() => handleOpenPdf(activity.article)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#545353",
-                            textDecoration: "none",
-                            cursor: "pointer",
-                            fontSize: "large",
-                            padding: "5px",
-                          }}
-                        >
-                          {activity.title}
-                        </button>
-                      </td>
-                      <td className="topic-code">
-                        <Button
-                          className="btn warning"
-                          onClick={() => handleEditClick(activity.id)}
-                        >
-                          <FaEdit />
-                        </Button>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDelete(activity.id)}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <Card>
+                <Card.Body>
+                  <Table striped bordered hover className="table">
+                    <thead>
+                      <tr>
+                        <th>Chapter Title</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {articles.map((activity) => (
+                        <tr key={activity.id}>
+                          <td>
+                            <button
+                              onClick={() => handleOpenPdf(activity.article)}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "#545353",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                fontSize: "large",
+                                padding: "5px",
+                              }}
+                            >
+                              {activity.title}
+                            </button>
+                          </td>
+                          <td className="topic-code">
+                            <Button
+                              className="btn warning"
+                              onClick={() => handleEditClick(activity.id)}
+                            >
+                              <FaEdit />
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => handleDelete(activity.id)}
+                            >
+                              <FaTrash />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
             )}
           </>
         )}
-        <div className="submit_container">
+        {/* <div className="submit_container">
           <Button variant="secondary" onClick={handleBack}>
             Back
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {/* PDF Modal */}

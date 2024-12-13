@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
@@ -177,48 +177,52 @@ const Theme = () => {
         </Link>
       </div>
       <div className="table-container">
-        <Table striped bordered hover className="table">
-          <thead>
-            <tr>
-              <th className="theme-code">Theme Code</th>
-              <th>Theme Name</th>
-              <th>Class</th>
-              <th>Term</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.themeCode}</td>
-                <td>
-                  <Link
-                    onClick={() => handleShowThemeDetails(item)}
-                    className="custom-link"
-                  >
-                    {item.title}
-                  </Link>
-                </td>
-                <td>{item.classTaught}</td>
-                <td>{item.term}</td>
-                <td className="action">
-                  <Button
-                    className="btn warning"
-                    onClick={() => handleShowEditModal(item)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    className="btn info"
-                    onClick={() => handleView(item.id)}
-                  >
-                    Sub-Themes
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Card>
+          <Card.Body>
+            <Table striped bordered hover className="table">
+              <thead>
+                <tr>
+                  <th className="theme-code">Theme Code</th>
+                  <th>Theme Name</th>
+                  <th>Class</th>
+                  <th>Term</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.themeCode}</td>
+                    <td>
+                      <Link
+                        onClick={() => handleShowThemeDetails(item)}
+                        className="custom-link"
+                      >
+                        {item.title}
+                      </Link>
+                    </td>
+                    <td>{item.classTaught}</td>
+                    <td>{item.term}</td>
+                    <td className="action">
+                      <Button
+                        className="btn warning"
+                        onClick={() => handleShowEditModal(item)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="btn info"
+                        onClick={() => handleView(item.id)}
+                      >
+                        Sub-Themes
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
         {/* Modal to show Theme Details */}
         <Modal
           show={showDetailsModal}

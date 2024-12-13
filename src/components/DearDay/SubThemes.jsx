@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEdit, FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import ReactQuill from "react-quill"; // <-- Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // <-- Import the ReactQuill styling
 import parse from "html-react-parser";
@@ -184,39 +184,43 @@ const SubThemes = () => {
             </p>
           </div>
         ) : (
-          <Table striped bordered hover className="table">
-            <thead>
-              <tr>
-                <th>Sub-Theme Name</th>
-                <th>Number of Weeks</th>
-                <th>Learning Outcome</th>
-                <th className="actions">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subThemes.map((subtheme) => (
-                <tr key={subtheme.id}>
-                  <td>{subtheme.title}</td>
-                  <td>{subtheme.duration}</td>
-                  <td>{parse(subtheme.learning_outcome)}</td>
-                  <td>
-                    <Button
-                      className="btn warning"
-                      onClick={() => openEditModal(subtheme)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      className="btn info"
-                      onClick={() => handleView(subtheme.id)}
-                    >
-                      Chapters
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <Card>
+            <Card.Body>
+              <Table striped bordered hover className="table">
+                <thead>
+                  <tr>
+                    <th>Sub-Theme Name</th>
+                    <th>Number of Weeks</th>
+                    <th>Learning Outcome</th>
+                    <th className="actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subThemes.map((subtheme) => (
+                    <tr key={subtheme.id}>
+                      <td>{subtheme.title}</td>
+                      <td>{subtheme.duration}</td>
+                      <td>{parse(subtheme.learning_outcome)}</td>
+                      <td>
+                        <Button
+                          className="btn warning"
+                          onClick={() => openEditModal(subtheme)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          className="btn info"
+                          onClick={() => handleView(subtheme.id)}
+                        >
+                          Chapters
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
         )}
       </div>
       {/* Add Sub-Theme Modal */}
