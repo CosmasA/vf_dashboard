@@ -451,19 +451,32 @@ const Activitylist = () => {
           <Modal.Title>Add New Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group controlId="mediaType">
-            <Form.Label>Media Type</Form.Label>
-            <Form.Select
-              value={mediaType}
-              onChange={(e) => setMediaType(e.target.value)}
-              required
-            >
-              <option value="" disabled>
-                Select Media Type
-              </option>
-              <option value="text">Text</option>
-              <option value="video">Video</option>
-            </Form.Select>
+          <Form.Group controlId="mediaType" className="text-center p-3">
+            <Form.Label style={{ fontWeight: "700" }} className="mb-3">
+              Choose Media Type
+            </Form.Label>
+            <div className="d-flex justify-content-center gap-3 py-2">
+              <Form.Check
+                type="radio"
+                id="mediaTypeText"
+                name="mediaType"
+                label="Text"
+                value="text"
+                checked={mediaType === "text"}
+                onChange={(e) => setMediaType(e.target.value)}
+                required
+              />
+              <Form.Check
+                type="radio"
+                id="mediaTypeVideo"
+                name="mediaType"
+                label="Video"
+                value="video"
+                checked={mediaType === "video"}
+                onChange={(e) => setMediaType(e.target.value)}
+                required
+              />
+            </div>
           </Form.Group>
 
           <Form onSubmit={handleAddActivitySubmit}>

@@ -14,7 +14,7 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const submitLogin = async (e) => {
@@ -44,64 +44,32 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center">
-      <div className="row w-100 h-100 align-items-center">
+    <div className="container-fluid d-flex justify-content-center align-items-center">
+      <div className="row w-100  align-items-center login-container">
         {/* Left Section */}
-        <div
-          className="col-md-6 d-flex flex-column align-items-center justify-content-center text-center"
-          style={{ height: "97vh", marginBottom: "auto" }}
-        >
-          <img src={loginLogo} alt="Logo" className="responsive-logo" />
-          <hr
-            style={{
-              width: "100%",
-              color: "#777",
-              margin: "20px",
-            }}
-          ></hr>
-          <h1 style={{ marginTop: "20px", marginBottom: "10rem" }}>
-            VirtualFundi
-          </h1>
+        <div className="col-12 col-md-6 left-section d-flex flex-column align-items-center justify-content-center text-center">
+          <img src={loginLogo} alt="Logo" className="responsive-logo mb-3" />
+          <h1 className="title">VirtualFundi</h1>
         </div>
 
         {/* Right Section */}
-        <div
-          className="col-md-6 d-flex flex-column justify-content-center align-items-center"
-          style={{
-            background: "#ffffff",
-            height: "97vh",
-            marginBottom: "auto",
-            borderRadius: "6px",
-            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
-          }}
-        >
+        <div className="col-12 col-md-6 right-section d-flex flex-column justify-content-center align-items-center">
           <h3 className="text-center mb-4">Welcome to VirtualFundi</h3>
-          <br />
-          <em>
-            <h4 className="text-center mb-4">
-              Please enter your Username and Password below...
-            </h4>
-          </em>
-          <br />
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form
-            onSubmit={submitLogin}
-            style={{ width: "100vw", maxWidth: "400px" }}
-          >
+          <Form className="login-form" onSubmit={submitLogin}>
             <Form.Group controlId="formUsername" className="mb-3">
-              <Form.Label className="label-text">Username:</Form.Label>
+              <Form.Label>Username:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="input-field"
               />
             </Form.Group>
 
-            <Form.Group controlId="formPassword" className="mb-3 ">
-              <Form.Label className="label-text-password">Password:</Form.Label>
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password:</Form.Label>
               <div className="password-container">
                 <Form.Control
                   type={passwordVisible ? "text" : "password"}
@@ -109,7 +77,6 @@ const Login = ({ onLogin }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="input-field"
                 />
                 <div
                   className="password-icon"
@@ -122,10 +89,10 @@ const Login = ({ onLogin }) => {
 
             <div className="d-grid mb-3">
               <Button
-                className="custom-login-button"
                 variant="primary"
                 type="submit"
                 size="lg"
+                style={{ border: "1px solid", borderRadius: "4rem" }}
               >
                 Login
               </Button>
@@ -138,7 +105,7 @@ const Login = ({ onLogin }) => {
               onClick={handleSignup}
               style={{
                 border: "1px solid",
-                borderRadius: "5rem",
+                borderRadius: "4rem",
                 width: "100%",
               }}
             >
