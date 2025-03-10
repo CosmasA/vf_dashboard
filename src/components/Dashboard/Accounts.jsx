@@ -236,10 +236,10 @@ const Accounts = ({ onLogout }) => {
               <div className="form-group">
                 <label>Country</label>
                 <select className="form-control">
-                  <option>UG</option>
-                  <option>USA</option>
-                  <option>Canada</option>
-                  <option>UK</option>
+                  <option>Uganda</option>
+                  <option>Kenya</option>
+                  <option>Rwanda</option>
+                  <option>Tanzania</option>
                 </select>
               </div>
             </div>

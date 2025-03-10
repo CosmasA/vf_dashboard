@@ -21,7 +21,6 @@ const Activitylist = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const cancelUpload = useRef(null);
   const [uploadDone, setUploadDone] = useState(false);
   const [percentage, setPercentage] = useState(0);

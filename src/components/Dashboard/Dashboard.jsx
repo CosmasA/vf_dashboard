@@ -37,7 +37,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <section className="content-header">
-        <h4>Welcome to VirtualFundi!</h4>
+        <h4 style={{ marginLeft: "3rem" }}>Welcome to VirtualFundi!</h4>
         <nav className="breadcrumb">
           <ol>
             <li>

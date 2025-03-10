@@ -712,6 +712,7 @@ h4 {
 }
 .menu-list .item:hover {
   background: #f8f8f8;
+  border-left: 4px solid #e6951e;
   color: rgba(82, 109, 130, 0.8);
 }
 
@@ -912,35 +913,6 @@ h4 {
   line-height: 20px;
   position: absolute;
   right: 10px;
-}
-
-/* Scroll to top arrow */
-
-.go-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff;
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  z-index: 1000;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-.go-top:hover {
-  opacity: 1;
-}
-
-.arrow-icon {
-  font-size: 24px;
 }
 
 /* Accounts settings */
@@ -1460,4 +1432,42 @@ h4 {
     overflow-y: auto;
     font-size: small;
   }
+}
+
+.testimonials-section {
+  background-color: #f0f0f0;
+  padding: 60px 0;
+}
+
+.testimonial-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.testimonial-image {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-card .card-body {
+  display: flex;
+  align-items: center;
+}
+
+.testimonial-card .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.testimonial-card .card-text {
+  color: #555;
+}
+
+.carousel-item {
+  transition: transform 0.5s ease-in-out;
 }
