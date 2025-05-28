@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
+const token = "virtual_app_token";
+
 const Secondary = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -34,7 +36,13 @@ const Secondary = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewSecTopics/"
+          "https://fbappliedscience.com/api/viewSecTopics/",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setData(response.data);
         console.log(response.data);
@@ -86,7 +94,7 @@ const Secondary = () => {
       return; // Prevent form submission
     }
     try {
-      await axios.post("http://161.97.81.168:8080/addTopic/", {
+      await axios.post("https://fbappliedscience.com/api/addTopic/", {
         ...newTopicData,
         cat: "Primary",
       });
@@ -100,7 +108,13 @@ const Secondary = () => {
         cat: "Primary",
       });
       const response = await axios.get(
-        "http://161.97.81.168:8080/viewPriTopics/"
+        "https://fbappliedscience.com/api/viewPriTopics/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setData(response.data);
     } catch (error) {
@@ -121,12 +135,18 @@ const Secondary = () => {
     }
     try {
       await axios.put(
-        `http://161.97.81.168:8080/updateTopic/${editTopicData.id}`,
+        `https://fbappliedscience.com/api/updateTopic/${editTopicData.id}`,
         { ...editTopicData, cat: "Primary" }
       );
       setShowEditModal(false);
       const response = await axios.get(
-        "http://161.97.81.168:8080/viewPriTopics/"
+        "https://fbappliedscience.com/api/viewPriTopics/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setData(response.data);
     } catch (error) {
@@ -140,7 +160,7 @@ const Secondary = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://161.97.81.168:8080/deleteTopic/${topicDetails.id}`
+        `https://fbappliedscience.com/api/deleteTopic/${topicDetails.id}`
       );
       setShowDetailsModal(false);
       setShowConfirmDelete(false);

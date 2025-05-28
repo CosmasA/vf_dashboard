@@ -6,8 +6,9 @@ import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
+
+const token = "virtual_app_token";
 
 const Chapters = () => {
   const [articles, setArticles] = useState([]);
@@ -39,7 +40,13 @@ const Chapters = () => {
   const fetchChapters = async () => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/viewChapters/${sub_theme_id}`
+        `https://fbappliedscience.com/api/viewChapters/${sub_theme_id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setArticles(response.data);
       console.log("Articles loaded:", response.data);
@@ -54,7 +61,13 @@ const Chapters = () => {
     const fetchSubThemes = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getSubTheme/${sub_theme_id}`
+          `https://fbappliedscience.com/api/getSubTheme/${sub_theme_id}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setSubthemes(response.data);
         console.log("Sub-theme data:", response.data);
@@ -80,7 +93,7 @@ const Chapters = () => {
       formData.append("article", article);
       // Make POST request to upload media
       const response = await axios.post(
-        "http://161.97.81.168:8080/addChapter/",
+        "https://fbappliedscience.com/api/addChapter/",
         formData
       );
       setShowAddModal(false);
@@ -100,7 +113,7 @@ const Chapters = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://161.97.81.168:8080/deleteCapter/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteCapter/${idToDelete}`
       );
       setShowConfirmation(false);
       console.log("Item deleted successfully:", idToDelete);
@@ -134,7 +147,13 @@ const Chapters = () => {
 
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getChapter/${currentArticleId}`
+          `https://fbappliedscience.com/api/getChapter/${currentArticleId}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         const chapter = response.data;
         console.log("Fetched Article:", chapter);
@@ -173,7 +192,7 @@ const Chapters = () => {
       }
 
       const res = await axios.put(
-        `http://161.97.81.168:8080/updateChapter/${currentArticleId}`,
+        `https://fbappliedscience.com/api/updateChapter/${currentArticleId}`,
         formData,
         {
           headers: {
@@ -203,7 +222,7 @@ const Chapters = () => {
   };
 
   const handleOpenPdf = (pdfPath) => {
-    const fullPdfUrl = `http://161.97.81.168:8080${pdfPath}`;
+    const fullPdfUrl = `https://fbappliedscience.com/api${pdfPath}`;
     setPdfUrl(fullPdfUrl);
     console.log("Opening PDF at URL:", fullPdfUrl);
   };

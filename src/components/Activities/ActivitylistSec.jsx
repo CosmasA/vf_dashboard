@@ -11,6 +11,8 @@ import { Table, Button, Modal, Form, ProgressBar, Card } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
+const token = "virtual_app_token";
+
 const ActivitylistSec = () => {
   const [activities, setActivities] = useState([]);
   const [sessionName, setSessionName] = useState("");
@@ -50,7 +52,13 @@ const ActivitylistSec = () => {
   const fetchActivities = async () => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/viewActivities/${sessionId}`
+        `https://fbappliedscience.com/api/viewActivities/${sessionId}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setActivities(response.data);
       console.log("Activities:", response.data);
@@ -65,7 +73,13 @@ const ActivitylistSec = () => {
     const getSessionName = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getSession/${sessionId}`
+          `https://fbappliedscience.com/api/getSession/${sessionId}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setSessionName(response.data.sessionName);
         // console.log("session Data", response.data);
@@ -82,7 +96,13 @@ const ActivitylistSec = () => {
     const fetchSession = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getSession/${sessionId}`
+          `https://fbappliedscience.com/api/getSession/${sessionId}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setSession(response.data);
         // console.log("Session got:", response.data);
@@ -96,7 +116,13 @@ const ActivitylistSec = () => {
   const fetchActivityDetails = async (activityId) => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/getActivity/${activityId}`
+        `https://fbappliedscience.com/api/getActivity/${activityId}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setActivityDetails(response.data);
       setShowModal(true);
@@ -110,7 +136,12 @@ const ActivitylistSec = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const response = await axios.get("http://161.97.81.168:8080/");
+        const response = await axios.get("https://fbappliedscience.com/api/", {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const topicData = response.data;
         setData(topicData);
         setTopicName(topicData.topicName);
@@ -133,7 +164,7 @@ const ActivitylistSec = () => {
     try {
       // Perform the delete operation
       await axios.delete(
-        `http://161.97.81.168:8080/deleteActivity/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteActivity/${idToDelete}`
       );
       // After successful deletion, hide the confirmation dialog and reload the data
       setShowConfirmation(false);
@@ -189,7 +220,7 @@ const ActivitylistSec = () => {
 
     try {
       const response = await axios.post(
-        "http://161.97.81.168:8080/addActivity/",
+        "https://fbappliedscience.com/api/addActivity/",
         formData,
         {
           onUploadProgress: (data) => {
@@ -236,7 +267,12 @@ const ActivitylistSec = () => {
   useEffect(() => {
     if (showEditActivityModal && activityId) {
       axios
-        .get(`http://161.97.81.168:8080/getActivity/${activityId}`)
+        .get(`https://fbappliedscience.com/api/getActivity/${activityId}`, {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
           console.log("Fetched activity data:", response.data);
           const activity = response.data;
@@ -290,7 +326,7 @@ const ActivitylistSec = () => {
 
     try {
       const response = await axios.put(
-        `http://161.97.81.168:8080/updateActivity/${activityId}`,
+        `https://fbappliedscience.com/api/updateActivity/${activityId}`,
         formData,
         {
           onUploadProgress: (data) => {
@@ -758,7 +794,7 @@ const ActivitylistSec = () => {
                       onError={() => console.error("Video failed to load")}
                     >
                       <source
-                        src={`http://161.97.81.168:8080${editVideo}`}
+                        src={`https://fbappliedscience.com/api${editVideo}`}
                         type="video/mp4"
                       />
                       Your browser does not support the video tag.
@@ -1001,7 +1037,7 @@ const ActivitylistSec = () => {
                     }}
                   >
                     <source
-                      src={`http://161.97.81.168:8080${activityDetails.video}`}
+                      src={`https://fbappliedscience.com/api${activityDetails.video}`}
                       type="video/mp4"
                     />
                     Your browser does not support the video tag.

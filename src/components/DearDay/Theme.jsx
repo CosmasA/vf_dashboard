@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 
+const token = "virtual_app_token";
+
 const Theme = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -30,7 +32,13 @@ const Theme = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTheme/"
+          "https://fbappliedscience.com/api/viewTheme/",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setData(response.data);
         console.log(response.data);
@@ -81,7 +89,7 @@ const Theme = () => {
       return; // Prevent form submission
     }
     try {
-      await axios.post("http://161.97.81.168:8080/addTheme/", {
+      await axios.post("https://fbappliedscience.com/api/addTheme/", {
         ...newThemeData,
       });
       setShowAddModal(false);
@@ -91,7 +99,9 @@ const Theme = () => {
         term: "",
         classTaught: "",
       });
-      const response = await axios.get("http://161.97.81.168:8080/viewTheme/");
+      const response = await axios.get(
+        "https://fbappliedscience.com/api/viewTheme/"
+      );
       setData(response.data);
     } catch (error) {
       console.error("Error adding new theme:", error);
@@ -110,11 +120,13 @@ const Theme = () => {
     }
     try {
       await axios.put(
-        `http://161.97.81.168:8080/updateTopic/${editThemeData.id}`,
+        `https://fbappliedscience.com/api/updateTopic/${editThemeData.id}`,
         { ...editThemeData }
       );
       setShowEditModal(false);
-      const response = await axios.get("http://161.97.81.168:8080/viewTheme/");
+      const response = await axios.get(
+        "https://fbappliedscience.com/api/viewTheme/"
+      );
       setData(response.data);
     } catch (error) {
       console.error("Error editing theme:", error);
@@ -127,7 +139,7 @@ const Theme = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://161.97.81.168:8080/deleteTopic/${themeDetails.id}`
+        `https://fbappliedscience.com/api/deleteTopic/${themeDetails.id}`
       );
       setShowDetailsModal(false);
       setShowConfirmDelete(false);

@@ -7,6 +7,8 @@ import ReactQuill from "react-quill"; // <-- Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // <-- Import the ReactQuill styling
 import parse from "html-react-parser";
 
+const token = "virtual_app_token";
+
 const SubThemes = () => {
   const navigate = useNavigate();
   const { theme_id } = useParams();
@@ -38,7 +40,13 @@ const SubThemes = () => {
     const fetchTheme = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getTheme/${theme_id}`
+          `https://fbappliedscience.com/api/getTheme/${theme_id}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setData(response.data);
         console.log(response.data);
@@ -53,7 +61,13 @@ const SubThemes = () => {
     const fetchSubThemes = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/viewSubTheme/${theme_id}`
+          `https://fbappliedscience.com/api/viewSubTheme/${theme_id}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setSubThemes(response.data);
       } catch (error) {
@@ -66,7 +80,13 @@ const SubThemes = () => {
     const getThemeName = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getTheme/${theme_id}`
+          `https://fbappliedscience.com/api/getTheme/${theme_id}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setThemeName(response.data.title);
       } catch (error) {
@@ -100,7 +120,7 @@ const SubThemes = () => {
   const handleAddSubTheme = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://161.97.81.168:8080/addSubTheme/", {
+      await axios.post("https://fbappliedscience.com/api/addSubTheme/", {
         title,
         theme: theme_id,
         duration,
@@ -118,7 +138,7 @@ const SubThemes = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://161.97.81.168:8080/updateSubTheme/${selectedSubTheme.id}`,
+        `https://fbappliedscience.com/api/updateSubTheme/${selectedSubTheme.id}`,
         {
           title,
           theme: selectedSubTheme.theme,

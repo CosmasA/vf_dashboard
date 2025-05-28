@@ -10,7 +10,7 @@ const TopicsList = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const response = await axios.get("http://161.97.81.168:8080/");
+        const response = await axios.get("https://fbappliedscience.com/api/");
         const sortedData = response.data.sort((a, b) => {
           // Sort by classTaught in alphabetical order
           return a.classTaught.localeCompare(b.classTaught);

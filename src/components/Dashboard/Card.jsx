@@ -10,7 +10,9 @@ import {
 import { Link } from "react-router-dom";
 import { Modal, Button, Table, Alert } from "react-bootstrap";
 import axios from "axios";
-import { getToken } from "../Dashboard/token";
+// import { getToken } from "../Dashboard/token";
+
+const token = "virtual_app_token";
 
 const Card = () => {
   const [topic, setTopic] = useState([]);
@@ -25,7 +27,12 @@ const Card = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const response = await axios.get("http://161.97.81.168:8080/");
+        const response = await axios.get("https://fbappliedscience.com/api/", {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         setTopic(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -40,7 +47,13 @@ const Card = () => {
     const fetchThemes = async () => {
       try {
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTheme/"
+          "https://fbappliedscience.com/api/viewTheme/",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setTheme(response.data);
       } catch (error) {
@@ -53,12 +66,13 @@ const Card = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = getToken(); // Retrieve the token
+        // const token = getToken(); // Retrieve the token
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTeachers/",
+          "https://fbappliedscience.com/api/viewTeachers/",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Use the token here
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
             },
           }
         );

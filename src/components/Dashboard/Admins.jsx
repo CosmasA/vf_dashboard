@@ -3,7 +3,9 @@ import { Table, Button, Modal, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
-import { setToken, getToken } from "./token";
+// import { setToken, getToken } from "./token";
+
+const token = "virtual_app_token";
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -19,12 +21,13 @@ const Admins = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = getToken(); // Retrieve the token
+        // const token = getToken(); // Retrieve the token
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTeachers/",
+          "https://fbappliedscience.com/api/viewTeachers/",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Use the token here
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
             },
           }
         );
@@ -41,9 +44,9 @@ const Admins = () => {
     e.preventDefault();
 
     try {
-      const token = getToken(); // Retrieve the token
+      // const token = getToken(); // Retrieve the token
       const response = await axios.post(
-        "http://161.97.81.168:8080/addTeacher/",
+        "https://fbappliedscience.com/api/addTeacher/",
         {
           schoolName,
           teachersName,

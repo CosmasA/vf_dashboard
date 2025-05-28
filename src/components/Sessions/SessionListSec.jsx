@@ -6,6 +6,8 @@ import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import parse from "html-react-parser";
 import ReactQuill from "react-quill";
 
+const token = "virtual_app_token";
+
 const SessionListSec = () => {
   const navigate = useNavigate();
   const [sessions, setSessions] = useState([]);
@@ -58,7 +60,13 @@ const SessionListSec = () => {
     const fetchTopics = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getTopic/${topicId}`
+          `https://fbappliedscience.com/api/getTopic/${topicId}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setTopic(response.data);
       } catch (error) {
@@ -71,7 +79,13 @@ const SessionListSec = () => {
   const fetchSessions = async () => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/viewSessions/${topicId}`
+        `https://fbappliedscience.com/api/viewSessions/${topicId}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setSessions(response.data);
       console.log("Session List:", response.data);
@@ -86,7 +100,13 @@ const SessionListSec = () => {
     const getTopicName = async () => {
       try {
         const response = await axios.get(
-          `http://161.97.81.168:8080/getTopic/${topicId}`
+          `https://fbappliedscience.com/api/getTopic/${topicId}`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         setTopicName(response.data.topicName);
       } catch (error) {
@@ -102,7 +122,7 @@ const SessionListSec = () => {
     e.preventDefault();
 
     axios
-      .post("http://161.97.81.168:8080/addSession/", {
+      .post("https://fbappliedscience.com/api/addSession/", {
         sessionName: sessionName,
         topic: selectedTopic,
         duration: duration,
@@ -128,7 +148,7 @@ const SessionListSec = () => {
     try {
       // Perform the delete operation
       await axios.delete(
-        `http://161.97.81.168:8080/deleteSession/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteSession/${idToDelete}`
       );
       // After successful deletion, hide the confirmation dialog and reload the data
       setShowConfirmation(false);
@@ -151,7 +171,13 @@ const SessionListSec = () => {
   const fetchSessionById = async (sessionId) => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/getSession/${sessionId}`
+        `https://fbappliedscience.com/api/getSession/${sessionId}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       const session = response.data;
 
@@ -178,14 +204,17 @@ const SessionListSec = () => {
     }
     try {
       await axios
-        .put(`http://161.97.81.168:8080/updateSession/${editSessionId}`, {
-          sessionName: sessionName,
-          topic: selectedTopic,
-          duration: duration,
-          learningObjective: objectives,
-          fundibotsResources: fundibotsResources,
-          schoolResources: schoolResources,
-        })
+        .put(
+          `https://fbappliedscience.com/api/updateSession/${editSessionId}`,
+          {
+            sessionName: sessionName,
+            topic: selectedTopic,
+            duration: duration,
+            learningObjective: objectives,
+            fundibotsResources: fundibotsResources,
+            schoolResources: schoolResources,
+          }
+        )
         .then((res) => {
           console.log("Response:", res);
           if (res.request.status === 200) {

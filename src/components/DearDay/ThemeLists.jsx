@@ -12,7 +12,7 @@ const ThemeLists = () => {
     const fetchThemes = async () => {
       try {
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTheme/"
+          "https://fbappliedscience.com/api/viewTheme/"
         );
         setData(response.data);
         console.log(response.data);

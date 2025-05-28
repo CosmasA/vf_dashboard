@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
-import { setToken } from "./token";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginLogo from "../../assets/fundi_logo.png";
 
 const client = axios.create({
-  baseURL: "http://161.97.81.168:8080/",
+  baseURL: "https://fbappliedscience.com/api/",
 });
+
+const token = "virtual_app_token";
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
@@ -20,21 +21,29 @@ const Login = ({ onLogin }) => {
   const submitLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await client.post("login/", {
-        username,
-        password,
-      });
-      setToken(res.data.token);
-      console.log("Login successful:", res.data);
-      onLogin(); // Call the onLogin prop
+      const res = await client.post(
+        "login/",
+        { username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // if (res.data.Token) {
+      //   setToken(res.data.Token);
+      //   console.log("Token set successfully:", res.data.Token);
+      onLogin();
+      navigate("/home");
+      // }
     } catch (err) {
-      if (err.response && err.response.status === 401) {
-        console.log("Invalid username or password", err);
-        setError("Invalid username or password");
-      } else {
-        setError("An error occurred. Please try again later.");
-      }
-      console.error("Login error:", err);
+      const errorMessage =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Authentication failed";
+      setError(errorMessage);
+      console.error("Login error:", err.response?.data);
     }
   };
 

@@ -3,8 +3,10 @@ import { Table, Modal, Button, Form, Card } from "react-bootstrap";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { setToken, getToken } from "../Dashboard/token";
+// import { setToken, getToken } from "../Dashboard/token";
 import { useParams } from "react-router-dom";
+
+const token = "virtual_app_token";
 
 const TeacherDetails = () => {
   const [schoolName, setSchoolName] = useState("");
@@ -30,12 +32,13 @@ const TeacherDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = getToken(); // Retrieve the token
+        // const token = getToken(); // Retrieve the token
         const response = await axios.get(
-          "http://161.97.81.168:8080/viewTeachers/",
+          "https://fbappliedscience.com/api/viewTeachers/",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Use the token here
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
             },
           }
         );
@@ -52,9 +55,9 @@ const TeacherDetails = () => {
     e.preventDefault();
 
     try {
-      const token = getToken(); // Retrieve the token
+      // const token = getToken(); // Retrieve the token
       const response = await axios.post(
-        "http://161.97.81.168:8080/addTeacher/",
+        "https://fbappliedscience.com/api/addTeacher/",
         {
           schoolName: schoolName,
           teachersName: teachersName,
@@ -63,8 +66,8 @@ const TeacherDetails = () => {
         },
         {
           headers: {
+            Authorization: `Token ${token}`,
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Use the token here
           },
         }
       );
@@ -82,7 +85,13 @@ const TeacherDetails = () => {
   const fetchTeacherById = async (teacherId) => {
     try {
       const response = await axios.get(
-        `http://161.97.81.168:8080/getTeacher/${teacherId}`
+        `https://fbappliedscience.com/api/getTeacher/${teacherId}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       const details = response.data;
       setClassTaught(details.classTaught);
@@ -141,7 +150,7 @@ const TeacherDetails = () => {
       return;
     }
     axios
-      .put(`http://161.97.81.168:8080/updateTeacher/${editTeacherId}`, {
+      .put(`https://fbappliedscience.com/api/updateTeacher/${editTeacherId}`, {
         schoolName: schoolName,
         teachersName: teachersName,
         classTaught: classTaught,
