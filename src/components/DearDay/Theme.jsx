@@ -89,9 +89,18 @@ const Theme = () => {
       return; // Prevent form submission
     }
     try {
-      await axios.post("https://fbappliedscience.com/api/addTheme/", {
-        ...newThemeData,
-      });
+      await axios.post(
+        "https://fbappliedscience.com/api/addTheme/",
+        {
+          ...newThemeData,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setShowAddModal(false);
       setNewThemeData({
         title: "",
@@ -100,7 +109,13 @@ const Theme = () => {
         classTaught: "",
       });
       const response = await axios.get(
-        "https://fbappliedscience.com/api/viewTheme/"
+        "https://fbappliedscience.com/api/viewTheme/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setData(response.data);
     } catch (error) {
@@ -121,11 +136,23 @@ const Theme = () => {
     try {
       await axios.put(
         `https://fbappliedscience.com/api/updateTopic/${editThemeData.id}`,
-        { ...editThemeData }
+        { ...editThemeData },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setShowEditModal(false);
       const response = await axios.get(
-        "https://fbappliedscience.com/api/viewTheme/"
+        "https://fbappliedscience.com/api/viewTheme/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setData(response.data);
     } catch (error) {
@@ -139,7 +166,13 @@ const Theme = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteTopic/${themeDetails.id}`
+        `https://fbappliedscience.com/api/deleteTopic/${themeDetails.id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setShowDetailsModal(false);
       setShowConfirmDelete(false);

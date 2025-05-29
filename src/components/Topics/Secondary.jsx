@@ -94,10 +94,19 @@ const Secondary = () => {
       return; // Prevent form submission
     }
     try {
-      await axios.post("https://fbappliedscience.com/api/addTopic/", {
-        ...newTopicData,
-        cat: "Primary",
-      });
+      await axios.post(
+        "https://fbappliedscience.com/api/addTopic/",
+        {
+          ...newTopicData,
+          cat: "Primary",
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setShowAddModal(false);
       setNewTopicData({
         topicName: "",
@@ -136,7 +145,13 @@ const Secondary = () => {
     try {
       await axios.put(
         `https://fbappliedscience.com/api/updateTopic/${editTopicData.id}`,
-        { ...editTopicData, cat: "Primary" }
+        { ...editTopicData, cat: "Primary" },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setShowEditModal(false);
       const response = await axios.get(
@@ -160,7 +175,13 @@ const Secondary = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteTopic/${topicDetails.id}`
+        `https://fbappliedscience.com/api/deleteTopic/${topicDetails.id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setShowDetailsModal(false);
       setShowConfirmDelete(false);

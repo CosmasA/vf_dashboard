@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table, Modal, Button, Form, Card } from "react-bootstrap";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import { setToken, getToken } from "../Dashboard/token";
-import { useParams } from "react-router-dom";
 
 const token = "virtual_app_token";
 
@@ -150,12 +148,21 @@ const TeacherDetails = () => {
       return;
     }
     axios
-      .put(`https://fbappliedscience.com/api/updateTeacher/${editTeacherId}`, {
-        schoolName: schoolName,
-        teachersName: teachersName,
-        classTaught: classTaught,
-        phoneName: phoneName,
-      })
+      .put(
+        `https://fbappliedscience.com/api/updateTeacher/${editTeacherId}`,
+        {
+          schoolName: schoolName,
+          teachersName: teachersName,
+          classTaught: classTaught,
+          phoneName: phoneName,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         setSuccess("Teacher details updated successfully.");
         alert("Teacher details updated successfully");

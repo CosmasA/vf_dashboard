@@ -94,7 +94,13 @@ const Chapters = () => {
       // Make POST request to upload media
       const response = await axios.post(
         "https://fbappliedscience.com/api/addChapter/",
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       setShowAddModal(false);
       fetchChapters();
@@ -113,7 +119,13 @@ const Chapters = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteCapter/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteCapter/${idToDelete}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setShowConfirmation(false);
       console.log("Item deleted successfully:", idToDelete);
@@ -196,6 +208,7 @@ const Chapters = () => {
         formData,
         {
           headers: {
+            Authorization: `Token ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }

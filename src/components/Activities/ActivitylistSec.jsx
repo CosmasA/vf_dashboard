@@ -164,7 +164,13 @@ const ActivitylistSec = () => {
     try {
       // Perform the delete operation
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteActivity/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteActivity/${idToDelete}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       // After successful deletion, hide the confirmation dialog and reload the data
       setShowConfirmation(false);
@@ -222,6 +228,12 @@ const ActivitylistSec = () => {
       const response = await axios.post(
         "https://fbappliedscience.com/api/addActivity/",
         formData,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data", // Use multipart/form-data for file uploads
+          },
+        },
         {
           onUploadProgress: (data) => {
             setPercentage(Math.round((100 * data.loaded) / data.total));
@@ -328,6 +340,12 @@ const ActivitylistSec = () => {
       const response = await axios.put(
         `https://fbappliedscience.com/api/updateActivity/${activityId}`,
         formData,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "multipart/form-data", // Use multipart/form-data for file uploads
+          },
+        },
         {
           onUploadProgress: (data) => {
             setPercentage(Math.round((100 * data.loaded) / data.total));

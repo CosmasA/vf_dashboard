@@ -122,14 +122,23 @@ const SessionListSec = () => {
     e.preventDefault();
 
     axios
-      .post("https://fbappliedscience.com/api/addSession/", {
-        sessionName: sessionName,
-        topic: selectedTopic,
-        duration: duration,
-        learningObjective: objectives,
-        fundibotsResources: fundibotsResources,
-        schoolResources: schoolResources,
-      })
+      .post(
+        "https://fbappliedscience.com/api/addSession/",
+        {
+          sessionName: sessionName,
+          topic: selectedTopic,
+          duration: duration,
+          learningObjective: objectives,
+          fundibotsResources: fundibotsResources,
+          schoolResources: schoolResources,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then(function (res) {
         console.log("Response", res);
         alert("Added successfully");
@@ -148,7 +157,13 @@ const SessionListSec = () => {
     try {
       // Perform the delete operation
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteSession/${idToDelete}`
+        `https://fbappliedscience.com/api/deleteSession/${idToDelete}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       // After successful deletion, hide the confirmation dialog and reload the data
       setShowConfirmation(false);
@@ -213,6 +228,13 @@ const SessionListSec = () => {
             learningObjective: objectives,
             fundibotsResources: fundibotsResources,
             schoolResources: schoolResources,
+          },
+
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json",
+            },
           }
         )
         .then((res) => {

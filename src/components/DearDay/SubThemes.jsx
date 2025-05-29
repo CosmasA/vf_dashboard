@@ -120,12 +120,21 @@ const SubThemes = () => {
   const handleAddSubTheme = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://fbappliedscience.com/api/addSubTheme/", {
-        title,
-        theme: theme_id,
-        duration,
-        learning_outcome: learning_outcome,
-      });
+      await axios.post(
+        "https://fbappliedscience.com/api/addSubTheme/",
+        {
+          title,
+          theme: theme_id,
+          duration,
+          learning_outcome: learning_outcome,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       alert("SubTheme Added successfully");
       setShowAddModal(false);
       navigate(`/viewSubTheme/${theme_id}`);
@@ -144,6 +153,12 @@ const SubThemes = () => {
           theme: selectedSubTheme.theme,
           duration,
           learning_outcome: learning_outcome,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
       alert("SubTheme Updated successfully");
