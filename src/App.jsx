@@ -49,7 +49,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router basename="/vf_dashboard/">
+    <Router basename="/">
       {isAuthenticated ? (
         <div className="dashboard">
           <Sidebar onLogout={handleLogout} /> {/* Pass logout function */}
