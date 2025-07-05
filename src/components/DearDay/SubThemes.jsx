@@ -153,13 +153,13 @@ const SubThemes = () => {
           theme: selectedSubTheme.theme,
           duration,
           learning_outcome: learning_outcome,
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
         }
+        // {
+        //   headers: {
+        //     Authorization: `Token ${token}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // }
       );
       alert("SubTheme Updated successfully");
       setShowEditModal(false);

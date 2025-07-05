@@ -8,6 +8,7 @@ import {
   FaUserTie,
   FaUser,
   FaCog,
+  FaComments,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../Assets/fb.png";
@@ -27,6 +28,7 @@ const Sidebar = () => {
     { path: "/dearday", label: "DEAR Day", icon: <FaBars /> },
     { path: "/admins", label: "Admins", icon: <FaUsers /> },
     { path: "/teachers", label: "Teachers", icon: <FaUserTie /> },
+    { path: "/feedbacks", label: "Feedbacks", icon: <FaComments /> },
     { path: "/schools", label: "Schools", icon: <FaSchool /> },
     { path: "/accounts", label: "Settings", icon: <FaCog /> },
   ];

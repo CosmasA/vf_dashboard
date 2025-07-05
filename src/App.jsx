@@ -26,6 +26,7 @@ import ActivitylistSec from "./components/Activities/ActivitylistSec";
 import Admins from "./components/Dashboard/Admins";
 import Accounts from "./components/Dashboard/Accounts";
 import { getToken, removeToken } from "./components/Dashboard/token"; // Import token utilities
+import Feedback from "./components/Dashboard/Feedback"; // Import Feedback component
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
@@ -93,6 +94,7 @@ const App = () => {
               <Route path="/dearday" element={<Theme />} />
               <Route path="/schools" element={<SchoolDetails />} />
               <Route path="/teachers" element={<TeacherDetails />} />
+              <Route path="/feedbacks" element={<Feedback />} />
             </Routes>
           </div>
         </div>

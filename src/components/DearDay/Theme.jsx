@@ -135,7 +135,7 @@ const Theme = () => {
     }
     try {
       await axios.put(
-        `https://fbappliedscience.com/api/updateTopic/${editThemeData.id}`,
+        `https://fbappliedscience.com/api/updateTheme/${editThemeData.id}`,
         { ...editThemeData },
         {
           headers: {
@@ -166,7 +166,7 @@ const Theme = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://fbappliedscience.com/api/deleteTopic/${themeDetails.id}`,
+        `https://fbappliedscience.com/api/deleteTheme/${themeDetails.id}`,
         {
           headers: {
             Authorization: `Token ${token}`,
