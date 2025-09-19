@@ -23,7 +23,7 @@ const Admins = () => {
       try {
         // const token = getToken(); // Retrieve the token
         const response = await axios.get(
-          "https://fbappliedscience.com/api/viewTeachers/",
+          "https://fbappliedscience.com/api/viewSuperUser/",
           {
             headers: {
               Authorization: `Token ${token}`,
