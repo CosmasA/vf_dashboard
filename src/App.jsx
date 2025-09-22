@@ -94,7 +94,7 @@ const App = () => {
               <Route path="/dearday" element={<Theme />} />
               <Route path="/schools" element={<SchoolDetails />} />
               <Route path="/teachers" element={<TeacherDetails />} />
-              <Route path="/feedbacks" element={<Feedback />} />
+              <Route path="/feedback" element={<Feedback />} />
             </Routes>
           </div>
         </div>

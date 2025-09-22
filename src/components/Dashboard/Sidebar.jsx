@@ -28,7 +28,7 @@ const Sidebar = () => {
     { path: "/dearday", label: "DEAR Day", icon: <FaBars /> },
     { path: "/admins", label: "Admins", icon: <FaUsers /> },
     { path: "/teachers", label: "Teachers", icon: <FaUserTie /> },
-    { path: "/feedbacks", label: "Feedbacks", icon: <FaComments /> },
+    { path: "/feedback", label: "Feedback", icon: <FaComments /> },
     { path: "/schools", label: "Schools", icon: <FaSchool /> },
     { path: "/accounts", label: "Settings", icon: <FaCog /> },
   ];

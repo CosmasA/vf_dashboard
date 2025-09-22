@@ -5,8 +5,6 @@ import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import axios from "axios";
 // import { setToken, getToken } from "./token";
 
-const token = "virtual_app_token";
-
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
   const [show, setShow] = useState(false);
@@ -17,6 +15,8 @@ const Admins = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const token = "virtual_app_token";
 
   useEffect(() => {
     const fetchData = async () => {
