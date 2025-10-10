@@ -3,8 +3,8 @@ import axios from "axios";
 import { FaEdit, FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Table, Button, Modal, Form, Card } from "react-bootstrap";
-import ReactQuill from "react-quill"; // <-- Import ReactQuill
-import "react-quill/dist/quill.snow.css"; // <-- Import the ReactQuill styling
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import parse from "html-react-parser";
 
 const token = "virtual_app_token";
@@ -20,12 +20,14 @@ const SubThemes = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const [title, setTitle] = useState("");
   const [learning_outcome, setLearning_Outcome] = useState("");
   const [selectedTheme, setSelectedTheme] = useState("");
   const [duration, setDuration] = useState("");
   const [selectedSubTheme, setSelectedSubTheme] = useState(null);
+  const [subThemeToDelete, setSubThemeToDelete] = useState(null);
 
   const modules = {
     toolbar: [
@@ -137,9 +139,20 @@ const SubThemes = () => {
       );
       alert("SubTheme Added successfully");
       setShowAddModal(false);
-      navigate(`/viewSubTheme/${theme_id}`);
+      // Refresh the subthemes list
+      const response = await axios.get(
+        `https://fbappliedscience.com/api/viewSubTheme/${theme_id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setSubThemes(response.data);
     } catch (error) {
       console.error("Error adding subtheme:", error);
+      alert("Error adding subtheme. Please try again.");
     }
   };
 
@@ -153,20 +166,73 @@ const SubThemes = () => {
           theme: selectedSubTheme.theme,
           duration,
           learning_outcome: learning_outcome,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-        // {
-        //   headers: {
-        //     Authorization: `Token ${token}`,
-        //     "Content-Type": "application/json",
-        //   },
-        // }
       );
       alert("SubTheme Updated successfully");
       setShowEditModal(false);
-      navigate(`/viewSubTheme/${theme_id}`);
+      // Refresh the subthemes list
+      const response = await axios.get(
+        `https://fbappliedscience.com/api/viewSubTheme/${theme_id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setSubThemes(response.data);
     } catch (error) {
       console.error("Error updating subtheme:", error);
+      alert("Error updating subtheme. Please try again.");
     }
+  };
+
+  const handleDeleteSubTheme = (subThemeId) => {
+    setSubThemeToDelete(subThemeId);
+    setShowConfirmation(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(
+        `https://fbappliedscience.com/api/deleteSubTheme/${subThemeToDelete}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("SubTheme deleted successfully");
+      setShowConfirmation(false);
+      setShowEditModal(false);
+      setSubThemeToDelete(null);
+      // Refresh the subthemes list
+      const response = await axios.get(
+        `https://fbappliedscience.com/api/viewSubTheme/${theme_id}`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setSubThemes(response.data);
+    } catch (error) {
+      console.error("Error deleting subtheme:", error);
+      alert("Error deleting subtheme. Please try again.");
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmation(false);
+    setSubThemeToDelete(null);
   };
 
   const handleView = (sub_theme_id) => {
@@ -356,6 +422,7 @@ const SubThemes = () => {
         <Modal.Header closeButton>
           <Modal.Title>Edit Sub-Theme</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
           <Form onSubmit={handleEditSubTheme}>
             <Form.Group controlId="title">
@@ -409,11 +476,46 @@ const SubThemes = () => {
               />
             </Form.Group>
 
-            <Button variant="success" type="submit" className="mt-3">
-              Update Sub-Theme
-            </Button>
+            {/* Buttons Section */}
+            <div className="d-flex justify-content-between mt-4">
+              <Button variant="success" type="submit">
+                Update Sub-Theme
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="danger"
+            onClick={() => handleDeleteSubTheme(selectedSubTheme.id)}
+          >
+            Delete Sub-Theme
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Confirmation Modal */}
+      <Modal
+        show={showConfirmation}
+        onHide={cancelDelete}
+        centered
+        backdrop="static"
+        className="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this sub-theme?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={confirmDelete}>
+            Yes
+          </Button>
+          <Button variant="secondary" onClick={cancelDelete}>
+            No
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

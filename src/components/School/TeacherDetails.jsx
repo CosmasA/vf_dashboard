@@ -4,13 +4,14 @@ import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const token = "virtual_app_token";
+// Get token from localStorage or your auth system
+const getToken = () => {
+  return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || "virtual_app_token";
+};
+
+const token = getToken();
 
 const TeacherDetails = () => {
-  const [schoolName, setSchoolName] = useState("");
-  const [teachersName, setTeachersName] = useState("");
-  const [classTaught, setClassTaught] = useState("");
-  const [phoneName, setPhoneName] = useState("");
   const [teachersData, setTeachersData] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -18,49 +19,59 @@ const TeacherDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
-  const [editTeacherId, setEditTeacherId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editFormData, setEditFormData] = useState({
-    teacherName: "",
+
+  // Add Teacher Form State
+  const [addFormData, setAddFormData] = useState({
     schoolName: "",
-    contactNumber: "",
+    teachersName: "",
+    classTaught: "",
+    phoneName: "",
+  });
+
+  // Edit Teacher Form State
+  const [editFormData, setEditFormData] = useState({
+    id: null,
+    teachersName: "",
+    schoolName: "",
+    phoneName: "",
     classTaught: "",
   });
 
+  // Fetch all teachers
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const token = getToken(); // Retrieve the token
-        const response = await axios.get(
-          "https://fbappliedscience.com/api/viewTeachers/",
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setTeachersData(response.data);
-        // console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+    fetchTeachers();
   }, []);
 
+  const fetchTeachers = async () => {
+    try {
+      const response = await axios.get(
+        "https://fbappliedscience.com/api/viewTeachers/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setTeachersData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Handle Add Teacher Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // const token = getToken(); // Retrieve the token
       const response = await axios.post(
         "https://fbappliedscience.com/api/addTeacher/",
         {
-          schoolName: schoolName,
-          teachersName: teachersName,
-          classTaught: classTaught,
-          phoneName: phoneName,
+          schoolName: addFormData.schoolName,
+          teachersName: addFormData.teachersName,
+          classTaught: addFormData.classTaught,
+          phoneName: addFormData.phoneName,
         },
         {
           headers: {
@@ -72,6 +83,7 @@ const TeacherDetails = () => {
       alert("Record Added successfully");
       console.log("Response:", response);
       handleCloseAddModal();
+      fetchTeachers(); // Refresh the list
     } catch (error) {
       console.error("Error inserting data:", error);
       if (error.response) {
@@ -80,37 +92,17 @@ const TeacherDetails = () => {
     }
   };
 
-  const fetchTeacherById = async (teacherId) => {
-    try {
-      const response = await axios.get(
-        `https://fbappliedscience.com/api/getTeacher/${teacherId}`,
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const details = response.data;
-      setClassTaught(details.classTaught);
-      setTeachersName(details.teachersName);
-      setSchoolName(details.schoolName);
-      setPhoneName(details.phoneName);
-      setEditTeacherId(details.id);
-      console.log(details);
-    } catch (error) {
-      console.error("Error fetching a teacher by ID:", error);
-    }
-  };
-  // Function to open modal and set selected teacher details
+  // Function to open modal and display teacher details
   const handleShowModal = (teacher) => {
     setSelectedTeacher(teacher);
     setEditFormData({
-      teacherName: teacher.teachersName,
+      id: teacher.id,
+      teachersName: teacher.teachersName,
       schoolName: teacher.schoolName,
-      contactNumber: teacher.phoneName,
+      phoneName: teacher.phoneName,
       classTaught: teacher.classTaught,
     });
+    setIsEditing(false);
     setShowModal(true);
   };
 
@@ -125,36 +117,49 @@ const TeacherDetails = () => {
   };
 
   const handleCloseAddModal = () => {
-    // Reset fields to default values
-    setSchoolName("");
-    setTeachersName("");
-    setClassTaught("");
-    setPhoneName("");
-
-    // Close the modal
+    // Reset add form fields
+    setAddFormData({
+      schoolName: "",
+      teachersName: "",
+      classTaught: "",
+      phoneName: "",
+    });
     setShowAddModal(false);
   };
 
-  // Function to handle form changes
-  const handleChange = (e) => {
+  // Handle change for Add form
+  const handleAddFormChange = (e) => {
+    const { name, value } = e.target;
+    setAddFormData({ ...addFormData, [name]: value });
+  };
+
+  // Handle change for Edit form
+  const handleEditFormChange = (e) => {
     const { name, value } = e.target;
     setEditFormData({ ...editFormData, [name]: value });
   };
 
+  // Switch to edit mode
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
   // Function to save changes
-  const handleSaveChanges = () => {
-    if (!editTeacherId) {
+  const handleSaveChanges = async () => {
+    if (!editFormData.id) {
       console.error("Teacher ID is undefined");
+      alert("Error: Teacher ID is missing");
       return;
     }
-    axios
-      .put(
-        `https://fbappliedscience.com/api/updateTeacher/${editTeacherId}`,
+
+    try {
+      const response = await axios.put(
+        `https://fbappliedscience.com/api/updateTeacher/${editFormData.id}`,
         {
-          schoolName: schoolName,
-          teachersName: teachersName,
-          classTaught: classTaught,
-          phoneName: phoneName,
+          schoolName: editFormData.schoolName,
+          teachersName: editFormData.teachersName,
+          classTaught: editFormData.classTaught,
+          phoneName: editFormData.phoneName,
         },
         {
           headers: {
@@ -162,18 +167,19 @@ const TeacherDetails = () => {
             "Content-Type": "application/json",
           },
         }
-      )
-      .then((response) => {
-        setSuccess("Teacher details updated successfully.");
-        alert("Teacher details updated successfully");
-        console.log("Response:", response);
-        setError(null);
-        handleCloseModal();
-      })
-      .catch((err) => {
-        setError("Failed to update teacher details.", err);
-        setSuccess(null);
-      });
+      );
+      setSuccess("Teacher details updated successfully.");
+      alert("Teacher details updated successfully");
+      console.log("Response:", response);
+      setError(null);
+      handleCloseModal();
+      fetchTeachers(); // Refresh the list
+    } catch (err) {
+      console.error("Failed to update teacher details:", err);
+      setError("Failed to update teacher details.");
+      alert("Failed to update teacher details");
+      setSuccess(null);
+    }
   };
 
   const sortedTeachersData = [...teachersData].sort((a, b) =>
@@ -266,7 +272,7 @@ const TeacherDetails = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedTeacher && !isEditing && (
+          {!isEditing && selectedTeacher && (
             <div>
               <p>
                 <strong>Teacher Name:</strong> {selectedTeacher.teachersName}
@@ -280,7 +286,7 @@ const TeacherDetails = () => {
               <p>
                 <strong>Class Taught:</strong> {selectedTeacher.classTaught}
               </p>
-              <Button variant="warning" onClick={fetchTeacherById}>
+              <Button variant="warning" onClick={handleEditClick}>
                 Edit
               </Button>
             </div>
@@ -288,41 +294,56 @@ const TeacherDetails = () => {
 
           {isEditing && (
             <Form>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Teacher Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="teacherName"
-                  value={editFormData.teacherName}
-                  onChange={handleChange}
+                  name="teachersName"
+                  value={editFormData.teachersName}
+                  onChange={handleEditFormChange}
+                  required
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>School Name</Form.Label>
                 <Form.Control
                   type="text"
                   name="schoolName"
                   value={editFormData.schoolName}
-                  onChange={handleChange}
+                  onChange={handleEditFormChange}
+                  required
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
-                  name="contactNumber"
-                  value={editFormData.contactNumber}
-                  onChange={handleChange}
+                  name="phoneName"
+                  value={editFormData.phoneName}
+                  onChange={handleEditFormChange}
+                  required
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Class Taught</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
                   name="classTaught"
                   value={editFormData.classTaught}
-                  onChange={handleChange}
-                />
+                  onChange={handleEditFormChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Select Class
+                  </option>
+                  <option value="P.4">P.4</option>
+                  <option value="P.5">P.5</option>
+                  <option value="P.6">P.6</option>
+                  <option value="P.7">P.7</option>
+                  <option value="S.1">S.1</option>
+                  <option value="S.2">S.2</option>
+                  <option value="S.3">S.3</option>
+                  <option value="S.4">S.4</option>
+                </Form.Select>
               </Form.Group>
               <Button
                 variant="success"
@@ -349,42 +370,42 @@ const TeacherDetails = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Teacher Name</Form.Label>
               <Form.Control
                 type="text"
-                name="teacherName"
-                value={teachersName}
-                onChange={(e) => setTeachersName(e.target.value)}
+                name="teachersName"
+                value={addFormData.teachersName}
+                onChange={handleAddFormChange}
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>School Name</Form.Label>
               <Form.Control
                 type="text"
                 name="schoolName"
-                value={schoolName}
-                onChange={(e) => setSchoolName(e.target.value)}
+                value={addFormData.schoolName}
+                onChange={handleAddFormChange}
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Contact Number</Form.Label>
               <Form.Control
                 type="text"
-                name="contactNumber"
-                value={phoneName}
-                onChange={(e) => setPhoneName(e.target.value)}
+                name="phoneName"
+                value={addFormData.phoneName}
+                onChange={handleAddFormChange}
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Class Taught</Form.Label>
               <Form.Select
                 name="classTaught"
-                value={classTaught}
-                onChange={(e) => setClassTaught(e.target.value)}
+                value={addFormData.classTaught}
+                onChange={handleAddFormChange}
                 required
               >
                 <option value="" disabled>
