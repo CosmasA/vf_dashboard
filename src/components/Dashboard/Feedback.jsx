@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Table, Button, Modal, Form, Card } from "react-bootstrap";
 import axios from "axios";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const token = "virtual_app_token";
 
@@ -38,6 +40,54 @@ const Feedback = () => {
     });
   };
 
+  const exportToCSV = (fb) => {
+    const headers = Object.keys(fb).join(",");
+    const values = Object.values(fb)
+      .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+      .join(",");
+    const csvContent = headers + "\n" + values;
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, `feedback_${fb.teacherName}.csv`);
+  };
+
+  const exportToExcel = (fb) => {
+    const worksheet = XLSX.utils.json_to_sheet([fb]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Feedback");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    saveAs(blob, `feedback_${fb.teacherName}.xlsx`);
+  };
+
+  const exportLast200ToExcel = () => {
+    if (!feedbacks.length) return;
+
+    // Take last 200 records (or fewer if less exist)
+    const last200 = feedbacks.slice(-200);
+
+    const worksheet = XLSX.utils.json_to_sheet(last200);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Last_200_Feedbacks");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    saveAs(blob, "last_200_teacher_feedbacks.xlsx");
+  };
+
   return (
     <div className="dashboard-container">
       <section className="content-header">
@@ -65,6 +115,11 @@ const Feedback = () => {
       <div className="table-container">
         <Card>
           <Card.Body>
+            <div className="mb-3 text-end">
+              <Button className="btn warning" onClick={exportLast200ToExcel}>
+                Export
+              </Button>
+            </div>
             <Table striped bordered hover className="table">
               <thead>
                 <tr>
@@ -73,6 +128,7 @@ const Feedback = () => {
                   <th>Class</th>
                   <th>Topic</th>
                   <th>Session Covered</th>
+                  <th>Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,6 +149,15 @@ const Feedback = () => {
                     <td>{fb.classStream}</td>
                     <td>{fb.topicCovered}</td>
                     <td>{fb.sessionCovered}</td>
+                    <td>
+                      <Button
+                        size="sm"
+                        className="btn info"
+                        onClick={() => exportToExcel(fb)}
+                      >
+                        Excel
+                      </Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

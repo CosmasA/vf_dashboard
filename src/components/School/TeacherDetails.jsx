@@ -4,12 +4,7 @@ import { FaPlus, FaListUl, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-// Get token from localStorage or your auth system
-const getToken = () => {
-  return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || "virtual_app_token";
-};
-
-const token = getToken();
+const token = "virtual_app_token";
 
 const TeacherDetails = () => {
   const [teachersData, setTeachersData] = useState([]);
