@@ -12,6 +12,7 @@ const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
+  const [exportCount, setExportCount] = useState(200);
 
   useEffect(() => {
     axios
@@ -23,6 +24,7 @@ const Feedback = () => {
       })
       .then((res) => {
         setFeedbacks(res.data);
+        console.log("Fetched logs", res.data);
       })
       .catch((err) => {
         console.error("Failed to fetch logs", err);
@@ -40,6 +42,55 @@ const Feedback = () => {
     });
   };
 
+  const normalizeFeedbackForExport = (fb) => {
+    let ratings = {
+      usefulness: "",
+      explanation: "",
+      experiments: "",
+      flow: "",
+      quality: "",
+    };
+
+    if (fb.videoContentRatings) {
+      fb.videoContentRatings.split(",").forEach((pair) => {
+        const [key, value] = pair.split(":");
+        ratings[key.trim()] = value;
+      });
+    }
+
+    return {
+      teacherName: fb.teacherName,
+      schoolName: fb.schoolName,
+      classStream: fb.classStream,
+      topicCovered: fb.topicCovered,
+      sessionCovered: fb.sessionCovered,
+
+      frequency: fb.frequency,
+      easeOfUse: fb.easeOfUse,
+      digitalContentUsefulnes: fb.digitalContentUsefulnes,
+      prepTimeSaved: fb.prepTimeSaved,
+      effectivenessOfIntruc: fb.effectivenessOfIntruc,
+
+      escVideoHelpfulness: fb.escVideoHelpfulness,
+      confidenceInESC: fb.confidenceInESC,
+      escVideoPreparation: fb.escVideoPreparation,
+
+      overallSatisfaction: fb.overallSatisfaction,
+      challenges: fb.challenges,
+      improvements: fb.improvements,
+      additionalComments: fb.additionalComments,
+
+      dateCreated: fb.dateCreated?.split("T")[0],
+      evaluationDate: fb.evaluationDate?.split("T")[0],
+
+      video_usefulness: ratings.usefulness,
+      video_explanation: ratings.explanation,
+      video_experiments: ratings.experiments,
+      video_flow: ratings.flow,
+      video_quality: ratings.quality,
+    };
+  };
+
   const exportToCSV = (fb) => {
     const headers = Object.keys(fb).join(",");
     const values = Object.values(fb)
@@ -52,7 +103,9 @@ const Feedback = () => {
   };
 
   const exportToExcel = (fb) => {
-    const worksheet = XLSX.utils.json_to_sheet([fb]);
+    const cleaned = normalizeFeedbackForExport(fb);
+
+    const worksheet = XLSX.utils.json_to_sheet([cleaned]);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Feedback");
 
@@ -60,6 +113,7 @@ const Feedback = () => {
       bookType: "xlsx",
       type: "array",
     });
+
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
@@ -67,25 +121,26 @@ const Feedback = () => {
     saveAs(blob, `feedback_${fb.teacherName}.xlsx`);
   };
 
-  const exportLast200ToExcel = () => {
-    if (!feedbacks.length) return;
+  const exportLastNToExcel = () => {
+    if (!feedbacks.length || !exportCount) return;
 
-    // Take last 200 records (or fewer if less exist)
-    const last200 = feedbacks.slice(-200);
+    const n = Math.min(exportCount, feedbacks.length);
+    const lastN = feedbacks.slice(-n).map(normalizeFeedbackForExport);
 
-    const worksheet = XLSX.utils.json_to_sheet(last200);
+    const worksheet = XLSX.utils.json_to_sheet(lastN);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Last_200_Feedbacks");
+    XLSX.utils.book_append_sheet(workbook, worksheet, `Last_${n}_Feedbacks`);
 
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
+
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    saveAs(blob, "last_200_teacher_feedbacks.xlsx");
+    saveAs(blob, `last_${n}_teacher_feedbacks_cleaned.xlsx`);
   };
 
   return (
@@ -115,9 +170,17 @@ const Feedback = () => {
       <div className="table-container">
         <Card>
           <Card.Body>
-            <div className="mb-3 text-end">
-              <Button className="btn warning" onClick={exportLast200ToExcel}>
-                Export
+            <div className="mb-3 d-flex justify-content-end align-items-center gap-2">
+              <Form.Control
+                type="number"
+                min="1"
+                placeholder="Number of latest records"
+                value={exportCount}
+                onChange={(e) => setExportCount(Number(e.target.value))}
+                style={{ width: "220px" }}
+              />
+              <Button className="btn warning" onClick={exportLastNToExcel}>
+                Export Last {exportCount || 0}
               </Button>
             </div>
             <Table striped bordered hover className="table">
