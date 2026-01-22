@@ -12,7 +12,9 @@ const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
-  const [exportCount, setExportCount] = useState(200);
+  const [exportCount, setExportCount] = useState("200");
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 50;
 
   useEffect(() => {
     axios
@@ -91,6 +93,12 @@ const Feedback = () => {
     };
   };
 
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = feedbacks.slice(indexOfFirstRow, indexOfLastRow);
+
+  const totalPages = Math.ceil(feedbacks.length / rowsPerPage);
+
   const exportToCSV = (fb) => {
     const headers = Object.keys(fb).join(",");
     const values = Object.values(fb)
@@ -124,7 +132,9 @@ const Feedback = () => {
   const exportLastNToExcel = () => {
     if (!feedbacks.length || !exportCount) return;
 
-    const n = Math.min(exportCount, feedbacks.length);
+    const n = Math.min(parseInt(exportCount, 10), feedbacks.length);
+    if (isNaN(n) || n <= 0) return;
+
     const lastN = feedbacks.slice(-n).map(normalizeFeedbackForExport);
 
     const worksheet = XLSX.utils.json_to_sheet(lastN);
@@ -176,7 +186,7 @@ const Feedback = () => {
                 min="1"
                 placeholder="Number of latest records"
                 value={exportCount}
-                onChange={(e) => setExportCount(Number(e.target.value))}
+                onChange={(e) => setExportCount(e.target.value)}
                 style={{ width: "220px" }}
               />
               <Button className="btn warning" onClick={exportLastNToExcel}>
@@ -195,7 +205,7 @@ const Feedback = () => {
                 </tr>
               </thead>
               <tbody>
-                {feedbacks.map((fb) => (
+                {currentRows.map((fb) => (
                   <tr key={fb.id}>
                     <td>
                       <Link
@@ -225,6 +235,36 @@ const Feedback = () => {
                 ))}
               </tbody>
             </Table>
+            <div className="d-flex justify-content-center mt-3">
+              <Button
+                size="sm"
+                className="btn warning"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                Previous
+              </Button>
+
+              {[...Array(totalPages)].map((_, i) => (
+                <Button
+                  key={i}
+                  size="sm"
+                  className={`me-1 ${currentPage === i + 1 ? "btn warning" : "btn-light"}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+
+              <Button
+                size="sm"
+                className="btn warning"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                Next
+              </Button>
+            </div>
           </Card.Body>
         </Card>
         <Modal
